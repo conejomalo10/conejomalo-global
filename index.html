@@ -17,13 +17,13 @@ color:white;
 overflow-x:hidden;
 }
 
-/* ===== PARALLAX BACKGROUND ORBS ===== */
+/* ===== FLOATING ORBS BACKGROUND ===== */
 .parallax-bg{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
 overflow:hidden;
-z-index:-1;
+z-index:-2;
 }
 .orb{
 position:absolute;
@@ -48,7 +48,7 @@ from{transform:translateY(0px) scale(1);}
 to{transform:translateY(-80px) scale(1.1);}
 }
 
-/* ===== HERO ===== */
+/* ===== TRUE PARALLAX HERO ===== */
 header{
 height:100vh;
 display:flex;
@@ -56,14 +56,26 @@ align-items:center;
 justify-content:center;
 text-align:center;
 padding:40px;
-background:
-linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
-url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
-background-attachment:fixed;
 position:relative;
 overflow:hidden;
 }
+
+.hero-bg{
+position:absolute;
+top:-20%;
+left:0;
+width:100%;
+height:140%;
+background:
+linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
+url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
+z-index:-1;
+transform:translateY(0);
+transition:transform 0.1s ease-out;
+}
+
 .hero-content{max-width:1000px;}
+
 .main-title{
 font-family:'Playfair Display',serif;
 font-size:56px;
@@ -165,17 +177,21 @@ includedLanguages: 'en,zh-CN,es,de,nl,ar,fr,pt,ru,id,ja,tr,ko,vi,mr,te,ta,hi,bn,
 </head>
 <body>
 
+<!-- FLOATING ORBS -->
 <div class="parallax-bg">
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 </div>
 
+<!-- TOP MINI HEADER -->
 <div style="text-align:center; padding:20px 0; background:#0a0a12;">
 <h1 style="font-size:22px; font-weight:600;">Comunidad Oficial de Conejo Malo</h1>
 <h2 style="font-size:18px; font-weight:400; opacity:0.8;">Bad Bunny Global Fan Community</h2>
 </div>
 
+<!-- HERO -->
 <header>
+<div class="hero-bg"></div>
 <div class="hero-content">
 <h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
 <h2 class="global-title">Bad Bunny Global Fan Community</h2>
@@ -268,6 +284,13 @@ if(rect.top < window.innerHeight - 100){
 el.classList.add('visible');
 }
 });
+});
+
+/* TRUE PARALLAX SCROLL */
+window.addEventListener('scroll', function() {
+const bg = document.querySelector('.hero-bg');
+let scrollPosition = window.pageYOffset;
+bg.style.transform = 'translateY(' + scrollPosition * 0.4 + 'px)';
 });
 </script>
 
