@@ -23,7 +23,7 @@ position:fixed;
 top:0;left:0;
 width:100%;height:100%;
 overflow:hidden;
-z-index:-2;
+z-index:-3;
 }
 .orb{
 position:absolute;
@@ -48,18 +48,18 @@ from{transform:translateY(0px) scale(1);}
 to{transform:translateY(-80px) scale(1.1);}
 }
 
-/* ===== TRUE PARALLAX HERO ===== */
+/* ===== CINEMATIC HERO ===== */
 header{
 height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-padding:40px;
 position:relative;
 overflow:hidden;
 }
 
+/* BACKGROUND LAYER */
 .hero-bg{
 position:absolute;
 top:-20%;
@@ -69,12 +69,41 @@ height:140%;
 background:
 linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
 url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
-z-index:-1;
+z-index:-2;
 transform:translateY(0);
-transition:transform 0.1s ease-out;
+will-change:transform;
 }
 
-.hero-content{max-width:1000px;}
+/* MID GLOW LAYER */
+.hero-glow{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:radial-gradient(circle at center, rgba(255,0,120,0.25), transparent 70%);
+z-index:-1;
+transform:translateY(0);
+will-change:transform;
+}
+
+/* FOREGROUND DEPTH LAYER */
+.hero-overlay{
+position:absolute;
+bottom:-100px;
+left:0;
+width:100%;
+height:300px;
+background:linear-gradient(to top, #0a0a12 30%, transparent);
+z-index:0;
+}
+
+.hero-content{
+position:relative;
+z-index:2;
+max-width:1000px;
+padding:40px;
+}
 
 .main-title{
 font-family:'Playfair Display',serif;
@@ -86,8 +115,10 @@ background:linear-gradient(90deg,#ffffff,#ffd700,#ff4da6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
+
 .global-title{font-size:28px;margin-bottom:20px;opacity:0.9;}
 .hero-subtitle{font-size:20px;margin-bottom:50px;opacity:0.85;}
+
 .cta{
 padding:18px 60px;
 border-radius:50px;
@@ -120,8 +151,6 @@ box-shadow:0 20px 60px rgba(0,0,0,0.6);
 transition:0.3s;
 }
 .card:hover{transform:translateY(-10px);}
-.card h3{margin-bottom:20px;font-size:24px;}
-.card ul{list-style:none;line-height:2;}
 .highlight{background:linear-gradient(145deg,#1f0033,#330066);}
 
 /* ===== FORM ===== */
@@ -146,7 +175,7 @@ font-weight:600;
 cursor:pointer;
 }
 
-/* ===== LANGUAGE SELECTOR ===== */
+/* ===== LANGUAGE ===== */
 .language-select{
 position:fixed;
 bottom:20px;
@@ -154,7 +183,6 @@ right:20px;
 z-index:999;
 }
 
-/* Hide Google default top banner */
 .goog-te-banner-frame.skiptranslate{display:none !important;}
 body{top:0px !important;}
 
@@ -167,16 +195,17 @@ opacity:0.7;
 }
 </style>
 
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <script>
 function googleTranslateElementInit() {
 new google.translate.TranslateElement({
 pageLanguage: 'en',
-includedLanguages: 'en,es,fr,de,pt,it,nl,ar,zh-CN,ja,ko,ru,tr',
+includedLanguages: 'es,fr,de,pt,it,nl,ar,zh-CN,ja,ko,ru,tr',
+layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
 autoDisplay: false
 }, 'google_translate_element');
 }
 </script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&hl=en"></script>
 
 </head>
 <body>
@@ -186,13 +215,11 @@ autoDisplay: false
 <div class="orb orb2"></div>
 </div>
 
-<div style="text-align:center; padding:20px 0; background:#0a0a12;">
-<h1 style="font-size:22px; font-weight:600;">Comunidad Oficial de Conejo Malo</h1>
-<h2 style="font-size:18px; font-weight:400; opacity:0.8;">Bad Bunny Global Fan Community</h2>
-</div>
-
 <header>
 <div class="hero-bg"></div>
+<div class="hero-glow"></div>
+<div class="hero-overlay"></div>
+
 <div class="hero-content">
 <h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
 <h2 class="global-title">Bad Bunny Global Fan Community</h2>
@@ -203,64 +230,7 @@ autoDisplay: false
 
 <section class="about fade-in">
 <h2>About the Community</h2>
-<p>
-Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
-</p>
-</section>
-
-<section id="membership" class="fade-in">
-<div class="container">
-<h2>Membership Access</h2>
-<div class="grid">
-<div class="card">
-<h3>Global Member</h3>
-<ul>
-<li>✔ Tour Announcements</li>
-<li>✔ Global Community Access</li>
-<li>✔ Monthly Newsletter</li>
-</ul>
-</div>
-
-<div class="card highlight">
-<h3>VIP Member</h3>
-<ul>
-<li>✔ Priority Ticket Alerts</li>
-<li>✔ Exclusive Content Drops</li>
-<li>✔ Early Event Notifications</li>
-<li>✔ Direct PR Update Access</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>VVIP Executive</h3>
-<ul>
-<li>✔ Concierge-Level Updates</li>
-<li>✔ Special Access Notifications</li>
-<li>✔ Premium Event Alerts</li>
-<li>✔ Management-Level Enquiries</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-
-<section class="fade-in">
-<div class="container">
-<h2>Official PR / VIP Enquiries</h2>
-<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-<input name="name" placeholder="Full Name" required>
-<input name="email" type="email" placeholder="Email Address" required>
-<textarea name="message" placeholder="Your enquiry details" required></textarea>
-<button type="submit">Submit Request</button>
-</form>
-</div>
-</section>
-
-<section id="disclaimer" class="fade-in">
-<h2>Disclaimer</h2>
-<p>
-© 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform.
-</p>
+<p>Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.</p>
 </section>
 
 <footer>
@@ -283,10 +253,10 @@ el.classList.add('visible');
 });
 });
 
-window.addEventListener('scroll',function(){
-const bg=document.querySelector('.hero-bg');
+window.addEventListener('scroll',()=>{
 let scrollPosition=window.pageYOffset;
-bg.style.transform='translateY('+(scrollPosition*0.4)+'px)';
+document.querySelector('.hero-bg').style.transform='translateY('+(scrollPosition*0.5)+'px)';
+document.querySelector('.hero-glow').style.transform='translateY('+(scrollPosition*0.3)+'px)';
 });
 </script>
 
