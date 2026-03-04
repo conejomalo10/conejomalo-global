@@ -17,13 +17,13 @@ color:white;
 overflow-x:hidden;
 }
 
-/* FLOATING ORBS */
+/* ===== PARALLAX BACKGROUND ORBS ===== */
 .parallax-bg{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
 overflow:hidden;
-z-index:-3;
+z-index:-1;
 }
 .orb{
 position:absolute;
@@ -48,55 +48,23 @@ from{transform:translateY(0px) scale(1);}
 to{transform:translateY(-80px) scale(1.1);}
 }
 
-/* HERO */
+/* ===== HERO ===== */
 header{
 height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-position:relative;
-overflow:hidden;
-}
-.hero-bg{
-position:absolute;
-top:-20%;
-left:0;
-width:100%;
-height:140%;
+padding:40px;
 background:
 linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
 url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
-z-index:-2;
+background-attachment:fixed;
 }
-.hero-glow{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:radial-gradient(circle at center, rgba(255,0,120,0.25), transparent 70%);
-z-index:-1;
-}
-.hero-overlay{
-position:absolute;
-bottom:-100px;
-left:0;
-width:100%;
-height:300px;
-background:linear-gradient(to top, #0a0a12 30%, transparent);
-}
-.hero-content{
-position:relative;
-z-index:2;
-max-width:1000px;
-padding:40px;
-}
+.hero-content{max-width:1000px;}
 .main-title{
 font-family:'Playfair Display',serif;
 font-size:56px;
-font-weight:700;
-letter-spacing:2px;
 margin-bottom:20px;
 background:linear-gradient(90deg,#ffffff,#ffd700,#ff4da6);
 -webkit-background-clip:text;
@@ -112,42 +80,44 @@ color:white;
 text-decoration:none;
 font-weight:700;
 box-shadow:0 25px 60px rgba(255,0,150,0.6);
+transition:0.3s;
 }
+.cta:hover{transform:translateY(-5px);}
 
-/* SECTIONS */
 section{padding:100px 20px;text-align:center;}
-.container{max-width:1000px;margin:auto;}
-h2{font-size:36px;margin-bottom:40px;font-weight:700;}
+.container{max-width:1200px;margin:auto;}
+h2{font-size:36px;margin-bottom:40px;}
 
-/* AUTH FORM */
-.auth-box{
-max-width:400px;
-margin:40px auto;
-background:#151522;
-padding:40px;
-border-radius:20px;
-box-shadow:0 20px 60px rgba(0,0,0,0.6);
-}
-input{
+input,textarea{
 width:100%;
+max-width:500px;
 padding:15px;
-margin-bottom:20px;
+margin:10px auto;
+display:block;
 border:none;
 border-radius:10px;
 background:#1f1f2e;
 color:white;
 }
+
 button{
 width:100%;
+max-width:500px;
 padding:15px;
+margin:10px auto;
+display:block;
 border:none;
 border-radius:40px;
 background:linear-gradient(45deg,#ff0077,#ff4da6);
 color:white;
 font-weight:600;
 cursor:pointer;
-margin-bottom:15px;
 }
+
+#dashboard{
+display:none;
+}
+
 footer{
 padding:40px;
 background:#0a0a10;
@@ -156,6 +126,16 @@ font-size:14px;
 opacity:0.7;
 }
 </style>
+
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+function googleTranslateElementInit() {
+new google.translate.TranslateElement({
+pageLanguage: 'en',
+includedLanguages: 'en,es,de,fr,pt,ru,zh-CN,ja,ar'
+}, 'google_translate_element');
+}
+</script>
 </head>
 
 <body>
@@ -166,51 +146,47 @@ opacity:0.7;
 </div>
 
 <header>
-<div class="hero-bg"></div>
-<div class="hero-glow"></div>
-<div class="hero-overlay"></div>
-
 <div class="hero-content">
 <h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
 <h2 class="global-title">Bad Bunny Global Fan Community</h2>
 <p class="hero-subtitle">Premium Global Fan Membership & Official PR Enquiries Platform</p>
-<a href="#auth" class="cta">Member Login</a>
+<a href="#auth" class="cta">Member Access</a>
 </div>
 </header>
 
+<!-- AUTH SECTION -->
 <section id="auth">
-<h2>Member Access</h2>
-<div class="auth-box">
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="signUp()">Create Account</button>
-</div>
+<h2>Member Login / Register</h2>
+<input id="authEmail" type="email" placeholder="Enter Email">
+<input id="authPassword" type="password" placeholder="Enter Password">
+<button id="registerBtn">Register</button>
+<button id="loginBtn">Login</button>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+<h2>Welcome Member</h2>
+<p id="userEmail"></p>
+<button id="logoutBtn">Logout</button>
 </section>
 
 <footer>
-© 2026 Comunidad Oficial de Conejo Malo | Bad Bunny Global Fan Community
+© 2026 Comunidad Oficial de Conejo Malo | Global Fan Community
 </footer>
 
-<script>
-window.addEventListener('scroll',()=>{
-let scrollPosition=window.pageYOffset;
-document.querySelector('.hero-bg').style.transform='translateY('+(scrollPosition*0.5)+'px)';
-document.querySelector('.hero-glow').style.transform='translateY('+(scrollPosition*0.3)+'px)';
-});
-</script>
+<div id="google_translate_element" style="position:fixed;bottom:20px;right:20px;"></div>
 
-<!-- FIREBASE AUTH SYSTEM -->
+<!-- FIREBASE AUTH -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
   authDomain: "conejomalo-global.firebaseapp.com",
   projectId: "conejomalo-global",
-  storageBucket: "conejomalo-global.appspot.com",
+  storageBucket: "conejomalo-global.firebasestorage.app",
   messagingSenderId: "886224291739",
   appId: "1:886224291739:web:f54c336ac7ea4e3512c33e"
 };
@@ -218,26 +194,42 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.signUp = function() {
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+const authSection = document.getElementById("auth");
+const dashboard = document.getElementById("dashboard");
+const userEmailDisplay = document.getElementById("userEmail");
+
+document.getElementById("registerBtn").addEventListener("click", () => {
+const email = document.getElementById("authEmail").value;
+const password = document.getElementById("authPassword").value;
 
 createUserWithEmailAndPassword(auth, email, password)
-.then(() => alert("Account created successfully!"))
-.catch((error) => alert(error.message));
-};
+.then(() => alert("Registration successful ✅"))
+.catch(error => alert(error.message));
+});
 
-window.login = function() {
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+document.getElementById("loginBtn").addEventListener("click", () => {
+const email = document.getElementById("authEmail").value;
+const password = document.getElementById("authPassword").value;
 
 signInWithEmailAndPassword(auth, email, password)
-.then(() => {
-alert("Login successful!");
-window.location.href = "dashboard.html";
-})
-.catch((error) => alert(error.message));
-};
+.then(() => alert("Login successful ✅"))
+.catch(error => alert(error.message));
+});
+
+onAuthStateChanged(auth, (user) => {
+if (user) {
+authSection.style.display = "none";
+dashboard.style.display = "block";
+userEmailDisplay.textContent = "Logged in as: " + user.email;
+} else {
+authSection.style.display = "block";
+dashboard.style.display = "none";
+}
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+signOut(auth).then(() => alert("Logged out successfully ✅"));
+});
 </script>
 
 </body>
