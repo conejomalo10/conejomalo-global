@@ -18,12 +18,12 @@ color:white;
 overflow-x:hidden;
 background: linear-gradient(
 135deg,
-#0b1f3a 0%,        /* USA Navy */
-#002868 20%,       /* Chile Blue */
-#012169 40%,       /* Australia Midnight */
-#003399 60%,       /* Europe Royal Blue */
-#bf0a30 75%,       /* USA Red */
-#ffd700 95%        /* Europe Gold */
+#0b1f3a 0%,
+#002868 20%,
+#012169 40%,
+#003399 60%,
+#bf0a30 75%,
+#ffd700 95%
 );
 background-size: 400% 400%;
 animation: globalBlend 18s ease infinite;
@@ -86,18 +86,65 @@ background-attachment:fixed;
 
 .hero-content{max-width:1000px;}
 
+/* ===== PREMIUM HERO TITLES ===== */
+
 .main-title{
-font-family:'Playfair Display',serif;
-font-size:56px;
-margin-bottom:20px;
-background:linear-gradient(90deg,#ffffff,#ffd700,#ff4da6);
+font-family:'Playfair Display', serif;
+font-size:64px;
+line-height:1.1;
+margin-bottom:25px;
+font-weight:700;
+
+background: linear-gradient(
+90deg,
+#ffffff 0%,
+#f8f8f8 15%,
+#002868 30%,
+#003399 45%,
+#012169 60%,
+#bf0a30 75%,
+#ffd700 90%,
+#ffffff 100%
+);
+
+background-size:300% 300%;
+animation: titleGlow 8s ease infinite;
+
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+
+text-shadow:
+0 0 10px rgba(255,255,255,0.4),
+0 0 30px rgba(255,215,0,0.2);
 }
 
-.global-title{font-size:28px;margin-bottom:20px;opacity:0.9;}
-.hero-subtitle{font-size:20px;margin-bottom:50px;opacity:0.9;}
+.line-break{
+display:block;
+}
 
+.sub-title{
+font-family:'Montserrat', sans-serif;
+font-size:28px;
+font-weight:600;
+margin-bottom:25px;
+color:#e6f0ff;
+letter-spacing:1px;
+}
+
+.hero-subtitle{
+font-size:20px;
+margin-bottom:50px;
+opacity:0.85;
+color:#f5f5f5;
+}
+
+@keyframes titleGlow{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* ===== CTA ===== */
 .cta{
 padding:18px 60px;
 border-radius:50px;
@@ -140,9 +187,7 @@ font-weight:600;
 cursor:pointer;
 }
 
-#dashboard{
-display:none;
-}
+#dashboard{display:none;}
 
 footer{
 padding:40px;
@@ -174,10 +219,22 @@ includedLanguages: 'en,es,de,fr,pt,ru,zh-CN,ja,ar'
 
 <header>
 <div class="hero-content">
-<h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
-<h2 class="global-title">Bad Bunny Global Fan Community</h2>
-<p class="hero-subtitle">Premium Global Fan Membership & Official PR Enquiries Platform</p>
+
+<h1 class="main-title">
+Comunidad Official<br>
+<span class="line-break">de Conejo Malo</span>
+</h1>
+
+<h2 class="sub-title">
+Bad Bunny Global Fan Community
+</h2>
+
+<p class="hero-subtitle">
+Premium Global Fan Membership & Official PR Enquiries Platform
+</p>
+
 <a href="#auth" class="cta">Member Access</a>
+
 </div>
 </header>
 
@@ -226,7 +283,6 @@ const userEmailDisplay = document.getElementById("userEmail");
 document.getElementById("registerBtn").addEventListener("click", () => {
 const email = document.getElementById("authEmail").value;
 const password = document.getElementById("authPassword").value;
-
 createUserWithEmailAndPassword(auth, email, password)
 .then(() => alert("Registration successful ✅"))
 .catch(error => alert(error.message));
@@ -235,7 +291,6 @@ createUserWithEmailAndPassword(auth, email, password)
 document.getElementById("loginBtn").addEventListener("click", () => {
 const email = document.getElementById("authEmail").value;
 const password = document.getElementById("authPassword").value;
-
 signInWithEmailAndPassword(auth, email, password)
 .then(() => alert("Login successful ✅"))
 .catch(error => alert(error.message));
