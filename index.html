@@ -50,7 +50,6 @@ font-size:42px;
 line-height:1.2;
 margin-bottom:20px;
 font-weight:700;
-color:white;
 text-shadow:0 6px 25px rgba(0,0,0,0.7);
 }
 
@@ -58,7 +57,6 @@ text-shadow:0 6px 25px rgba(0,0,0,0.7);
 font-size:20px;
 font-weight:600;
 margin-bottom:20px;
-color:#f0f0f0;
 opacity:0.95;
 }
 
@@ -67,7 +65,6 @@ font-size:16px;
 margin-bottom:40px;
 opacity:0.85;
 line-height:1.6;
-color:#dddddd;
 }
 
 /* ===== CTA ===== */
@@ -88,18 +85,71 @@ transform:translateY(-3px);
 box-shadow:0 20px 50px rgba(255,0,150,0.6);
 }
 
-/* ===== SECTIONS ===== */
+/* ===== FLOATING GLASS CARDS ===== */
+.section-wrapper{
+padding:80px 20px;
+display:flex;
+justify-content:center;
+}
+
+.glass-card{
+width:100%;
+max-width:900px;
+background:rgba(15,18,35,0.65);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-radius:20px;
+padding:50px 30px;
+box-shadow:
+0 25px 60px rgba(0,0,0,0.45),
+0 0 40px rgba(255,255,255,0.05);
+transition:0.4s ease;
+text-align:center;
+}
+
+.glass-card:hover{
+transform:translateY(-8px);
+box-shadow:
+0 35px 80px rgba(0,0,0,0.6),
+0 0 60px rgba(255,215,0,0.08);
+}
+
+.glass-card h2{
+font-size:28px;
+margin-bottom:25px;
+}
+
+.glass-card p{
+font-size:16px;
+line-height:1.7;
+opacity:0.9;
+}
+
+.feature-list{
+list-style:none;
+padding:0;
+margin-top:20px;
+}
+
+.feature-list li{
+margin:12px 0;
+font-size:16px;
+opacity:0.9;
+}
+
+.feature-list li::before{
+content:"✔ ";
+color:#ffd700;
+font-weight:bold;
+}
+
+/* ===== AUTH SECTION ===== */
 section{
 padding:80px 20px;
 text-align:center;
 }
 
-h2{
-font-size:28px;
-margin-bottom:30px;
-}
-
-input,textarea{
+input{
 width:100%;
 max-width:500px;
 padding:15px;
@@ -127,6 +177,28 @@ cursor:pointer;
 
 #dashboard{display:none;}
 
+/* ===== DISCLAIMER ===== */
+.disclaimer-section{
+text-align:center;
+padding:80px 20px;
+background:linear-gradient(135deg,#1f3c88,#5f2c82);
+}
+
+.disclaimer-section h2{
+font-size:40px;
+margin-bottom:30px;
+font-weight:700;
+}
+
+.disclaimer-section p{
+max-width:800px;
+margin:auto;
+font-size:18px;
+opacity:0.9;
+line-height:1.6;
+}
+
+/* ===== FOOTER ===== */
 footer{
 padding:30px;
 background:rgba(0,0,0,0.4);
@@ -136,11 +208,12 @@ opacity:0.8;
 }
 
 /* ===== MOBILE ===== */
-@media (max-width:768px){
+@media(max-width:768px){
 .main-title{font-size:34px;}
 .sub-title{font-size:18px;}
 .hero-subtitle{font-size:15px;}
 .cta{width:85%;}
+.glass-card{padding:40px 20px;}
 }
 </style>
 
@@ -157,26 +230,64 @@ includedLanguages: 'en,es,de,fr,pt,ru,zh-CN,ja,ar'
 
 <body>
 
+<!-- HERO -->
 <header>
 <div class="hero-content">
-
-<h1 class="main-title">
-Comunidad Oficial de Conejo Malo
-</h1>
-
-<h2 class="sub-title">
-Bad Bunny Global Fan Community
-</h2>
-
+<h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
+<h2 class="sub-title">Bad Bunny Global Fan Community</h2>
 <p class="hero-subtitle">
 Premium Global Fan Membership & Official PR Enquiries Platform
 </p>
-
 <a href="#auth" class="cta">Member Access</a>
-
 </div>
 </header>
 
+<!-- FLOATING SECTIONS -->
+<div class="section-wrapper">
+  <div class="glass-card">
+    <h2>About the Community</h2>
+    <p>
+      Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
+    </p>
+  </div>
+</div>
+
+<div class="section-wrapper">
+  <div class="glass-card">
+    <h2>Membership Access</h2>
+    <ul class="feature-list">
+      <li>Tour Announcements</li>
+      <li>Global Community Access</li>
+      <li>Monthly Newsletter</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-wrapper">
+  <div class="glass-card">
+    <h2>VIP Member</h2>
+    <ul class="feature-list">
+      <li>Priority Ticket Alerts</li>
+      <li>Exclusive Content Drops</li>
+      <li>Early Event Notifications</li>
+      <li>Direct PR Update Access</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-wrapper">
+  <div class="glass-card">
+    <h2>VIP Executive</h2>
+    <ul class="feature-list">
+      <li>Concierge-Level Updates</li>
+      <li>Special Access Notifications</li>
+      <li>Premium Event Alerts</li>
+      <li>Management-Level Enquiries</li>
+    </ul>
+  </div>
+</div>
+
+<!-- AUTH -->
 <section id="auth">
 <h2>Member Login / Register</h2>
 <input id="authEmail" type="email" placeholder="Enter Email">
@@ -191,6 +302,15 @@ Premium Global Fan Membership & Official PR Enquiries Platform
 <button id="logoutBtn">Logout</button>
 </section>
 
+<!-- DISCLAIMER -->
+<div class="disclaimer-section">
+  <h2>Disclaimer</h2>
+  <p>
+    © 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform.
+    All rights reserved to their respective owners.
+  </p>
+</div>
+
 <footer>
 © 2026 Comunidad Oficial de Conejo Malo | Global Fan Community
 </footer>
@@ -204,12 +324,10 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
-  authDomain: "conejomalo-global.firebaseapp.com",
-  projectId: "conejomalo-global",
-  storageBucket: "conejomalo-global.firebasestorage.app",
-  messagingSenderId: "886224291739",
-  appId: "1:886224291739:web:f54c336ac7ea4e3512c33e"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  appId: "YOUR_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -220,16 +338,16 @@ const dashboard = document.getElementById("dashboard");
 const userEmailDisplay = document.getElementById("userEmail");
 
 document.getElementById("registerBtn").addEventListener("click", () => {
-const email = document.getElementById("authEmail").value;
-const password = document.getElementById("authPassword").value;
+const email = authEmail.value;
+const password = authPassword.value;
 createUserWithEmailAndPassword(auth, email, password)
 .then(() => alert("Registration successful ✅"))
 .catch(error => alert(error.message));
 });
 
 document.getElementById("loginBtn").addEventListener("click", () => {
-const email = document.getElementById("authEmail").value;
-const password = document.getElementById("authPassword").value;
+const email = authEmail.value;
+const password = authPassword.value;
 signInWithEmailAndPassword(auth, email, password)
 .then(() => alert("Login successful ✅"))
 .catch(error => alert(error.message));
@@ -246,8 +364,8 @@ dashboard.style.display = "none";
 }
 });
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-signOut(auth).then(() => alert("Logged out successfully ✅"));
+logoutBtn.addEventListener("click", () => {
+signOut(auth);
 });
 </script>
 
