@@ -10,11 +10,29 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
+
+/* ===== GLOBAL CONTINENTAL PREMIUM BACKGROUND ===== */
 body{
 font-family:'Montserrat',sans-serif;
-background:#0a0a12;
 color:white;
 overflow-x:hidden;
+background: linear-gradient(
+135deg,
+#0b1f3a 0%,        /* USA Navy */
+#002868 20%,       /* Chile Blue */
+#012169 40%,       /* Australia Midnight */
+#003399 60%,       /* Europe Royal Blue */
+#bf0a30 75%,       /* USA Red */
+#ffd700 95%        /* Europe Gold */
+);
+background-size: 400% 400%;
+animation: globalBlend 18s ease infinite;
+}
+
+@keyframes globalBlend{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
 /* ===== PARALLAX BACKGROUND ORBS ===== */
@@ -25,27 +43,31 @@ width:100%;height:100%;
 overflow:hidden;
 z-index:-1;
 }
+
 .orb{
 position:absolute;
 border-radius:50%;
-filter:blur(140px);
-opacity:0.45;
-animation:float 18s infinite ease-in-out alternate;
+filter:blur(160px);
+opacity:0.40;
+animation:float 20s infinite ease-in-out alternate;
 }
+
 .orb1{
-width:600px;height:600px;
-background:radial-gradient(circle,#ff0077,#330066);
+width:700px;height:700px;
+background:radial-gradient(circle,#ff003c,#ffd700);
 top:5%;left:5%;
 }
+
 .orb2{
-width:700px;height:700px;
-background:radial-gradient(circle,#00c3ff,#002244);
+width:800px;height:800px;
+background:radial-gradient(circle,#002868,#00c3ff);
 bottom:5%;right:5%;
-animation-duration:22s;
+animation-duration:25s;
 }
+
 @keyframes float{
 from{transform:translateY(0px) scale(1);}
-to{transform:translateY(-80px) scale(1.1);}
+to{transform:translateY(-100px) scale(1.15);}
 }
 
 /* ===== HERO ===== */
@@ -61,7 +83,9 @@ linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
 url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
 background-attachment:fixed;
 }
+
 .hero-content{max-width:1000px;}
+
 .main-title{
 font-family:'Playfair Display',serif;
 font-size:56px;
@@ -70,8 +94,10 @@ background:linear-gradient(90deg,#ffffff,#ffd700,#ff4da6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
+
 .global-title{font-size:28px;margin-bottom:20px;opacity:0.9;}
-.hero-subtitle{font-size:20px;margin-bottom:50px;opacity:0.85;}
+.hero-subtitle{font-size:20px;margin-bottom:50px;opacity:0.9;}
+
 .cta{
 padding:18px 60px;
 border-radius:50px;
@@ -120,10 +146,11 @@ display:none;
 
 footer{
 padding:40px;
-background:#0a0a10;
+background:rgba(0,0,0,0.4);
 text-align:center;
 font-size:14px;
-opacity:0.7;
+opacity:0.8;
+backdrop-filter:blur(10px);
 }
 </style>
 
@@ -154,7 +181,6 @@ includedLanguages: 'en,es,de,fr,pt,ru,zh-CN,ja,ar'
 </div>
 </header>
 
-<!-- AUTH SECTION -->
 <section id="auth">
 <h2>Member Login / Register</h2>
 <input id="authEmail" type="email" placeholder="Enter Email">
@@ -163,7 +189,6 @@ includedLanguages: 'en,es,de,fr,pt,ru,zh-CN,ja,ar'
 <button id="loginBtn">Login</button>
 </section>
 
-<!-- DASHBOARD -->
 <section id="dashboard">
 <h2>Welcome Member</h2>
 <p id="userEmail"></p>
