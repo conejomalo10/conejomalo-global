@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidad Oficial de Conejo Malo | Official Fan & PR Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+font-family:'Montserrat',sans-serif;
+background:#0a0a12;
+color:white;
+overflow-x:hidden;
+}
+
+/* ===== PARALLAX BACKGROUND ORBS ===== */
+.parallax-bg{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+overflow:hidden;
+z-index:-1;
+}
+.orb{
+position:absolute;
+border-radius:50%;
+filter:blur(140px);
+opacity:0.45;
+animation:float 18s infinite ease-in-out alternate;
+}
+.orb1{
+width:600px;height:600px;
+background:radial-gradient(circle,#ff0077,#330066);
+top:5%;left:5%;
+}
+.orb2{
+width:700px;height:700px;
+background:radial-gradient(circle,#00c3ff,#002244);
+bottom:5%;right:5%;
+animation-duration:22s;
+}
+@keyframes float{
+from{transform:translateY(0px) scale(1);}
+to{transform:translateY(-80px) scale(1.1);}
+}
+
+/* ===== HERO ===== */
+header{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:40px;
+background:
+linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
+url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
+background-attachment:fixed;
+position:relative;
+overflow:hidden;
+}
+.hero-content{max-width:1000px;}
+.main-title{
+font-family:'Playfair Display',serif;
+font-size:56px;
+font-weight:700;
+letter-spacing:2px;
+margin-bottom:20px;
+background:linear-gradient(90deg,#ffffff,#ffd700,#ff4da6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+.global-title{font-size:28px;margin-bottom:20px;opacity:0.9;}
+.hero-subtitle{font-size:20px;margin-bottom:50px;opacity:0.85;}
+.cta{
+padding:18px 60px;
+border-radius:50px;
+background:linear-gradient(45deg,#ff0077,#ff4da6);
+color:white;
+text-decoration:none;
+font-weight:700;
+box-shadow:0 25px 60px rgba(255,0,150,0.6);
+transition:0.3s;
+}
+.cta:hover{transform:translateY(-5px);}
+
+/* ===== SECTIONS ===== */
+section{padding:100px 20px;text-align:center;position:relative;z-index:2;}
+.container{max-width:1200px;margin:auto;}
+h2{font-size:36px;margin-bottom:40px;font-weight:700;}
+.about p{max-width:800px;margin:auto;line-height:1.8;opacity:0.85;}
+
+/* ===== FADE ===== */
+.fade-in{opacity:0;transform:translateY(60px);transition:1.2s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+/* ===== MEMBERSHIP ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
+.card{
+background:#151522;
+padding:40px;
+border-radius:20px;
+box-shadow:0 20px 60px rgba(0,0,0,0.6);
+transition:0.3s;
+}
+.card:hover{transform:translateY(-10px);}
+.card h3{margin-bottom:20px;font-size:24px;}
+.card ul{list-style:none;line-height:2;}
+.highlight{background:linear-gradient(145deg,#1f0033,#330066);}
+
+/* ===== FORM ===== */
+form{max-width:600px;margin:auto;}
+input,textarea{
+width:100%;
+padding:15px;
+margin-bottom:20px;
+border:none;
+border-radius:10px;
+background:#1f1f2e;
+color:white;
+}
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:40px;
+background:linear-gradient(45deg,#ff0077,#ff4da6);
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+/* ===== LANGUAGE SELECTOR ===== */
+.language-select{
+position:fixed;
+bottom:20px;
+right:20px;
+z-index:999;
+}
+
+/* ===== FOOTER ===== */
+footer{
+padding:40px;
+background:#0a0a10;
+text-align:center;
+font-size:14px;
+opacity:0.7;
+}
+</style>
+
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+function googleTranslateElementInit() {
+new google.translate.TranslateElement({
+pageLanguage: 'en',
+includedLanguages: 'en,zh-CN,es,de,nl,ar,fr,pt,ru,id,ja,tr,ko,vi,mr,te,ta,hi,bn,ur'
+}, 'google_translate_element');
+}
+</script>
+
+</head>
+<body>
+
+<div class="parallax-bg">
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+</div>
+
+<div style="text-align:center; padding:20px 0; background:#0a0a12;">
+<h1 style="font-size:22px; font-weight:600;">Comunidad Oficial de Conejo Malo</h1>
+<h2 style="font-size:18px; font-weight:400; opacity:0.8;">Bad Bunny Global Fan Community</h2>
+</div>
+
+<header>
+<div class="hero-content">
+<h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
+<h2 class="global-title">Bad Bunny Global Fan Community</h2>
+<p class="hero-subtitle">Premium Global Fan Membership & Official PR Enquiries Platform</p>
+<a href="#membership" class="cta">Explore Membership</a>
+</div>
+</header>
+
+<section class="about fade-in">
+<h2>About the Community</h2>
+<p>
+Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
+</p>
+</section>
+
+<section id="membership" class="fade-in">
+<div class="container">
+<h2>Membership Access</h2>
+<div class="grid">
+
+<div class="card">
+<h3>Global Member</h3>
+<ul>
+<li>✔ Tour Announcements</li>
+<li>✔ Global Community Access</li>
+<li>✔ Monthly Newsletter</li>
+</ul>
+</div>
+
+<div class="card highlight">
+<h3>VIP Member</h3>
+<ul>
+<li>✔ Priority Ticket Alerts</li>
+<li>✔ Exclusive Content Drops</li>
+<li>✔ Early Event Notifications</li>
+<li>✔ Direct PR Update Access</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>VVIP Executive</h3>
+<ul>
+<li>✔ Concierge-Level Updates</li>
+<li>✔ Special Access Notifications</li>
+<li>✔ Premium Event Alerts</li>
+<li>✔ Management-Level Enquiries</li>
+</ul>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="fade-in">
+<div class="container">
+<h2>Official PR / VIP Enquiries</h2>
+
+<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+<input name="name" placeholder="Full Name" required>
+<input name="email" type="email" placeholder="Email Address" required>
+<textarea name="message" placeholder="Your enquiry details" required></textarea>
+<button type="submit">Submit Request</button>
+</form>
+
+<p class="hero-subtitle">
+Premium Global Fan Membership & Official PR Enquiries Platform
+</p>
+</div>
+</section>
+
+<section id="disclaimer" class="fade-in">
+<h2>Disclaimer</h2>
+<p>
+© 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform. All rights reserved to their respective owners.
+</p>
+</section>
+
+<footer>
+© 2026 Comunidad Oficial de Conejo Malo | Bad Bunny Global Fan Community
+</footer>
+
+<div id="google_translate_element" class="language-select"></div>
+
+<script>
+const faders = document.querySelectorAll('.fade-in');
+window.addEventListener('scroll', () => {
+faders.forEach(el=>{
+const rect = el.getBoundingClientRect();
+if(rect.top < window.innerHeight - 100){
+el.classList.add('visible');
+}
+});
+});
+</script>
+
+</body>
+</html>
