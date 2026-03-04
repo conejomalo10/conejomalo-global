@@ -17,7 +17,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* ===== FLOATING ORBS BACKGROUND ===== */
+/* FLOATING ORBS */
 .parallax-bg{
 position:fixed;
 top:0;left:0;
@@ -48,7 +48,7 @@ from{transform:translateY(0px) scale(1);}
 to{transform:translateY(-80px) scale(1.1);}
 }
 
-/* ===== CINEMATIC HERO ===== */
+/* HERO */
 header{
 height:100vh;
 display:flex;
@@ -58,8 +58,6 @@ text-align:center;
 position:relative;
 overflow:hidden;
 }
-
-/* BACKGROUND LAYER */
 .hero-bg{
 position:absolute;
 top:-20%;
@@ -70,11 +68,7 @@ background:
 linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
 url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
 z-index:-2;
-transform:translateY(0);
-will-change:transform;
 }
-
-/* MID GLOW LAYER */
 .hero-glow{
 position:absolute;
 top:0;
@@ -83,11 +77,7 @@ width:100%;
 height:100%;
 background:radial-gradient(circle at center, rgba(255,0,120,0.25), transparent 70%);
 z-index:-1;
-transform:translateY(0);
-will-change:transform;
 }
-
-/* FOREGROUND DEPTH LAYER */
 .hero-overlay{
 position:absolute;
 bottom:-100px;
@@ -95,16 +85,13 @@ left:0;
 width:100%;
 height:300px;
 background:linear-gradient(to top, #0a0a12 30%, transparent);
-z-index:0;
 }
-
 .hero-content{
 position:relative;
 z-index:2;
 max-width:1000px;
 padding:40px;
 }
-
 .main-title{
 font-family:'Playfair Display',serif;
 font-size:56px;
@@ -115,10 +102,8 @@ background:linear-gradient(90deg,#ffffff,#ffd700,#ff4da6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
-
 .global-title{font-size:28px;margin-bottom:20px;opacity:0.9;}
 .hero-subtitle{font-size:20px;margin-bottom:50px;opacity:0.85;}
-
 .cta{
 padding:18px 60px;
 border-radius:50px;
@@ -127,35 +112,23 @@ color:white;
 text-decoration:none;
 font-weight:700;
 box-shadow:0 25px 60px rgba(255,0,150,0.6);
-transition:0.3s;
 }
-.cta:hover{transform:translateY(-5px);}
 
-/* ===== SECTIONS ===== */
-section{padding:100px 20px;text-align:center;position:relative;z-index:2;}
-.container{max-width:1200px;margin:auto;}
+/* SECTIONS */
+section{padding:100px 20px;text-align:center;}
+.container{max-width:1000px;margin:auto;}
 h2{font-size:36px;margin-bottom:40px;font-weight:700;}
-.about p{max-width:800px;margin:auto;line-height:1.8;opacity:0.85;}
 
-/* ===== FADE ===== */
-.fade-in{opacity:0;transform:translateY(60px);transition:1.2s ease;}
-.fade-in.visible{opacity:1;transform:translateY(0);}
-
-/* ===== MEMBERSHIP ===== */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
-.card{
+/* AUTH FORM */
+.auth-box{
+max-width:400px;
+margin:40px auto;
 background:#151522;
 padding:40px;
 border-radius:20px;
 box-shadow:0 20px 60px rgba(0,0,0,0.6);
-transition:0.3s;
 }
-.card:hover{transform:translateY(-10px);}
-.highlight{background:linear-gradient(145deg,#1f0033,#330066);}
-
-/* ===== FORM ===== */
-form{max-width:600px;margin:auto;}
-input,textarea{
+input{
 width:100%;
 padding:15px;
 margin-bottom:20px;
@@ -173,19 +146,8 @@ background:linear-gradient(45deg,#ff0077,#ff4da6);
 color:white;
 font-weight:600;
 cursor:pointer;
+margin-bottom:15px;
 }
-
-/* ===== LANGUAGE ===== */
-.language-select{
-position:fixed;
-bottom:20px;
-right:20px;
-z-index:999;
-}
-
-.goog-te-banner-frame.skiptranslate{display:none !important;}
-body{top:0px !important;}
-
 footer{
 padding:40px;
 background:#0a0a10;
@@ -194,20 +156,8 @@ font-size:14px;
 opacity:0.7;
 }
 </style>
-
-<script>
-function googleTranslateElementInit() {
-new google.translate.TranslateElement({
-pageLanguage: 'en',
-includedLanguages: 'es,fr,de,pt,it,nl,ar,zh-CN,ja,ko,ru,tr',
-layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-autoDisplay: false
-}, 'google_translate_element');
-}
-</script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&hl=en"></script>
-
 </head>
+
 <body>
 
 <div class="parallax-bg">
@@ -224,40 +174,70 @@ autoDisplay: false
 <h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
 <h2 class="global-title">Bad Bunny Global Fan Community</h2>
 <p class="hero-subtitle">Premium Global Fan Membership & Official PR Enquiries Platform</p>
-<a href="#membership" class="cta">Explore Membership</a>
+<a href="#auth" class="cta">Member Login</a>
 </div>
 </header>
 
-<section class="about fade-in">
-<h2>About the Community</h2>
-<p>Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.</p>
+<section id="auth">
+<h2>Member Access</h2>
+<div class="auth-box">
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="signUp()">Create Account</button>
+</div>
 </section>
 
 <footer>
 © 2026 Comunidad Oficial de Conejo Malo | Bad Bunny Global Fan Community
 </footer>
 
-<div class="language-select">
-<label style="margin-right:8px;font-weight:600;">Language</label>
-<div id="google_translate_element"></div>
-</div>
-
 <script>
-const faders=document.querySelectorAll('.fade-in');
-window.addEventListener('scroll',()=>{
-faders.forEach(el=>{
-const rect=el.getBoundingClientRect();
-if(rect.top<window.innerHeight-100){
-el.classList.add('visible');
-}
-});
-});
-
 window.addEventListener('scroll',()=>{
 let scrollPosition=window.pageYOffset;
 document.querySelector('.hero-bg').style.transform='translateY('+(scrollPosition*0.5)+'px)';
 document.querySelector('.hero-glow').style.transform='translateY('+(scrollPosition*0.3)+'px)';
 });
+</script>
+
+<!-- FIREBASE AUTH SYSTEM -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
+  authDomain: "conejomalo-global.firebaseapp.com",
+  projectId: "conejomalo-global",
+  storageBucket: "conejomalo-global.appspot.com",
+  messagingSenderId: "886224291739",
+  appId: "1:886224291739:web:f54c336ac7ea4e3512c33e"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.signUp = function() {
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+createUserWithEmailAndPassword(auth, email, password)
+.then(() => alert("Account created successfully!"))
+.catch((error) => alert(error.message));
+};
+
+window.login = function() {
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+signInWithEmailAndPassword(auth, email, password)
+.then(() => {
+alert("Login successful!");
+window.location.href = "dashboard.html";
+})
+.catch((error) => alert(error.message));
+};
 </script>
 
 </body>
