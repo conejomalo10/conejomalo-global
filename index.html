@@ -5,69 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Comunidad Oficial de Conejo Malo | Official Fan & PR Platform</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 
-/* ===== GLOBAL CONTINENTAL PREMIUM BACKGROUND ===== */
 body{
 font-family:'Montserrat',sans-serif;
 color:white;
 overflow-x:hidden;
-background: linear-gradient(
+background:linear-gradient(
 135deg,
 #0b1f3a 0%,
-#002868 20%,
-#012169 40%,
-#003399 60%,
-#bf0a30 75%,
-#ffd700 95%
+#002868 25%,
+#012169 50%,
+#003399 70%,
+#bf0a30 85%,
+#ffd700 100%
 );
-background-size: 400% 400%;
-animation: globalBlend 18s ease infinite;
-}
-
-@keyframes globalBlend{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-/* ===== PARALLAX BACKGROUND ORBS ===== */
-.parallax-bg{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-overflow:hidden;
-z-index:-1;
-}
-
-.orb{
-position:absolute;
-border-radius:50%;
-filter:blur(160px);
-opacity:0.40;
-animation:float 20s infinite ease-in-out alternate;
-}
-
-.orb1{
-width:700px;height:700px;
-background:radial-gradient(circle,#ff003c,#ffd700);
-top:5%;left:5%;
-}
-
-.orb2{
-width:800px;height:800px;
-background:radial-gradient(circle,#002868,#00c3ff);
-bottom:5%;right:5%;
-animation-duration:25s;
-}
-
-@keyframes float{
-from{transform:translateY(0px) scale(1);}
-to{transform:translateY(-100px) scale(1.15);}
 }
 
 /* ===== HERO ===== */
@@ -77,89 +33,71 @@ display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-padding:40px;
+padding:30px;
 background:
-linear-gradient(rgba(10,10,20,0.65),rgba(10,10,20,0.85)),
+linear-gradient(rgba(5,8,18,0.82),rgba(5,8,18,0.92)),
 url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
-background-attachment:fixed;
 }
 
-.hero-content{max-width:1000px;}
-
-/* ===== PREMIUM HERO TITLES ===== */
+.hero-content{
+max-width:850px;
+width:100%;
+}
 
 .main-title{
-font-family:'Playfair Display', serif;
-font-size:64px;
-line-height:1.1;
-margin-bottom:25px;
+font-family:'Playfair Display',serif;
+font-size:42px;
+line-height:1.2;
+margin-bottom:20px;
 font-weight:700;
-
-background: linear-gradient(
-90deg,
-#ffffff 0%,
-#f8f8f8 15%,
-#002868 30%,
-#003399 45%,
-#012169 60%,
-#bf0a30 75%,
-#ffd700 90%,
-#ffffff 100%
-);
-
-background-size:300% 300%;
-animation: titleGlow 8s ease infinite;
-
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-
-text-shadow:
-0 0 10px rgba(255,255,255,0.4),
-0 0 30px rgba(255,215,0,0.2);
-}
-
-.line-break{
-display:block;
+color:white;
+text-shadow:0 6px 25px rgba(0,0,0,0.7);
 }
 
 .sub-title{
-font-family:'Montserrat', sans-serif;
-font-size:28px;
+font-size:20px;
 font-weight:600;
-margin-bottom:25px;
-color:#e6f0ff;
-letter-spacing:1px;
+margin-bottom:20px;
+color:#f0f0f0;
+opacity:0.95;
 }
 
 .hero-subtitle{
-font-size:20px;
-margin-bottom:50px;
+font-size:16px;
+margin-bottom:40px;
 opacity:0.85;
-color:#f5f5f5;
-}
-
-@keyframes titleGlow{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+line-height:1.6;
+color:#dddddd;
 }
 
 /* ===== CTA ===== */
 .cta{
-padding:18px 60px;
+display:inline-block;
+padding:16px 50px;
 border-radius:50px;
 background:linear-gradient(45deg,#ff0077,#ff4da6);
 color:white;
 text-decoration:none;
-font-weight:700;
-box-shadow:0 25px 60px rgba(255,0,150,0.6);
-transition:0.3s;
+font-weight:600;
+font-size:16px;
+box-shadow:0 15px 40px rgba(255,0,150,0.4);
+transition:0.3s ease;
 }
-.cta:hover{transform:translateY(-5px);}
+.cta:hover{
+transform:translateY(-3px);
+box-shadow:0 20px 50px rgba(255,0,150,0.6);
+}
 
-section{padding:100px 20px;text-align:center;}
-.container{max-width:1200px;margin:auto;}
-h2{font-size:36px;margin-bottom:40px;}
+/* ===== SECTIONS ===== */
+section{
+padding:80px 20px;
+text-align:center;
+}
+
+h2{
+font-size:28px;
+margin-bottom:30px;
+}
 
 input,textarea{
 width:100%;
@@ -168,8 +106,8 @@ padding:15px;
 margin:10px auto;
 display:block;
 border:none;
-border-radius:10px;
-background:#1f1f2e;
+border-radius:8px;
+background:#1a1d2a;
 color:white;
 }
 
@@ -180,7 +118,7 @@ padding:15px;
 margin:10px auto;
 display:block;
 border:none;
-border-radius:40px;
+border-radius:30px;
 background:linear-gradient(45deg,#ff0077,#ff4da6);
 color:white;
 font-weight:600;
@@ -190,12 +128,19 @@ cursor:pointer;
 #dashboard{display:none;}
 
 footer{
-padding:40px;
+padding:30px;
 background:rgba(0,0,0,0.4);
 text-align:center;
 font-size:14px;
 opacity:0.8;
-backdrop-filter:blur(10px);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+.main-title{font-size:34px;}
+.sub-title{font-size:18px;}
+.hero-subtitle{font-size:15px;}
+.cta{width:85%;}
 }
 </style>
 
@@ -212,17 +157,11 @@ includedLanguages: 'en,es,de,fr,pt,ru,zh-CN,ja,ar'
 
 <body>
 
-<div class="parallax-bg">
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-</div>
-
 <header>
 <div class="hero-content">
 
 <h1 class="main-title">
-Comunidad Official<br>
-<span class="line-break">de Conejo Malo</span>
+Comunidad Oficial de Conejo Malo
 </h1>
 
 <h2 class="sub-title">
