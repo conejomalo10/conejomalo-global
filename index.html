@@ -15,15 +15,49 @@ body{
 font-family:'Montserrat',sans-serif;
 color:white;
 overflow-x:hidden;
-background:linear-gradient(
-135deg,
-#0b1f3a 0%,
-#002868 25%,
-#012169 50%,
-#003399 70%,
-#bf0a30 85%,
-#ffd700 100%
-);
+background:#050816;
+position:relative;
+}
+
+/* ===== LUXURY ANIMATED BACKGROUND ===== */
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 20% 30%, rgba(255,215,0,0.15), transparent 40%),
+radial-gradient(circle at 80% 70%, rgba(255,0,150,0.12), transparent 40%),
+linear-gradient(135deg,#0b1f3a,#012169,#1a0033);
+z-index:-2;
+animation:backgroundMove 15s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundMove{
+0%{transform:scale(1);}
+100%{transform:scale(1.08);}
+}
+
+/* ===== FLOATING ENTRANCE ===== */
+header,
+.section-wrapper,
+section,
+.disclaimer-section,
+footer{
+position:relative;
+z-index:2;
+opacity:0;
+transform:translateY(40px);
+animation:floatUp 1.2s ease forwards;
+}
+
+@keyframes floatUp{
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 /* ===== HERO ===== */
@@ -35,8 +69,9 @@ justify-content:center;
 text-align:center;
 padding:30px;
 background:
-linear-gradient(rgba(5,8,18,0.82),rgba(5,8,18,0.92)),
+linear-gradient(rgba(5,8,18,0.75),rgba(5,8,18,0.9)),
 url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
+backdrop-filter:blur(4px);
 }
 
 .hero-content{
@@ -70,24 +105,24 @@ line-height:1.6;
 /* ===== CTA ===== */
 .cta{
 display:inline-block;
-padding:16px 50px;
+padding:18px 55px;
 border-radius:50px;
 background:linear-gradient(45deg,#ff0077,#ff4da6);
 color:white;
 text-decoration:none;
 font-weight:600;
 font-size:16px;
-box-shadow:0 15px 40px rgba(255,0,150,0.4);
-transition:0.3s ease;
+box-shadow:0 20px 60px rgba(255,0,150,0.5);
+transition:0.4s ease;
 }
 .cta:hover{
-transform:translateY(-3px);
-box-shadow:0 20px 50px rgba(255,0,150,0.6);
+transform:translateY(-5px) scale(1.05);
+box-shadow:0 25px 80px rgba(255,0,150,0.7);
 }
 
 /* ===== FLOATING GLASS CARDS ===== */
 .section-wrapper{
-padding:80px 20px;
+padding:100px 20px;
 display:flex;
 justify-content:center;
 }
@@ -95,23 +130,23 @@ justify-content:center;
 .glass-card{
 width:100%;
 max-width:900px;
-background:rgba(15,18,35,0.65);
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
-border-radius:20px;
+background:rgba(15,18,35,0.55);
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+border-radius:25px;
 padding:50px 30px;
 box-shadow:
-0 25px 60px rgba(0,0,0,0.45),
-0 0 40px rgba(255,255,255,0.05);
-transition:0.4s ease;
+0 40px 100px rgba(0,0,0,0.6),
+0 0 80px rgba(255,215,0,0.05);
+transition:0.5s ease;
 text-align:center;
 }
 
 .glass-card:hover{
-transform:translateY(-8px);
+transform:translateY(-15px) scale(1.02);
 box-shadow:
-0 35px 80px rgba(0,0,0,0.6),
-0 0 60px rgba(255,215,0,0.08);
+0 60px 140px rgba(0,0,0,0.7),
+0 0 120px rgba(255,215,0,0.15);
 }
 
 .glass-card h2{
@@ -145,7 +180,7 @@ font-weight:bold;
 
 /* ===== AUTH SECTION ===== */
 section{
-padding:80px 20px;
+padding:100px 20px;
 text-align:center;
 }
 
@@ -156,8 +191,9 @@ padding:15px;
 margin:10px auto;
 display:block;
 border:none;
-border-radius:8px;
-background:#1a1d2a;
+border-radius:12px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
 color:white;
 }
 
@@ -173,6 +209,11 @@ background:linear-gradient(45deg,#ff0077,#ff4da6);
 color:white;
 font-weight:600;
 cursor:pointer;
+transition:0.3s ease;
+}
+
+button:hover{
+transform:translateY(-4px);
 }
 
 #dashboard{display:none;}
@@ -180,8 +221,9 @@ cursor:pointer;
 /* ===== DISCLAIMER ===== */
 .disclaimer-section{
 text-align:center;
-padding:80px 20px;
+padding:120px 20px;
 background:linear-gradient(135deg,#1f3c88,#5f2c82);
+box-shadow:0 -20px 60px rgba(0,0,0,0.5);
 }
 
 .disclaimer-section h2{
@@ -221,16 +263,15 @@ opacity:0.8;
 <script>
 function googleTranslateElementInit() {
 new google.translate.TranslateElement({
-pageLanguage: 'en',
-includedLanguages: 'en,es,de,fr,pt,ru,zh-CN,ja,ar'
-}, 'google_translate_element');
+pageLanguage:'en',
+includedLanguages:'en,es,de,fr,pt,ru,zh-CN,ja,ar'
+},'google_translate_element');
 }
 </script>
 </head>
 
 <body>
 
-<!-- HERO -->
 <header>
 <div class="hero-content">
 <h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
@@ -242,52 +283,50 @@ Premium Global Fan Membership & Official PR Enquiries Platform
 </div>
 </header>
 
-<!-- FLOATING SECTIONS -->
 <div class="section-wrapper">
-  <div class="glass-card">
-    <h2>About the Community</h2>
-    <p>
-      Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
-    </p>
-  </div>
+<div class="glass-card">
+<h2>About the Community</h2>
+<p>
+Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
+</p>
+</div>
 </div>
 
 <div class="section-wrapper">
-  <div class="glass-card">
-    <h2>Membership Access</h2>
-    <ul class="feature-list">
-      <li>Tour Announcements</li>
-      <li>Global Community Access</li>
-      <li>Monthly Newsletter</li>
-    </ul>
-  </div>
+<div class="glass-card">
+<h2>Membership Access</h2>
+<ul class="feature-list">
+<li>Tour Announcements</li>
+<li>Global Community Access</li>
+<li>Monthly Newsletter</li>
+</ul>
+</div>
 </div>
 
 <div class="section-wrapper">
-  <div class="glass-card">
-    <h2>VIP Member</h2>
-    <ul class="feature-list">
-      <li>Priority Ticket Alerts</li>
-      <li>Exclusive Content Drops</li>
-      <li>Early Event Notifications</li>
-      <li>Direct PR Update Access</li>
-    </ul>
-  </div>
+<div class="glass-card">
+<h2>VIP Member</h2>
+<ul class="feature-list">
+<li>Priority Ticket Alerts</li>
+<li>Exclusive Content Drops</li>
+<li>Early Event Notifications</li>
+<li>Direct PR Update Access</li>
+</ul>
+</div>
 </div>
 
 <div class="section-wrapper">
-  <div class="glass-card">
-    <h2>VIP Executive</h2>
-    <ul class="feature-list">
-      <li>Concierge-Level Updates</li>
-      <li>Special Access Notifications</li>
-      <li>Premium Event Alerts</li>
-      <li>Management-Level Enquiries</li>
-    </ul>
-  </div>
+<div class="glass-card">
+<h2>VIP Executive</h2>
+<ul class="feature-list">
+<li>Concierge-Level Updates</li>
+<li>Special Access Notifications</li>
+<li>Premium Event Alerts</li>
+<li>Management-Level Enquiries</li>
+</ul>
+</div>
 </div>
 
-<!-- AUTH -->
 <section id="auth">
 <h2>Member Login / Register</h2>
 <input id="authEmail" type="email" placeholder="Enter Email">
@@ -302,13 +341,12 @@ Premium Global Fan Membership & Official PR Enquiries Platform
 <button id="logoutBtn">Logout</button>
 </section>
 
-<!-- DISCLAIMER -->
 <div class="disclaimer-section">
-  <h2>Disclaimer</h2>
-  <p>
-    © 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform.
-    All rights reserved to their respective owners.
-  </p>
+<h2>Disclaimer</h2>
+<p>
+© 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform.
+All rights reserved to their respective owners.
+</p>
 </div>
 
 <footer>
@@ -317,55 +355,10 @@ Premium Global Fan Membership & Official PR Enquiries Platform
 
 <div id="google_translate_element" style="position:fixed;bottom:20px;right:20px;"></div>
 
-<!-- FIREBASE AUTH -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
-from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  appId: "YOUR_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-const authSection = document.getElementById("auth");
-const dashboard = document.getElementById("dashboard");
-const userEmailDisplay = document.getElementById("userEmail");
-
-document.getElementById("registerBtn").addEventListener("click", () => {
-const email = authEmail.value;
-const password = authPassword.value;
-createUserWithEmailAndPassword(auth, email, password)
-.then(() => alert("Registration successful ✅"))
-.catch(error => alert(error.message));
-});
-
-document.getElementById("loginBtn").addEventListener("click", () => {
-const email = authEmail.value;
-const password = authPassword.value;
-signInWithEmailAndPassword(auth, email, password)
-.then(() => alert("Login successful ✅"))
-.catch(error => alert(error.message));
-});
-
-onAuthStateChanged(auth, (user) => {
-if (user) {
-authSection.style.display = "none";
-dashboard.style.display = "block";
-userEmailDisplay.textContent = "Logged in as: " + user.email;
-} else {
-authSection.style.display = "block";
-dashboard.style.display = "none";
-}
-});
-
-logoutBtn.addEventListener("click", () => {
-signOut(auth);
+<script>
+const sections=document.querySelectorAll("header,.section-wrapper,section,.disclaimer-section,footer");
+sections.forEach((section,index)=>{
+section.style.animationDelay=`${index*0.2}s`;
 });
 </script>
 
