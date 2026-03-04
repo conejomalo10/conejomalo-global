@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Member Dashboard | Comunidad Oficial de Conejo Malo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+font-family:'Montserrat',sans-serif;
+background:#0a0a12;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+}
+
+/* Background Glow */
+.bg{
+position:absolute;
+width:100%;
+height:100%;
+background:radial-gradient(circle at center,#ff007733,transparent 70%);
+z-index:-1;
+}
+
+/* Dashboard Box */
+.dashboard-box{
+background:#151522;
+padding:50px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 25px 60px rgba(0,0,0,0.7);
+width:90%;
+max-width:500px;
+}
+
+h1{
+margin-bottom:20px;
+font-size:28px;
+}
+
+p{
+margin-bottom:30px;
+opacity:0.8;
+}
+
+button{
+padding:15px 40px;
+border:none;
+border-radius:40px;
+background:linear-gradient(45deg,#ff0077,#ff4da6);
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="dashboard-box">
+<h1>Welcome to the Members Area 🔐</h1>
+<p id="user-email">Loading user...</p>
+<button onclick="logout()">Logout</button>
+</div>
+
+<!-- FIREBASE AUTH PROTECTION -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
+  authDomain: "conejomalo-global.firebaseapp.com",
+  projectId: "conejomalo-global",
+  storageBucket: "conejomalo-global.appspot.com",
+  messagingSenderId: "886224291739",
+  appId: "1:886224291739:web:f54c336ac7ea4e3512c33e"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+/* PROTECT PAGE */
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("user-email").innerText = "Logged in as: " + user.email;
+  } else {
+    window.location.href = "index.html";
+  }
+});
+
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
+};
+</script>
+
+</body>
+</html>
