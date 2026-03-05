@@ -108,7 +108,6 @@ width:90%;
 margin:auto;
 
 animation:floatGlass 7s ease-in-out infinite;
-
 }
 
 @keyframes floatGlass{
@@ -168,9 +167,7 @@ opacity:.7;
 
 <body>
 
-
 <select class="languageSelect" onchange="setLanguage(this.value)">
-
 <option value="en">English</option>
 <option value="es">Español</option>
 <option value="nl">Dutch</option>
@@ -178,9 +175,7 @@ opacity:.7;
 <option value="fr">French</option>
 <option value="ar">Arabic</option>
 <option value="jp">Japanese</option>
-
 </select>
-
 
 
 <div class="hero">
@@ -198,7 +193,6 @@ opacity:.7;
 </div>
 
 
-
 <div class="section">
 <div class="glass">
 
@@ -210,7 +204,6 @@ Comunidad Oficial de Conejo Malo is a global fan community created to celebrate 
 
 </div>
 </div>
-
 
 
 <div class="section">
@@ -241,7 +234,6 @@ Comunidad Oficial de Conejo Malo is a global fan community created to celebrate 
 </div>
 
 
-
 <div class="section">
 <div class="glass">
 
@@ -253,7 +245,6 @@ Upcoming global concert updates and priority fan alerts will appear here.
 
 </div>
 </div>
-
 
 
 <div class="section">
@@ -273,14 +264,12 @@ Upcoming global concert updates and priority fan alerts will appear here.
 </div>
 
 
-
 <footer>
 
 © 2026 Comunidad Oficial de Conejo Malo<br>
 Bad Bunny Global Fan Community
 
 </footer>
-
 
 
 <div class="modal" id="authModal">
@@ -304,7 +293,6 @@ Bad Bunny Global Fan Community
 </div>
 
 
-
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
@@ -316,7 +304,6 @@ signInWithEmailAndPassword,
 onAuthStateChanged,
 signOut
 }
-
 from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
 
@@ -335,7 +322,6 @@ measurementId: "G-F07TTHFS7K"
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
 
 
 window.register = async function(){
@@ -357,7 +343,6 @@ alert(e.message)
 }
 
 
-
 window.login = async function(){
 
 const email=document.getElementById("email").value;
@@ -377,13 +362,11 @@ alert(e.message)
 }
 
 
-
 window.logout=function(){
 
 signOut(auth)
 
 }
-
 
 
 onAuthStateChanged(auth,(user)=>{
@@ -401,7 +384,6 @@ document.getElementById("status").innerText="Not logged in"
 })
 
 
-
 window.openModal=function(){
 
 document.getElementById("authModal").style.display="flex"
@@ -413,7 +395,6 @@ window.closeModal=function(){
 document.getElementById("authModal").style.display="none"
 
 }
-
 
 
 const translations={
@@ -447,7 +428,6 @@ prTitle:"Solicitud Oficial de Prensa"
 }
 
 
-
 window.setLanguage=function(lang){
 
 document.querySelectorAll("[data-lang]").forEach(el=>{
@@ -463,9 +443,7 @@ el.innerText=translations[lang][key]
 }
 
 
-
 const userLang=navigator.language.startsWith("es")?"es":"en"
-
 setLanguage(userLang)
 
 </script>
