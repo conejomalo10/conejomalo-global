@@ -3,89 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comunidad Oficial de Conejo Malo</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<title>Official Global Community</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Montserrat',sans-serif;color:white;background:#050816;}
-.section-wrapper{padding:60px 20px;display:flex;justify-content:center;}
-.glass-card{
-width:100%;
-max-width:800px;
-background:rgba(15,18,35,0.6);
-backdrop-filter:blur(20px);
-border-radius:20px;
-padding:40px;
-text-align:center;
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(
+    135deg,
+    #3C3B6E,
+    #B22234,
+    #0033A0,
+    #D52B1E,
+    #00247D,
+    #012169
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  color: white;
 }
-input,textarea,button{
-width:100%;
-max-width:400px;
-margin:10px auto;
-padding:12px;
-border:none;
-border-radius:10px;
-display:block;
+
+@keyframes gradientMove {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
 }
-button{
-background:linear-gradient(45deg,#ff0077,#ff4da6);
-color:white;
-font-weight:600;
-cursor:pointer;
+
+.glass {
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px auto;
+  width: 85%;
+  max-width: 1100px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  animation: float 6s ease-in-out infinite;
 }
-#dashboard{display:none;}
+
+@keyframes float {
+  0% { transform: translateY(0px);}
+  50% { transform: translateY(-15px);}
+  100% { transform: translateY(0px);}
+}
+
+h1,h2 { text-align:center; }
+
+.button {
+  padding:15px 30px;
+  border:none;
+  border-radius:30px;
+  background: linear-gradient(45deg,#ff0080,#ff4d4d);
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+  margin:10px;
+}
+
+.section { margin-top:30px; }
+
+footer {
+  text-align:center;
+  padding:40px;
+  opacity:0.7;
+}
+
+.modal {
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content {
+  background:#111;
+  padding:30px;
+  border-radius:20px;
+  width:300px;
+  text-align:center;
+}
+
+input {
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+  border:none;
+}
+
+#status {
+  text-align:center;
+  margin-top:10px;
+  font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
-<section id="authSection" class="section-wrapper">
-<div class="glass-card">
-<h2>Member Login / Register</h2>
-<input id="authEmail" type="email" placeholder="Enter Email">
-<input id="authPassword" type="password" placeholder="Enter Password">
-<button id="registerBtn">Register</button>
-<button id="loginBtn">Login</button>
+<div class="glass">
+  <h1>Official Global Community</h1>
+  <p style="text-align:center;">Luxury International Fan & VIP Membership Platform</p>
+  <div style="text-align:center;">
+    <button class="button" onclick="openModal()">Member Login / Register</button>
+    <button class="button" onclick="logout()">Logout</button>
+  </div>
+  <div id="status"></div>
 </div>
-</section>
 
-<section id="dashboard" class="section-wrapper">
-<div class="glass-card">
-<h2>Dashboard</h2>
-<p id="userEmail"></p>
-<p id="roleDisplay"></p>
-<div id="adminPanel"></div>
-<button id="logoutBtn">Logout</button>
+<div class="glass section">
+  <h2>About Community</h2>
+  <p>Welcome to the official global luxury fan community platform connecting members across USA, Chile, Europe and Australia.</p>
 </div>
-</section>
+
+<div class="glass section">
+  <h2>Membership Access</h2>
+  <p><strong>VIP:</strong> Exclusive updates + private content</p>
+  <p><strong>VVIP:</strong> VIP benefits + priority announcements</p>
+  <p><strong>VVVIP Executive:</strong> All access + private invitations</p>
+</div>
+
+<div class="glass section">
+  <h2>Global Community</h2>
+  <p>Connecting international members worldwide.</p>
+</div>
+
+<div class="glass section">
+  <h2>Monthly Newsletter</h2>
+  <p>Stay updated with exclusive insider news.</p>
+</div>
+
+<div class="glass section">
+  <h2>Official PR Enquiry</h2>
+  <input placeholder="Your Name">
+  <input placeholder="Your Email">
+  <input placeholder="Organization">
+  <button class="button">Submit Request</button>
+</div>
+
+<div class="glass section">
+  <h2>Disclaimer</h2>
+  <p>This is the official global platform. All rights reserved.</p>
+</div>
+
+<footer>
+© 2026 Official Global Community
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <h3>Member Login / Register</h3>
+    <input id="email" placeholder="Enter Email">
+    <input id="password" type="password" placeholder="Enter Password">
+    <button class="button" onclick="register()">Register</button>
+    <button class="button" onclick="login()">Login</button>
+    <button class="button" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
 <script type="module">
 
-// ============================
-// 🔥 FIREBASE IMPORTS
-// ============================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  onAuthStateChanged, 
-  signOut 
-} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-import { 
-  getFirestore, 
-  doc, 
-  setDoc, 
-  getDoc 
-} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
-
-// ============================
-// 🔥 YOUR REAL FIREBASE CONFIG
-// ============================
 const firebaseConfig = {
   apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
   authDomain: "conejomalo-global.firebaseapp.com",
@@ -96,109 +187,56 @@ const firebaseConfig = {
   measurementId: "G-F07TTHFS7K"
 };
 
-// ============================
-// 🔥 INITIALIZE FIREBASE
-// ============================
 const app = initializeApp(firebaseConfig);
-const firebaseAuth = getAuth(app);
-const db = getFirestore(app);
+const auth = getAuth(app);
 
-// ============================
-// 🎯 ELEMENT REFERENCES
-// ============================
-const authSection = document.getElementById("authSection");
-const dashboard = document.getElementById("dashboard");
+window.register = function() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-const registerBtn = document.getElementById("registerBtn");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Registration successful!");
+      closeModal();
+    })
+    .catch(error => alert(error.message));
+}
 
-const authEmail = document.getElementById("authEmail");
-const authPassword = document.getElementById("authPassword");
+window.login = function() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-// ============================
-// 🟢 REGISTER
-// ============================
-registerBtn.onclick = async () => {
-  try{
-    const cred = await createUserWithEmailAndPassword(
-      firebaseAuth,
-      authEmail.value,
-      authPassword.value
-    );
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Login successful!");
+      closeModal();
+    })
+    .catch(error => alert(error.message));
+}
 
-    await setDoc(doc(db,"users",cred.user.uid),{
-      email: authEmail.value,
-      membership:"FREE",
-      createdAt: new Date()
-    });
+window.logout = function() {
+  signOut(auth);
+}
 
-    alert("Registered Successfully");
-
-  }catch(error){
-    alert(error.message);
-  }
-};
-
-// ============================
-// 🔵 LOGIN
-// ============================
-loginBtn.onclick = async () => {
-  try{
-    await signInWithEmailAndPassword(
-      firebaseAuth,
-      authEmail.value,
-      authPassword.value
-    );
-  }catch(error){
-    alert(error.message);
-  }
-};
-
-// ============================
-// 🔄 AUTH STATE LISTENER
-// ============================
-onAuthStateChanged(firebaseAuth, async (user)=>{
-  if(user){
-
-    authSection.style.display="none";
-    dashboard.style.display="flex";
-
-    document.getElementById("userEmail").innerText =
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("status").innerText =
       "Logged in as: " + user.email;
-
-    const userSnap = await getDoc(doc(db,"users",user.uid));
-    if(userSnap.exists()){
-      document.getElementById("roleDisplay").innerText =
-        "Membership: " + userSnap.data().membership;
-    }
-
-    checkAdmin(user.uid);
-
-  }else{
-    authSection.style.display="flex";
-    dashboard.style.display="none";
+  } else {
+    document.getElementById("status").innerText =
+      "Not logged in";
   }
 });
 
-// ============================
-// 👑 ADMIN CHECK
-// ============================
-async function checkAdmin(uid){
-  const adminDoc = await getDoc(doc(db,"admins",uid));
-  if(adminDoc.exists()){
-    document.getElementById("adminPanel").innerHTML =
-      `<div>
-        <h3>Admin Panel (${adminDoc.data().role})</h3>
-       </div>`;
-  }
+</script>
+
+<script>
+function openModal(){
+  document.getElementById("authModal").style.display="flex";
 }
-
-// ============================
-// 🔴 LOGOUT
-// ============================
-logoutBtn.onclick = ()=>signOut(firebaseAuth);
-
+function closeModal(){
+  document.getElementById("authModal").style.display="none";
+}
 </script>
 
 </body>
