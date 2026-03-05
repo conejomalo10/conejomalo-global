@@ -45,6 +45,7 @@ padding:8px;
 border-radius:10px;
 border:none;
 font-size:14px;
+z-index:1000;
 }
 
 .hero{
@@ -66,7 +67,7 @@ font-weight:600;
 
 .hero h3{
 font-size:20px;
-opacity:.8;
+opacity:.85;
 margin-top:5px;
 }
 
@@ -89,28 +90,33 @@ padding:40px 20px;
 
 .glass{
 
-background:rgba(255,255,255,0.08);
-border-radius:20px;
-padding:30px;
+background:rgba(255,255,255,0.12);
+border-radius:22px;
+padding:35px;
 
-backdrop-filter:blur(15px);
--webkit-backdrop-filter:blur(15px);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
 
-border:1px solid rgba(255,255,255,0.2);
+border:1px solid rgba(255,255,255,0.25);
 
-box-shadow:0 10px 40px rgba(0,0,0,0.3);
+box-shadow:
+0 10px 25px rgba(0,0,0,0.25),
+0 30px 60px rgba(0,0,0,0.35);
 
 max-width:700px;
 width:90%;
 margin:auto;
 
-animation:float 6s ease-in-out infinite;
+animation:floatGlass 7s ease-in-out infinite;
+
 }
 
-@keyframes float{
+@keyframes floatGlass{
+
 0%{transform:translateY(0px);}
-50%{transform:translateY(-15px);}
+50%{transform:translateY(-20px);}
 100%{transform:translateY(0px);}
+
 }
 
 h2{
@@ -162,10 +168,19 @@ opacity:.7;
 
 <body>
 
+
 <select class="languageSelect" onchange="setLanguage(this.value)">
+
 <option value="en">English</option>
 <option value="es">Español</option>
+<option value="nl">Dutch</option>
+<option value="de">German</option>
+<option value="fr">French</option>
+<option value="ar">Arabic</option>
+<option value="jp">Japanese</option>
+
 </select>
+
 
 
 <div class="hero">
@@ -183,6 +198,7 @@ opacity:.7;
 </div>
 
 
+
 <div class="section">
 <div class="glass">
 
@@ -194,6 +210,7 @@ Comunidad Oficial de Conejo Malo is a global fan community created to celebrate 
 
 </div>
 </div>
+
 
 
 <div class="section">
@@ -224,6 +241,7 @@ Comunidad Oficial de Conejo Malo is a global fan community created to celebrate 
 </div>
 
 
+
 <div class="section">
 <div class="glass">
 
@@ -235,6 +253,7 @@ Upcoming global concert updates and priority fan alerts will appear here.
 
 </div>
 </div>
+
 
 
 <div class="section">
@@ -254,12 +273,14 @@ Upcoming global concert updates and priority fan alerts will appear here.
 </div>
 
 
+
 <footer>
 
 © 2026 Comunidad Oficial de Conejo Malo<br>
 Bad Bunny Global Fan Community
 
 </footer>
+
 
 
 <div class="modal" id="authModal">
@@ -283,6 +304,7 @@ Bad Bunny Global Fan Community
 </div>
 
 
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
@@ -297,6 +319,7 @@ signOut
 
 from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
+
 const firebaseConfig = {
 
 apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
@@ -309,8 +332,10 @@ measurementId: "G-F07TTHFS7K"
 
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 
 
 window.register = async function(){
@@ -332,6 +357,7 @@ alert(e.message)
 }
 
 
+
 window.login = async function(){
 
 const email=document.getElementById("email").value;
@@ -351,11 +377,13 @@ alert(e.message)
 }
 
 
+
 window.logout=function(){
 
 signOut(auth)
 
 }
+
 
 
 onAuthStateChanged(auth,(user)=>{
@@ -373,6 +401,7 @@ document.getElementById("status").innerText="Not logged in"
 })
 
 
+
 window.openModal=function(){
 
 document.getElementById("authModal").style.display="flex"
@@ -384,6 +413,7 @@ window.closeModal=function(){
 document.getElementById("authModal").style.display="none"
 
 }
+
 
 
 const translations={
@@ -417,19 +447,25 @@ prTitle:"Solicitud Oficial de Prensa"
 }
 
 
+
 window.setLanguage=function(lang){
 
 document.querySelectorAll("[data-lang]").forEach(el=>{
 
 const key=el.getAttribute("data-lang")
+
+if(translations[lang] && translations[lang][key]){
 el.innerText=translations[lang][key]
+}
 
 })
 
 }
 
 
+
 const userLang=navigator.language.startsWith("es")?"es":"en"
+
 setLanguage(userLang)
 
 </script>
