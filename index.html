@@ -10,7 +10,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-
 body{
 font-family:'Montserrat',sans-serif;
 color:white;
@@ -19,48 +18,22 @@ background:#050816;
 position:relative;
 }
 
-/* ===== LUXURY ANIMATED BACKGROUND ===== */
+/* Background */
 body::before{
 content:"";
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;
+width:100%;height:100%;
 background:
 radial-gradient(circle at 20% 30%, rgba(255,215,0,0.15), transparent 40%),
 radial-gradient(circle at 80% 70%, rgba(255,0,150,0.12), transparent 40%),
 linear-gradient(135deg,#0b1f3a,#012169,#1a0033);
 z-index:-2;
-animation:backgroundMove 15s ease-in-out infinite alternate;
+animation:bgMove 15s ease-in-out infinite alternate;
 }
+@keyframes bgMove{0%{transform:scale(1);}100%{transform:scale(1.08);}}
 
-@keyframes backgroundMove{
-0%{transform:scale(1);}
-100%{transform:scale(1.08);}
-}
-
-/* ===== FLOATING ENTRANCE ===== */
-header,
-.section-wrapper,
-section,
-.disclaimer-section,
-footer{
-position:relative;
-z-index:2;
-opacity:0;
-transform:translateY(40px);
-animation:floatUp 1.2s ease forwards;
-}
-
-@keyframes floatUp{
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/* ===== HERO ===== */
+/* Hero */
 header{
 height:100vh;
 display:flex;
@@ -71,295 +44,258 @@ padding:30px;
 background:
 linear-gradient(rgba(5,8,18,0.75),rgba(5,8,18,0.9)),
 url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
-backdrop-filter:blur(4px);
 }
+.main-title{font-family:'Playfair Display',serif;font-size:42px;margin-bottom:20px;}
+.sub-title{font-size:20px;margin-bottom:20px;}
+.hero-subtitle{margin-bottom:40px;opacity:0.85;}
 
-.hero-content{
-max-width:850px;
-width:100%;
-}
-
-.main-title{
-font-family:'Playfair Display',serif;
-font-size:42px;
-line-height:1.2;
-margin-bottom:20px;
-font-weight:700;
-text-shadow:0 6px 25px rgba(0,0,0,0.7);
-}
-
-.sub-title{
-font-size:20px;
-font-weight:600;
-margin-bottom:20px;
-opacity:0.95;
-}
-
-.hero-subtitle{
-font-size:16px;
-margin-bottom:40px;
-opacity:0.85;
-line-height:1.6;
-}
-
-/* ===== CTA ===== */
 .cta{
-display:inline-block;
 padding:18px 55px;
 border-radius:50px;
 background:linear-gradient(45deg,#ff0077,#ff4da6);
-color:white;
-text-decoration:none;
-font-weight:600;
-font-size:16px;
-box-shadow:0 20px 60px rgba(255,0,150,0.5);
-transition:0.4s ease;
-}
-.cta:hover{
-transform:translateY(-5px) scale(1.05);
-box-shadow:0 25px 80px rgba(255,0,150,0.7);
+color:white;text-decoration:none;font-weight:600;
 }
 
-/* ===== FLOATING GLASS CARDS ===== */
-.section-wrapper{
-padding:100px 20px;
-display:flex;
-justify-content:center;
-}
-
+/* Sections */
+.section-wrapper{padding:80px 20px;display:flex;justify-content:center;}
 .glass-card{
-width:100%;
-max-width:900px;
+width:100%;max-width:900px;
 background:rgba(15,18,35,0.55);
 backdrop-filter:blur(25px);
--webkit-backdrop-filter:blur(25px);
 border-radius:25px;
-padding:50px 30px;
-box-shadow:
-0 40px 100px rgba(0,0,0,0.6),
-0 0 80px rgba(255,215,0,0.05);
-transition:0.5s ease;
+padding:40px;
 text-align:center;
 }
 
-.glass-card:hover{
-transform:translateY(-15px) scale(1.02);
-box-shadow:
-0 60px 140px rgba(0,0,0,0.7),
-0 0 120px rgba(255,215,0,0.15);
-}
-
-.glass-card h2{
-font-size:28px;
-margin-bottom:25px;
-}
-
-.glass-card p{
-font-size:16px;
-line-height:1.7;
-opacity:0.9;
-}
-
-.feature-list{
-list-style:none;
-padding:0;
-margin-top:20px;
-}
-
-.feature-list li{
-margin:12px 0;
-font-size:16px;
-opacity:0.9;
-}
-
-.feature-list li::before{
-content:"✔ ";
-color:#ffd700;
-font-weight:bold;
-}
-
-/* ===== AUTH SECTION ===== */
-section{
-padding:100px 20px;
-text-align:center;
-}
-
-input{
-width:100%;
-max-width:500px;
-padding:15px;
-margin:10px auto;
-display:block;
-border:none;
-border-radius:12px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-color:white;
+input,textarea{
+width:100%;max-width:500px;padding:12px;margin:8px auto;
+display:block;border:none;border-radius:10px;
+background:rgba(255,255,255,0.05);color:white;
 }
 
 button{
-width:100%;
-max-width:500px;
-padding:15px;
-margin:10px auto;
-display:block;
-border:none;
-border-radius:30px;
+width:100%;max-width:500px;padding:12px;margin:8px auto;
+border:none;border-radius:25px;
 background:linear-gradient(45deg,#ff0077,#ff4da6);
-color:white;
-font-weight:600;
-cursor:pointer;
-transition:0.3s ease;
+color:white;font-weight:600;cursor:pointer;
 }
 
-button:hover{
-transform:translateY(-4px);
-}
-
-#dashboard{display:none;}
-
-/* ===== DISCLAIMER ===== */
-.disclaimer-section{
-text-align:center;
-padding:120px 20px;
-background:linear-gradient(135deg,#1f3c88,#5f2c82);
-box-shadow:0 -20px 60px rgba(0,0,0,0.5);
-}
-
-.disclaimer-section h2{
-font-size:40px;
-margin-bottom:30px;
-font-weight:700;
-}
-
-.disclaimer-section p{
-max-width:800px;
-margin:auto;
-font-size:18px;
-opacity:0.9;
-line-height:1.6;
-}
-
-/* ===== FOOTER ===== */
-footer{
-padding:30px;
-background:rgba(0,0,0,0.4);
-text-align:center;
-font-size:14px;
-opacity:0.8;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-.main-title{font-size:34px;}
-.sub-title{font-size:18px;}
-.hero-subtitle{font-size:15px;}
-.cta{width:85%;}
-.glass-card{padding:40px 20px;}
-}
+#dashboard{display:none;margin-top:40px;}
+.admin-box{margin-top:20px;padding:15px;background:rgba(0,0,0,0.3);border-radius:15px;}
+.disclaimer-section{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#1f3c88,#5f2c82);}
+footer{padding:20px;text-align:center;background:rgba(0,0,0,0.4);}
 </style>
-
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<script>
-function googleTranslateElementInit() {
-new google.translate.TranslateElement({
-pageLanguage:'en',
-includedLanguages:'en,es,de,fr,pt,ru,zh-CN,ja,ar'
-},'google_translate_element');
-}
-</script>
 </head>
 
 <body>
 
 <header>
-<div class="hero-content">
+<div>
 <h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
 <h2 class="sub-title">Bad Bunny Global Fan Community</h2>
-<p class="hero-subtitle">
-Premium Global Fan Membership & Official PR Enquiries Platform
-</p>
+<p class="hero-subtitle">Premium Global Fan Membership & Official PR Enquiries Platform</p>
 <a href="#auth" class="cta">Member Access</a>
 </div>
 </header>
 
+<!-- MEMBERSHIP -->
 <div class="section-wrapper">
 <div class="glass-card">
-<h2>About the Community</h2>
-<p>
-Comunidad Oficial de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
-</p>
+<h2>Upgrade Membership</h2>
+<p><strong>VIP:</strong> $100 USDT</p>
+<p><strong>VVIP:</strong> $500 USDT</p>
+<button onclick="requestUpgrade('VIP')">Request VIP</button>
+<button onclick="requestUpgrade('VVIP')">Request VVIP</button>
 </div>
 </div>
 
+<!-- PRESS -->
 <div class="section-wrapper">
 <div class="glass-card">
-<h2>Membership Access</h2>
-<ul class="feature-list">
-<li>Tour Announcements</li>
-<li>Global Community Access</li>
-<li>Monthly Newsletter</li>
-</ul>
+<h2>Official Press Request</h2>
+<input id="pressName" placeholder="Full Name">
+<input id="pressEmail" placeholder="Email">
+<textarea id="pressMessage" placeholder="Press Enquiry Details"></textarea>
+<button onclick="submitPress()">Submit Request</button>
 </div>
 </div>
 
-<div class="section-wrapper">
+<!-- AUTH -->
+<section id="auth" class="section-wrapper">
 <div class="glass-card">
-<h2>VIP Member</h2>
-<ul class="feature-list">
-<li>Priority Ticket Alerts</li>
-<li>Exclusive Content Drops</li>
-<li>Early Event Notifications</li>
-<li>Direct PR Update Access</li>
-</ul>
-</div>
-</div>
-
-<div class="section-wrapper">
-<div class="glass-card">
-<h2>VIP Executive</h2>
-<ul class="feature-list">
-<li>Concierge-Level Updates</li>
-<li>Special Access Notifications</li>
-<li>Premium Event Alerts</li>
-<li>Management-Level Enquiries</li>
-</ul>
-</div>
-</div>
-
-<section id="auth">
 <h2>Member Login / Register</h2>
 <input id="authEmail" type="email" placeholder="Enter Email">
 <input id="authPassword" type="password" placeholder="Enter Password">
 <button id="registerBtn">Register</button>
 <button id="loginBtn">Login</button>
+</div>
 </section>
 
-<section id="dashboard">
-<h2>Welcome Member</h2>
+<section id="dashboard" class="section-wrapper">
+<div class="glass-card">
+<h2>Dashboard</h2>
 <p id="userEmail"></p>
+<p id="roleDisplay"></p>
+<div id="adminPanel"></div>
 <button id="logoutBtn">Logout</button>
+</div>
 </section>
 
 <div class="disclaimer-section">
 <h2>Disclaimer</h2>
-<p>
-© 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform.
-All rights reserved to their respective owners.
-</p>
+<p>© 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform. All rights reserved.</p>
 </div>
 
-<footer>
-© 2026 Comunidad Oficial de Conejo Malo | Global Fan Community
-</footer>
+<footer>© 2026 Comunidad Oficial de Conejo Malo</footer>
 
-<div id="google_translate_element" style="position:fixed;bottom:20px;right:20px;"></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, getDocs, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-<script>
-const sections=document.querySelectorAll("header,.section-wrapper,section,.disclaimer-section,footer");
-sections.forEach((section,index)=>{
-section.style.animationDelay=`${index*0.2}s`;
+const firebaseConfig = {
+apiKey: "YOUR_API_KEY",
+authDomain: "YOUR_AUTH_DOMAIN",
+projectId: "YOUR_PROJECT_ID",
+appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+/* REGISTER */
+registerBtn.onclick = async () => {
+const cred = await createUserWithEmailAndPassword(auth, authEmail.value, authPassword.value);
+await setDoc(doc(db,"users",cred.user.uid),{
+email:authEmail.value,
+membership:"FREE",
+createdAt:new Date()
 });
+alert("Registered Successfully");
+};
+
+/* LOGIN */
+loginBtn.onclick = async () => {
+await signInWithEmailAndPassword(auth,authEmail.value,authPassword.value);
+};
+
+/* AUTH STATE */
+onAuthStateChanged(auth, async (user)=>{
+if(user){
+auth.style.display="none";
+dashboard.style.display="flex";
+userEmail.innerText="Logged in as: "+user.email;
+
+const userSnap = await getDoc(doc(db,"users",user.uid));
+roleDisplay.innerText="Membership: "+userSnap.data().membership;
+
+checkAdmin(user.uid);
+
+}else{
+auth.style.display="flex";
+dashboard.style.display="none";
+}
+});
+
+/* CHECK ADMIN ROLE */
+async function checkAdmin(uid){
+const adminDoc = await getDoc(doc(db,"admins",uid));
+if(adminDoc.exists()){
+loadAdminPanel(uid,adminDoc.data().role);
+}
+}
+
+/* ADMIN PANEL */
+function loadAdminPanel(uid,role){
+adminPanel.innerHTML=`
+<div class="admin-box">
+<h3>Admin Panel (${role})</h3>
+<div id="upgradeRequests"></div>
+<div id="pressRequests"></div>
+</div>
+`;
+
+if(role==="CHIEF"){
+adminPanel.innerHTML+=`
+<div class="admin-box">
+<h3>Manage Sub Admins</h3>
+<input id="newAdminUID" placeholder="Enter UID">
+<button onclick="addSubAdmin()">Add Sub Admin</button>
+</div>`;
+}
+
+listenUpgradeRequests();
+listenPressRequests();
+}
+
+/* REAL-TIME UPGRADE LISTENER */
+function listenUpgradeRequests(){
+onSnapshot(collection(db,"upgradeRequests"),(snapshot)=>{
+let html="<h4>Upgrade Requests</h4>";
+snapshot.forEach(docSnap=>{
+const d=docSnap.data();
+html+=`
+<p>${d.email} → ${d.tier} (${d.status})
+<button onclick="approveUpgrade('${docSnap.id}','${d.userId}','${d.tier}')">Approve</button>
+</p>`;
+});
+document.getElementById("upgradeRequests").innerHTML=html;
+});
+}
+
+/* APPROVE UPGRADE */
+window.approveUpgrade = async (requestId,userId,tier)=>{
+await updateDoc(doc(db,"users",userId),{membership:tier});
+await updateDoc(doc(db,"upgradeRequests",requestId),{status:"APPROVED"});
+alert("Membership upgraded");
+};
+
+/* PRESS LISTENER */
+function listenPressRequests(){
+onSnapshot(collection(db,"pressRequests"),(snapshot)=>{
+let html="<h4>Press Requests</h4>";
+snapshot.forEach(docSnap=>{
+const d=docSnap.data();
+html+=`<p>${d.name} (${d.email})</p>`;
+});
+document.getElementById("pressRequests").innerHTML=html;
+});
+}
+
+/* CRYPTO REQUEST */
+window.requestUpgrade = async function(tier){
+if(!auth.currentUser){alert("Login First");return;}
+await addDoc(collection(db,"upgradeRequests"),{
+userId:auth.currentUser.uid,
+email:auth.currentUser.email,
+tier:tier,
+status:"PENDING_REVIEW",
+createdAt:new Date()
+});
+alert("Upgrade Request Submitted. Admin will contact you.");
+};
+
+/* PRESS REQUEST */
+window.submitPress = async function(){
+await addDoc(collection(db,"pressRequests"),{
+name:pressName.value,
+email:pressEmail.value,
+message:pressMessage.value,
+status:"NEW",
+createdAt:new Date()
+});
+alert("Press Request Submitted");
+};
+
+/* ADD SUB ADMIN */
+window.addSubAdmin = async ()=>{
+const uid=newAdminUID.value;
+await setDoc(doc(db,"admins",uid),{role:"SUB"});
+alert("Sub Admin Added");
+};
+
+logoutBtn.onclick=()=>signOut(auth);
 </script>
 
 </body>
