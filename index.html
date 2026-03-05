@@ -3,125 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comunidad Oficial de Conejo Malo | Official Fan & PR Platform</title>
+<title>Comunidad Oficial de Conejo Malo</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-font-family:'Montserrat',sans-serif;
-color:white;
-overflow-x:hidden;
-background:#050816;
-position:relative;
-}
-
-/* Background */
-body::before{
-content:"";
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:
-radial-gradient(circle at 20% 30%, rgba(255,215,0,0.15), transparent 40%),
-radial-gradient(circle at 80% 70%, rgba(255,0,150,0.12), transparent 40%),
-linear-gradient(135deg,#0b1f3a,#012169,#1a0033);
-z-index:-2;
-animation:bgMove 15s ease-in-out infinite alternate;
-}
-@keyframes bgMove{0%{transform:scale(1);}100%{transform:scale(1.08);}}
-
-/* Hero */
-header{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:30px;
-background:
-linear-gradient(rgba(5,8,18,0.75),rgba(5,8,18,0.9)),
-url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=3840') center/cover no-repeat;
-}
-.main-title{font-family:'Playfair Display',serif;font-size:42px;margin-bottom:20px;}
-.sub-title{font-size:20px;margin-bottom:20px;}
-.hero-subtitle{margin-bottom:40px;opacity:0.85;}
-
-.cta{
-padding:18px 55px;
-border-radius:50px;
-background:linear-gradient(45deg,#ff0077,#ff4da6);
-color:white;text-decoration:none;font-weight:600;
-}
-
-/* Sections */
-.section-wrapper{padding:80px 20px;display:flex;justify-content:center;}
+body{font-family:'Montserrat',sans-serif;color:white;background:#050816;}
+.section-wrapper{padding:60px 20px;display:flex;justify-content:center;}
 .glass-card{
-width:100%;max-width:900px;
-background:rgba(15,18,35,0.55);
-backdrop-filter:blur(25px);
-border-radius:25px;
+width:100%;
+max-width:800px;
+background:rgba(15,18,35,0.6);
+backdrop-filter:blur(20px);
+border-radius:20px;
 padding:40px;
 text-align:center;
 }
-
-input,textarea{
-width:100%;max-width:500px;padding:12px;margin:8px auto;
-display:block;border:none;border-radius:10px;
-background:rgba(255,255,255,0.05);color:white;
+input,textarea,button{
+width:100%;
+max-width:400px;
+margin:10px auto;
+padding:12px;
+border:none;
+border-radius:10px;
+display:block;
 }
-
 button{
-width:100%;max-width:500px;padding:12px;margin:8px auto;
-border:none;border-radius:25px;
 background:linear-gradient(45deg,#ff0077,#ff4da6);
-color:white;font-weight:600;cursor:pointer;
+color:white;
+font-weight:600;
+cursor:pointer;
 }
-
-#dashboard{display:none;margin-top:40px;}
-.admin-box{margin-top:20px;padding:15px;background:rgba(0,0,0,0.3);border-radius:15px;}
-.disclaimer-section{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#1f3c88,#5f2c82);}
-footer{padding:20px;text-align:center;background:rgba(0,0,0,0.4);}
+#dashboard{display:none;}
 </style>
 </head>
 
 <body>
 
-<header>
-<div>
-<h1 class="main-title">Comunidad Oficial de Conejo Malo</h1>
-<h2 class="sub-title">Bad Bunny Global Fan Community</h2>
-<p class="hero-subtitle">Premium Global Fan Membership & Official PR Enquiries Platform</p>
-<a href="#auth" class="cta">Member Access</a>
-</div>
-</header>
-
-<!-- MEMBERSHIP -->
-<div class="section-wrapper">
-<div class="glass-card">
-<h2>Upgrade Membership</h2>
-<p><strong>VIP:</strong> $100 USDT</p>
-<p><strong>VVIP:</strong> $500 USDT</p>
-<button onclick="requestUpgrade('VIP')">Request VIP</button>
-<button onclick="requestUpgrade('VVIP')">Request VVIP</button>
-</div>
-</div>
-
-<!-- PRESS -->
-<div class="section-wrapper">
-<div class="glass-card">
-<h2>Official Press Request</h2>
-<input id="pressName" placeholder="Full Name">
-<input id="pressEmail" placeholder="Email">
-<textarea id="pressMessage" placeholder="Press Enquiry Details"></textarea>
-<button onclick="submitPress()">Submit Request</button>
-</div>
-</div>
-
-<!-- AUTH -->
-<section id="auth" class="section-wrapper">
+<section id="authSection" class="section-wrapper">
 <div class="glass-card">
 <h2>Member Login / Register</h2>
 <input id="authEmail" type="email" placeholder="Enter Email">
@@ -141,161 +61,144 @@ footer{padding:20px;text-align:center;background:rgba(0,0,0,0.4);}
 </div>
 </section>
 
-<div class="disclaimer-section">
-<h2>Disclaimer</h2>
-<p>© 2026 Comunidad Oficial de Conejo Malo – Global Fan Platform. All rights reserved.</p>
-</div>
-
-<footer>© 2026 Comunidad Oficial de Conejo Malo</footer>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, getDocs, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
+// ============================
+// 🔥 FIREBASE IMPORTS
+// ============================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc 
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+// ============================
+// 🔥 YOUR REAL FIREBASE CONFIG
+// ============================
 const firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "YOUR_AUTH_DOMAIN",
-projectId: "YOUR_PROJECT_ID",
-appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
+  authDomain: "conejomalo-global.firebaseapp.com",
+  projectId: "conejomalo-global",
+  storageBucket: "conejomalo-global.firebasestorage.app",
+  messagingSenderId: "886224291739",
+  appId: "1:886224291739:web:f54c336ac7ea4e3512c33e",
+  measurementId: "G-F07TTHFS7K"
 };
 
+// ============================
+// 🔥 INITIALIZE FIREBASE
+// ============================
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const firebaseAuth = getAuth(app);
 const db = getFirestore(app);
 
-/* REGISTER */
+// ============================
+// 🎯 ELEMENT REFERENCES
+// ============================
+const authSection = document.getElementById("authSection");
+const dashboard = document.getElementById("dashboard");
+
+const registerBtn = document.getElementById("registerBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+const authEmail = document.getElementById("authEmail");
+const authPassword = document.getElementById("authPassword");
+
+// ============================
+// 🟢 REGISTER
+// ============================
 registerBtn.onclick = async () => {
-const cred = await createUserWithEmailAndPassword(auth, authEmail.value, authPassword.value);
-await setDoc(doc(db,"users",cred.user.uid),{
-email:authEmail.value,
-membership:"FREE",
-createdAt:new Date()
-});
-alert("Registered Successfully");
+  try{
+    const cred = await createUserWithEmailAndPassword(
+      firebaseAuth,
+      authEmail.value,
+      authPassword.value
+    );
+
+    await setDoc(doc(db,"users",cred.user.uid),{
+      email: authEmail.value,
+      membership:"FREE",
+      createdAt: new Date()
+    });
+
+    alert("Registered Successfully");
+
+  }catch(error){
+    alert(error.message);
+  }
 };
 
-/* LOGIN */
+// ============================
+// 🔵 LOGIN
+// ============================
 loginBtn.onclick = async () => {
-await signInWithEmailAndPassword(auth,authEmail.value,authPassword.value);
+  try{
+    await signInWithEmailAndPassword(
+      firebaseAuth,
+      authEmail.value,
+      authPassword.value
+    );
+  }catch(error){
+    alert(error.message);
+  }
 };
 
-/* AUTH STATE */
-onAuthStateChanged(auth, async (user)=>{
-if(user){
-auth.style.display="none";
-dashboard.style.display="flex";
-userEmail.innerText="Logged in as: "+user.email;
+// ============================
+// 🔄 AUTH STATE LISTENER
+// ============================
+onAuthStateChanged(firebaseAuth, async (user)=>{
+  if(user){
 
-const userSnap = await getDoc(doc(db,"users",user.uid));
-roleDisplay.innerText="Membership: "+userSnap.data().membership;
+    authSection.style.display="none";
+    dashboard.style.display="flex";
 
-checkAdmin(user.uid);
+    document.getElementById("userEmail").innerText =
+      "Logged in as: " + user.email;
 
-}else{
-auth.style.display="flex";
-dashboard.style.display="none";
-}
+    const userSnap = await getDoc(doc(db,"users",user.uid));
+    if(userSnap.exists()){
+      document.getElementById("roleDisplay").innerText =
+        "Membership: " + userSnap.data().membership;
+    }
+
+    checkAdmin(user.uid);
+
+  }else{
+    authSection.style.display="flex";
+    dashboard.style.display="none";
+  }
 });
 
-/* CHECK ADMIN ROLE */
+// ============================
+// 👑 ADMIN CHECK
+// ============================
 async function checkAdmin(uid){
-const adminDoc = await getDoc(doc(db,"admins",uid));
-if(adminDoc.exists()){
-loadAdminPanel(uid,adminDoc.data().role);
-}
-}
-
-/* ADMIN PANEL */
-function loadAdminPanel(uid,role){
-adminPanel.innerHTML=`
-<div class="admin-box">
-<h3>Admin Panel (${role})</h3>
-<div id="upgradeRequests"></div>
-<div id="pressRequests"></div>
-</div>
-`;
-
-if(role==="CHIEF"){
-adminPanel.innerHTML+=`
-<div class="admin-box">
-<h3>Manage Sub Admins</h3>
-<input id="newAdminUID" placeholder="Enter UID">
-<button onclick="addSubAdmin()">Add Sub Admin</button>
-</div>`;
+  const adminDoc = await getDoc(doc(db,"admins",uid));
+  if(adminDoc.exists()){
+    document.getElementById("adminPanel").innerHTML =
+      `<div>
+        <h3>Admin Panel (${adminDoc.data().role})</h3>
+       </div>`;
+  }
 }
 
-listenUpgradeRequests();
-listenPressRequests();
-}
+// ============================
+// 🔴 LOGOUT
+// ============================
+logoutBtn.onclick = ()=>signOut(firebaseAuth);
 
-/* REAL-TIME UPGRADE LISTENER */
-function listenUpgradeRequests(){
-onSnapshot(collection(db,"upgradeRequests"),(snapshot)=>{
-let html="<h4>Upgrade Requests</h4>";
-snapshot.forEach(docSnap=>{
-const d=docSnap.data();
-html+=`
-<p>${d.email} → ${d.tier} (${d.status})
-<button onclick="approveUpgrade('${docSnap.id}','${d.userId}','${d.tier}')">Approve</button>
-</p>`;
-});
-document.getElementById("upgradeRequests").innerHTML=html;
-});
-}
-
-/* APPROVE UPGRADE */
-window.approveUpgrade = async (requestId,userId,tier)=>{
-await updateDoc(doc(db,"users",userId),{membership:tier});
-await updateDoc(doc(db,"upgradeRequests",requestId),{status:"APPROVED"});
-alert("Membership upgraded");
-};
-
-/* PRESS LISTENER */
-function listenPressRequests(){
-onSnapshot(collection(db,"pressRequests"),(snapshot)=>{
-let html="<h4>Press Requests</h4>";
-snapshot.forEach(docSnap=>{
-const d=docSnap.data();
-html+=`<p>${d.name} (${d.email})</p>`;
-});
-document.getElementById("pressRequests").innerHTML=html;
-});
-}
-
-/* CRYPTO REQUEST */
-window.requestUpgrade = async function(tier){
-if(!auth.currentUser){alert("Login First");return;}
-await addDoc(collection(db,"upgradeRequests"),{
-userId:auth.currentUser.uid,
-email:auth.currentUser.email,
-tier:tier,
-status:"PENDING_REVIEW",
-createdAt:new Date()
-});
-alert("Upgrade Request Submitted. Admin will contact you.");
-};
-
-/* PRESS REQUEST */
-window.submitPress = async function(){
-await addDoc(collection(db,"pressRequests"),{
-name:pressName.value,
-email:pressEmail.value,
-message:pressMessage.value,
-status:"NEW",
-createdAt:new Date()
-});
-alert("Press Request Submitted");
-};
-
-/* ADD SUB ADMIN */
-window.addSubAdmin = async ()=>{
-const uid=newAdminUID.value;
-await setDoc(doc(db,"admins",uid),{role:"SUB"});
-alert("Sub Admin Added");
-};
-
-logoutBtn.onclick=()=>signOut(auth);
 </script>
 
 </body>
