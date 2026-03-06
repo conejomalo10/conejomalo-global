@@ -100,14 +100,23 @@ backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,0.25);
 
 box-shadow:
+0 8px 32px rgba(0,0,0,0.35),
+0 0 25px rgba(255,255,255,0.1),
+inset 0 0 10px rgba(255,255,255,0.15);
 0 10px 25px rgba(0,0,0,0.25),
 0 30px 60px rgba(0,0,0,0.35);
 
 max-width:700px;
-width:90%;
+animation:floatGlass 6s ease-in-out infinite;
 margin:auto;
 
 animation:floatGlass 7s ease-in-out infinite;
+@keyframes floatGlass{
+
+0%{transform:translateY(0px) scale(1);}
+50%{transform:translateY(-18px) scale(1.01);}
+100%{transform:translateY(0px) scale(1);}
+
 }
 
 @keyframes floatGlass{
@@ -180,9 +189,9 @@ opacity:.7;
 
 <div class="hero">
 
-<h1 data-lang="title">Comunidad Oficial de Conejo Malo</h1>
-<h2 data-lang="subtitle">Bad Bunny Global</h2>
-<h3 data-lang="community">Fan Community</h3>
+<<h1 data-lang="title">Comunidad Global de Fans de Conejo Malo</h1>
+<<h2 data-lang="subtitle">Bad Bunny Global Fans</h2>
+<<h3 data-lang="community">Community</h3>
 
 <button class="button" onclick="openModal()" data-lang="loginBtn">Member Login / Register</button>
 
@@ -264,10 +273,17 @@ Upcoming global concert updates and priority fan alerts will appear here.
 </div>
 
 
-<footer>
+<<footer>
 
-© 2026 Comunidad Oficial de Conejo Malo<br>
-Bad Bunny Global Fan Community
+© 2026 Comunidad Global de Fans de Conejo Malo<br>
+Bad Bunny Global Fans Community
+
+<br><br>
+
+<span style="font-size:12px;opacity:.8;">
+This is an independent fan community created to celebrate music, culture, and global impact of Bad Buny.
+All rights belong to their respective owners.
+</span>
 
 </footer>
 
