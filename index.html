@@ -2,161 +2,301 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Comunidad Global de Fans de Conejo Malo</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Comunidad Global de Fans de Conejo Malo — Bad Bunny Global Fan Community." />
+  <title>Comunidad Global de Fans de Conejo Malo</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
 </head>
 
 <body>
 
-<div class="langSwitch">
-<button onclick="setLanguage('en')">EN</button>
-<button onclick="setLanguage('es')">ES</button>
-</div>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
 
-<section class="hero">
-<div class="glass">
+  <div class="langSwitch">
+    <button onclick="setLanguage('en')">🇺🇸 EN</button>
+    <button onclick="setLanguage('es')">🇵🇷 ES</button>
+    <button onclick="setLanguage('fr')">🇫🇷 FR</button>
+    <button onclick="setLanguage('pt')">🇧🇷 PT</button>
+  </div>
 
-<h1 data-lang="title">Comunidad Global de Fans de Conejo Malo</h1>
-<h2 data-lang="subtitle">Bad Bunny Global</h2>
-<h3 data-lang="community">Fan Community</h3>
+  <nav class="navbar">
+    <div class="nav-logo">🐰 CONEJO MALO</div>
+    <ul class="nav-links">
+      <li><a href="#home"       data-lang="navHome">HOME</a></li>
+      <li><a href="#community"  data-lang="navCommunity">COMMUNITY</a></li>
+      <li><a href="#membership" data-lang="navMembership">MEMBERSHIP</a></li>
+      <li><a href="#events"     data-lang="navEvents">EVENTS</a></li>
+      <li><a href="#support"    data-lang="navSupport">SUPPORT</a></li>
+      <li><a href="#contact"    data-lang="navContact">CONTACT</a></li>
+    </ul>
+    <button class="nav-login-btn" onclick="openModal()" data-lang="loginBtn">LOGIN</button>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+  </nav>
 
-<button class="button" onclick="openModal()" data-lang="loginBtn">
-Member Login / Register
-</button>
+  <section class="hero" id="home">
+    <div class="glass hero-glass">
+      <div class="hero-badge" data-lang="heroBadge">🌍 GLOBAL FAN COMMUNITY</div>
+      <h1 data-lang="title">Comunidad Global de Fans de Conejo Malo</h1>
+      <h2 data-lang="subtitle">Bad Bunny Global Fan Community</h2>
+      <p  data-lang="heroDesc">Celebrating music, culture, and the worldwide impact of Bad Bunny. Join millions of fans across the globe.</p>
+      <div class="hero-stats">
+        <div class="stat"><span>🌎</span><span data-lang="statGlobal">Global Community</span></div>
+        <div class="stat"><span>👑</span><span data-lang="statVIP">VIP Access</span></div>
+        <div class="stat"><span>🎵</span><span data-lang="statMusic">Exclusive Content</span></div>
+      </div>
+      <div class="hero-buttons">
+        <button class="button button-primary" onclick="openModal()" data-lang="joinBtn">Join the Community</button>
+        <button class="button button-outline" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-lang="exploreBtn">Explore</button>
+      </div>
+      <p id="status" class="status-text">Not logged in</p>
+      <button id="logoutBtn" class="logout-btn" onclick="logout()" style="display:none" data-lang="logoutBtn">Logout</button>
+    </div>
+  </section>
 
-<p id="status">Not logged in</p>
+  <section class="section" id="community">
+    <div class="glass section-glass">
+      <div class="section-tag" data-lang="aboutTag">ABOUT US</div>
+      <h2 data-lang="aboutTitle">About the Community</h2>
+      <p data-lang="aboutText">Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.</p>
+      <div class="about-grid">
+        <div class="about-card reveal">
+          <span class="about-icon">🎧</span>
+          <h4 data-lang="aboutF1">Exclusive Music</h4>
+          <p data-lang="aboutF1D">Access exclusive content, previews and curated playlists.</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">🌍</span>
+          <h4 data-lang="aboutF2">Global Network</h4>
+          <p data-lang="aboutF2D">Connect with fans from USA, Spain, Mexico, Brazil, Japan and beyond.</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">🏆</span>
+          <h4 data-lang="aboutF3">Fan Rankings</h4>
+          <p data-lang="aboutF3D">Earn badges and climb the ranks from New Fan to Legend Fan.</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">🎟️</span>
+          <h4 data-lang="aboutF4">Events Access</h4>
+          <p data-lang="aboutF4D">Early access to concert announcements and listening parties.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<button class="button" onclick="logout()">Logout</button>
+  <div class="disclaimer-bar">
+    <p data-lang="disclaimer">⚠️ This is an independent fan community. Not officially affiliated with Bad Bunny or his management.</p>
+  </div>
 
-</div>
-</div>
+  <section class="vip-section" id="membership">
+    <div class="section-tag" data-lang="memberTag">MEMBERSHIP</div>
+    <h2 data-lang="memberTitle">Fan Membership Platform</h2>
+    <h3 class="vip-subtitle" data-lang="memberSubtitle">WHERE FANS CONNECT, SHARE, AND SPEAK AS ONE</h3>
+    <p class="vip-description" data-lang="memberDesc">Only accessible after login. This is the heart of our global fan community.</p>
+    <div class="vip-levels">
+      <div class="vip-card member-tier reveal">
+        <div class="tier-badge">FREE</div>
+        <h4>🌟 Member</h4>
+        <p class="tier-price" data-lang="tierFree">Free</p>
+        <ul class="tier-features">
+          <li>✅ Basic community access</li>
+          <li>✅ Public posts &amp; feed</li>
+          <li>✅ Fan profile</li>
+          <li>❌ Exclusive content</li>
+          <li>❌ Private events</li>
+        </ul>
+        <button class="button tier-btn" onclick="openModal()">Join Free</button>
+      </div>
+      <div class="vip-card vip-tier reveal">
+        <div class="tier-badge popular-badge">POPULAR</div>
+        <h4>⭐ VIP</h4>
+        <p class="tier-price">Premium</p>
+        <ul class="tier-features">
+          <li>✅ Everything in Member</li>
+          <li>✅ Exclusive posts</li>
+          <li>✅ Special updates</li>
+          <li>✅ VIP badge</li>
+          <li>❌ Private events</li>
+        </ul>
+        <button class="button tier-btn" onclick="openModal()">Get VIP</button>
+      </div>
+      <div class="vip-card vvip-tier reveal">
+        <div class="tier-badge">ELITE</div>
+        <h4>⭐⭐ VVIP</h4>
+        <p class="tier-price">Elite</p>
+        <ul class="tier-features">
+          <li>✅ Everything in VIP</li>
+          <li>✅ Premium media</li>
+          <li>✅ Priority announcements</li>
+          <li>✅ Early content access</li>
+          <li>❌ Private events</li>
+        </ul>
+        <button class="button tier-btn" onclick="openModal()">Get VVIP</button>
+      </div>
+      <div class="vip-card vvvip-tier reveal">
+        <div class="tier-badge legend-badge">LEGEND</div>
+        <h4>⭐⭐⭐ VVVIP</h4>
+        <p class="tier-price">Legend</p>
+        <ul class="tier-features">
+          <li>✅ Everything in VVIP</li>
+          <li>✅ Private fan events</li>
+          <li>✅ Early content access</li>
+          <li>✅ Legend badge</li>
+          <li>✅ Community role</li>
+        </ul>
+        <button class="button tier-btn" onclick="openModal()">Get VVVIP</button>
+      </div>
+    </div>
+    <div class="vip-features">
+      <h3 data-lang="allMembersGet">All Members Get</h3>
+      <ul>
+        <li>🎧 Exclusive music content</li>
+        <li>🎥 Private community videos</li>
+        <li>💬 Fan community discussions</li>
+        <li>🎟️ Event announcements</li>
+        <li>🏆 Fan ranking and badges</li>
+        <li>🎁 Special giveaways</li>
+        <li>🌍 Global fan map access</li>
+        <li>📰 News &amp; album updates</li>
+      </ul>
+    </div>
+  </section>
 
-<div class="section">
-<div class="glass">
+  <section class="section" id="ranking">
+    <div class="glass section-glass">
+      <div class="section-tag">FAN RANKS</div>
+      <h2 data-lang="rankTitle">Fan Ranking System</h2>
+      <p data-lang="rankDesc">Earn your rank through community participation. The more active you are, the higher you climb!</p>
+      <div class="rank-grid">
+        <div class="rank-card reveal">🌱<strong>New Fan</strong><p>Just joined</p></div>
+        <div class="rank-card reveal">⭐<strong>Super Fan</strong><p>Active member</p></div>
+        <div class="rank-card reveal">🔥<strong>Elite Fan</strong><p>Top contributor</p></div>
+        <div class="rank-card reveal">👑<strong>Legend Fan</strong><p>Community icon</p></div>
+      </div>
+    </div>
+  </section>
 
-<h2 data-lang="aboutTitle">About Community</h2>
+  <section class="section" id="map">
+    <div class="glass section-glass">
+      <div class="section-tag">WORLDWIDE</div>
+      <h2 data-lang="mapTitle">Global Fan Map</h2>
+      <p data-lang="mapDesc">Our community spans every continent. Fans united by music.</p>
+      <div class="fan-map">
+        <div class="map-region reveal">🇺🇸 USA</div>
+        <div class="map-region reveal">🇪🇸 Spain</div>
+        <div class="map-region reveal">🇲🇽 Mexico</div>
+        <div class="map-region reveal">🇧🇷 Brazil</div>
+        <div class="map-region reveal">🇨🇦 Canada</div>
+        <div class="map-region reveal">🇩🇪 Germany</div>
+        <div class="map-region reveal">🇳🇱 Netherlands</div>
+        <div class="map-region reveal">🇯🇵 Japan</div>
+        <div class="map-region reveal">🇸🇦 Saudi Arabia</div>
+        <div class="map-region reveal">🇮🇩 Indonesia</div>
+        <div class="map-region reveal">🇫🇷 France</div>
+        <div class="map-region reveal">🇬🇧 UK</div>
+      </div>
+    </div>
+  </section>
 
-<p data-lang="aboutText">
-Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
-</p>
+  <section class="section" id="events">
+    <div class="glass section-glass">
+      <div class="section-tag">EVENTS</div>
+      <h2 data-lang="eventsTitle">Fan Events</h2>
+      <p data-lang="eventsDesc">Stay connected with listening parties, fan competitions, and concert discussions.</p>
+      <div class="events-grid">
+        <div class="event-card reveal">
+          <span class="event-icon">🎵</span>
+          <h4 data-lang="event1">Listening Parties</h4>
+          <p data-lang="event1D">Live album listening sessions with the community.</p>
+        </div>
+        <div class="event-card reveal">
+          <span class="event-icon">🏆</span>
+          <h4 data-lang="event2">Fan Competitions</h4>
+          <p data-lang="event2D">Art contests, lyric challenges, and fan polls.</p>
+        </div>
+        <div class="event-card reveal">
+          <span class="event-icon">🎤</span>
+          <h4 data-lang="event3">Concert Discussions</h4>
+          <p data-lang="event3D">Live reaction threads during Bad Bunny concerts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</div>
-</div>
+  <section class="section" id="support">
+    <div class="glass section-glass">
+      <div class="section-tag">SUPPORT</div>
+      <h2 data-lang="supportTitle">Support the Community</h2>
+      <p data-lang="supportDesc">Help keep this fan community alive and growing. Every contribution matters.</p>
+      <div class="crypto-grid">
+        <div class="crypto-card reveal"><span>₿</span><h4>Bitcoin</h4><p data-lang="cryptoMsg">Contact for address</p></div>
+        <div class="crypto-card reveal"><span>Ξ</span><h4>Ethereum</h4><p data-lang="cryptoMsg">Contact for address</p></div>
+        <div class="crypto-card reveal"><span>₮</span><h4>Tether</h4><p data-lang="cryptoMsg">Contact for address</p></div>
+      </div>
+      <p class="email-note" data-lang="emailSupport">📧 Email us for payment instructions and support requests.</p>
+    </div>
+  </section>
 
-<section class="vip-section">
+  <section class="section" id="contact">
+    <div class="glass section-glass" style="text-align:center;">
+      <div class="section-tag">CONTACT</div>
+      <h2 data-lang="contactTitle">Get In Touch</h2>
+      <p data-lang="contactDesc">Have questions or want to collaborate? Reach out to the community team.</p>
+      <div class="social-links">
+        <a class="social-btn" href="#" data-lang="socialIG">📸 Instagram</a>
+        <a class="social-btn" href="#" data-lang="socialTT">🎵 TikTok</a>
+        <a class="social-btn" href="#" data-lang="socialFB">👤 Facebook</a>
+        <a class="social-btn" href="#" data-lang="socialX">✖️ X (Twitter)</a>
+      </div>
+    </div>
+  </section>
 
-<h2 data-lang="memberTitle">Fan Membership Platform</h2>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">🐰 CONEJO MALO</div>
+      <div class="footer-links">
+        <a href="#home"       data-lang="navHome">Home</a>
+        <a href="#community"  data-lang="navCommunity">Community</a>
+        <a href="#membership" data-lang="navMembership">Membership</a>
+        <a href="#events"     data-lang="navEvents">Events</a>
+        <a href="#support"    data-lang="navSupport">Support</a>
+      </div>
+      <p>© 2026 Comunidad Global de Fans de Conejo Malo — Bad Bunny Global Fan Community</p>
+      <p class="footer-disclaimer" data-lang="disclaimer">⚠️ Independent fan community. Not affiliated with Bad Bunny or his management.</p>
+    </div>
+  </footer>
 
-<h3 class="vip-subtitle">
-WHERE FANS CONNECT, SHARE, AND SPEAK AS ONE
-</h3>
+  <div class="modal" id="authModal">
+    <div class="modalBox">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-logo">🐰</div>
+      <h3 data-lang="modalTitle">Member Login / Register</h3>
+      <p class="modal-sub" data-lang="modalSub">Join the global Bad Bunny fan community</p>
+      <div class="input-group">
+        <label for="email"    data-lang="emailLabel">Email</label>
+        <input id="email"     type="email"    placeholder="your@email.com" autocomplete="email" />
+      </div>
+      <div class="input-group">
+        <label for="password" data-lang="passLabel">Password</label>
+        <input id="password"  type="password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <div class="modal-buttons">
+        <button class="button button-primary" onclick="register()" data-lang="registerBtn">Register</button>
+        <button class="button button-outline" onclick="login()"    data-lang="loginModalBtn">Login</button>
+      </div>
+      <p class="modal-terms" data-lang="modalTerms">By joining you agree to our community guidelines.</p>
+    </div>
+  </div>
 
-<p class="vip-description">
-Only accessible after login. This is the heart of our global fan community where fans celebrate music, culture, and unforgettable fan experiences together.
-</p>
-
-<div class="vip-levels">
-
-<div class="vip-card">
-<h4>🌟 Member</h4>
-<p>Basic community access</p>
-</div>
-
-<div class="vip-card">
-<h4>⭐ VIP</h4>
-<p>Exclusive posts and special updates</p>
-</div>
-
-<div class="vip-card">
-<h4>⭐⭐ VVIP</h4>
-<p>Premium media and priority announcements</p>
-</div>
-
-<div class="vip-card">
-<h4>⭐⭐⭐ VVVIP</h4>
-<p>Private events and early content access</p>
-</div>
-
-</div>
-
-<div class="vip-features">
-<ul>
-<li>🎧 Exclusive music content</li>
-<li>🎥 Private videos</li>
-<li>💬 Fan community discussions</li>
-<li>🎟 Event announcements</li>
-<li>🏆 Fan ranking and badges</li>
-<li>🎁 Special giveaways</li>
-</ul>
-</div>
-
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<footer>
-
-© 2026 Comunidad Global de Fans de Conejo Malo<br>
-Bad Bunny Global Fans Community
-
-<br><br>
-
-<span style="font-size:12px;opacity:.8;">
-This is an independent fan community created to celebrate music and culture.
-</span>
-
-</footer>
-
-<div class="modal" id="authModal">
-
-<div class="modalBox">
-
-<h3>Member Login / Register</h3>
-
-<input id="email" placeholder="Enter Email">
-<input id="password" type="password" placeholder="Enter Password">
-
-<button class="button" onclick="register()">Register</button>
-<button class="button" onclick="login()">Login</button>
-<button class="button" onclick="closeModal()">Close</button>
-
-</div>
-
-</div>
-
-<script type="module" src="js/firebase.js"></script>
-<script type="module" src="js/auth.js"></script>
-<script src="js/language.js"></script>
-<script src="js/script.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="auth.js"></script>
+  <script src="language.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>
