@@ -6,7 +6,7 @@ import { getAuth } from
 
 const firebaseConfig = {
 
-apiKey: "YOUR_API_KEY",
+apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
 authDomain: "conejomalo-global.firebaseapp.com",
 projectId: "conejomalo-global",
 storageBucket: "conejomalo-global.appspot.com",
