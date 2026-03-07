@@ -14,6 +14,8 @@ background:linear-gradient(
 );
 }
 
+/* LANGUAGE SWITCH */
+
 .langSwitch{
 position:absolute;
 top:20px;
@@ -31,6 +33,8 @@ cursor:pointer;
 backdrop-filter:blur(10px);
 }
 
+/* HERO SECTION */
+
 .hero{
 height:100vh;
 display:flex;
@@ -39,25 +43,27 @@ justify-content:center;
 text-align:center;
 }
 
-.glass{
+/* FLOATING GLASS PANEL */
 
+.glass{
 background:rgba(255,255,255,0.12);
 border-radius:22px;
 padding:40px;
 
 backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,0.25);
-  -webkit-backdrop-filter: blur(20px);
+-webkit-backdrop-filter:blur(20px);
 
-box-shadow:
-0 8px 32px rgba(0,0,0,0.35);
+border:1px solid rgba(255,255,255,0.25);
+
+box-shadow:0 8px 32px rgba(0,0,0,0.35);
 
 animation:floatGlass 6s ease-in-out infinite;
 
 max-width:700px;
 margin:auto;
+}
 
-}.glass h1{
+.glass h1{
 font-size:42px;
 font-weight:700;
 margin-bottom:10px;
@@ -68,39 +74,48 @@ font-size:18px;
 opacity:.9;
 }
 
+/* FLOATING ANIMATION */
+
 @keyframes floatGlass{
 
 0%{transform:translateY(0px)}
 50%{transform:translateY(-15px)}
 100%{transform:translateY(0px)}
-.button{
-background:linear-gradient(45deg,#ff0066,#ff4d4d);
-border:none;
-padding:14px 30px;
-border-radius:40px;
-color:white;
-font-size:16px;
-cursor:pointer;
-margin-top:20px;
+
 }
 
-
-
-
-
-
-
+/* BUTTON */
 
 .button{
+
 background:linear-gradient(45deg,#ff0066,#ff4d4d);
 border:none;
+
 padding:14px 30px;
+
 border-radius:40px;
+
 color:white;
+
 font-size:16px;
+
 cursor:pointer;
+
 margin-top:20px;
+
+transition:transform .25s ease, box-shadow .25s ease;
+
 }
+
+.button:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 20px rgba(0,0,0,.3);
+
+}
+
+/* FOOTER */
 
 footer{
 text-align:center;
@@ -108,90 +123,143 @@ padding:40px;
 opacity:.7;
 }
 
+/* LOGIN MODAL */
+
 .modal{
+
 display:none;
+
 position:fixed;
+
 top:0;
 left:0;
+
 width:100%;
 height:100%;
+
 background:rgba(0,0,0,.75);
-display:flex;
+
 justify-content:center;
 align-items:center;
-}
-
-
-
-
-
-
-
-
 
 }
+
+/* MODAL BOX */
 
 .modalBox{
+
 background:#111;
+
 padding:30px;
+
 border-radius:20px;
+
 width:320px;
+
 text-align:center;
+
 }
+
+/* VIP SECTION */
+
 .vip-section{
+
 text-align:center;
+
 padding:80px 20px;
+
 }
 
 .vip-subtitle{
+
 font-size:22px;
+
 font-weight:600;
+
 margin-bottom:20px;
+
 letter-spacing:1px;
+
 }
 
 .vip-description{
+
 max-width:700px;
+
 margin:auto;
+
 margin-bottom:40px;
-opacity:0.9;
+
+opacity:.9;
+
 }
+
+/* VIP LEVELS */
 
 .vip-levels{
+
 display:flex;
+
 flex-wrap:wrap;
+
 justify-content:center;
+
 gap:20px;
+
 margin-top:30px;
+
 }
 
+/* VIP CARDS */
+
 .vip-card{
+
 background:rgba(255,255,255,0.08);
+
 backdrop-filter:blur(10px);
+
 border-radius:15px;
+
 padding:25px;
+
 width:220px;
+
 box-shadow:0 10px 20px rgba(0,0,0,0.3);
-transition:transform 0.3s ease;
+
+transition:transform .3s ease;
+
 }
 
 .vip-card:hover{
+
 transform:translateY(-6px);
+
 }
 
 .vip-card h4{
+
 margin-bottom:10px;
+
 }
 
+/* VIP FEATURES */
+
 .vip-features{
+
 margin-top:40px;
+
 }
 
 .vip-features ul{
+
 list-style:none;
+
 padding:0;
+
 }
 
 .vip-features li{
+
 margin:10px 0;
+
 }
