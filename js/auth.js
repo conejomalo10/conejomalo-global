@@ -43,7 +43,7 @@ signOut(auth)
 onAuthStateChanged(auth,(user)=>{
 
 if(user){
-document.getElementById("status").innerText="Logged in as "+user.email
+document.getElementById("status").innerText="Logged in as " + user.email
 }else{
 document.getElementById("status").innerText="Not logged in"
 }
