@@ -8,179 +8,24 @@
 
 <title>Comunidad Global de Fans de Conejo Malo</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
-body{
-margin:0;
-font-family:Montserrat,sans-serif;
-color:white;
-
-background:linear-gradient(
-135deg,
-#3C3B6E,
-#B22234,
-#0033A0,
-#D52B1E,
-#00247D,
-#012169
-);
-
-background-size:400% 400%;
-animation:bgMove 18s ease infinite;
-}
-
-@keyframes bgMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-.languageSelect{
-position:fixed;
-top:20px;
-right:20px;
-padding:8px;
-border-radius:10px;
-border:none;
-font-size:14px;
-z-index:1000;
-}
-
-.hero{
-text-align:center;
-padding:120px 20px 80px 20px;
-display:flex;
-flex-direction:column;
-align-items:center;
-min-height:80vh;
-}
-
-.hero h1{
-font-family:'Playfair Display',serif;
-font-size:48px;
-margin-bottom:10px;
-}
-
-.hero h2{
-font-size:28px;
-margin:0;
-font-weight:600;
-}
-
-.hero h3{
-font-size:20px;
-opacity:.85;
-margin-top:5px;
-}
-
-.button{
-background:linear-gradient(45deg,#ff0066,#ff4d4d);
-border:none;
-padding:15px 30px;
-border-radius:40px;
-color:white;
-font-size:16px;
-cursor:pointer;
-margin-top:20px;
-}
-
-.section{
-display:flex;
-justify-content:center;
-padding:40px 20px;
-}
-
-.glass{
-
-background:rgba(255,255,255,0.12);
-border-radius:22px;
-padding:35px;
-
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
-
-border:1px solid rgba(255,255,255,0.25);
-
-box-shadow:
-0 8px 32px rgba(0,0,0,0.35),
-0 0 25px rgba(255,255,255,0.1),
-inset 0 0 10px rgba(255,255,255,0.15);
-
-max-width:700px;
-animation:floatGlass 6s ease-in-out infinite;
-
-margin:auto;
-}
-
-@keyframes floatGlass{
-0%{transform:translateY(0px) scale(1);}
-50%{transform:translateY(-18px) scale(1.01);}
-100%{transform:translateY(0px) scale(1);}
-}
-
-h2{
-text-align:center;
-margin-bottom:20px;
-}
-
-.membership p{
-margin:10px 0;
-}
-
-input,textarea{
-width:100%;
-padding:12px;
-margin:8px 0;
-border-radius:10px;
-border:none;
-}
-
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.75);
-justify-content:center;
-align-items:center;
-}
-
-.modalBox{
-background:#111;
-padding:30px;
-border-radius:20px;
-width:320px;
-text-align:center;
-}
-
-footer{
-text-align:center;
-padding:40px;
-opacity:.8;
-}
-
-</style>
 </head>
 
 <body>
 
-<select class="languageSelect" onchange="setLanguage(this.value)">
-<option value="en">English</option>
-<option value="es">Español</option>
-</select>
+<div class="langSwitch">
+<button onclick="setLanguage('en')">EN</button>
+<button onclick="setLanguage('es')">ES</button>
+</div>
 
 <div class="hero">
-
 <div class="glass">
 
 <h1 data-lang="title">Comunidad Global de Fans de Conejo Malo</h1>
-
-<h2 data-lang="subtitle">Bad Bunny Global Fans Community</h2>
-
+<h2 data-lang="subtitle">Bad Bunny Global</h2>
 <h3 data-lang="community">Fan Community</h3>
 
 <button class="button" onclick="openModal()" data-lang="loginBtn">
@@ -192,25 +37,21 @@ Member Login / Register
 <button class="button" onclick="logout()">Logout</button>
 
 </div>
-
 </div>
 
 <div class="section">
-
 <div class="glass">
 
 <h2 data-lang="aboutTitle">About Community</h2>
 
 <p data-lang="aboutText">
-Comunidad Global de Fans de Conejo Malo is an independent global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
+Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.
 </p>
 
 </div>
-
 </div>
 
 <div class="section">
-
 <div class="glass membership">
 
 <h2 data-lang="memberTitle">Membership Access</h2>
@@ -222,51 +63,17 @@ Comunidad Global de Fans de Conejo Malo is an independent global fan community c
 
 <br>
 
-<h3>VIP Executive</h3>
+<h3>VVIP Executive</h3>
 <p>Concierge-Level Updates</p>
 <p>Special Access Notifications</p>
-<p>Premium Event Alerts</p>
 
 <br>
 
-<h3>VVIP Executive</h3>
+<h3>VVVIP Executive</h3>
 <p>All Access Privileges</p>
 <p>Private Invitation Opportunities</p>
 
 </div>
-
-</div>
-
-<div class="section">
-
-<div class="glass">
-
-<h2 data-lang="tourTitle">Tour Announcements</h2>
-
-<p data-lang="tourText">
-Upcoming global concert updates and priority fan alerts will appear here.
-</p>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="glass">
-
-<h2 data-lang="prTitle">Official PR Enquiry</h2>
-
-<input placeholder="Your Name">
-<input placeholder="Email">
-<input placeholder="Organization">
-
-<textarea placeholder="Message"></textarea>
-
-<button class="button">Submit Request</button>
-
-</div>
-
 </div>
 
 <footer>
@@ -277,7 +84,7 @@ Bad Bunny Global Fans Community
 <br><br>
 
 <span style="font-size:12px;opacity:.8;">
-This is an independent fan community created to celebrate music, culture, and global impact. All rights belong to their respective owners.
+This is an independent fan community created to celebrate music and culture.
 </span>
 
 </footer>
@@ -296,81 +103,13 @@ This is an independent fan community created to celebrate music, culture, and gl
 <button class="button" onclick="closeModal()">Close</button>
 
 </div>
+
 </div>
 
-<script>
-
-function openModal(){
-document.getElementById("authModal").style.display="flex"
-}
-
-function closeModal(){
-document.getElementById("authModal").style.display="none"
-}
-
-function register(){
-alert("Registration system connected with Firebase")
-}
-
-function login(){
-alert("Login system connected with Firebase")
-}
-
-function logout(){
-document.getElementById("status").innerText="Not logged in"
-}
-
-const translations={
-
-en:{
-title:"Comunidad Global de Fans de Conejo Malo",
-subtitle:"Bad Bunny Global Fans Community",
-community:"Fan Community",
-loginBtn:"Member Login / Register",
-aboutTitle:"About Community",
-aboutText:"Comunidad Global de Fans de Conejo Malo is an independent global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.",
-memberTitle:"Membership Access",
-tourTitle:"Tour Announcements",
-tourText:"Upcoming global concert updates and priority fan alerts will appear here.",
-prTitle:"Official PR Enquiry"
-},
-
-es:{
-title:"Comunidad Global de Fans de Conejo Malo",
-subtitle:"Comunidad Global de Fans",
-community:"Comunidad de Fans",
-loginBtn:"Acceso / Registro de Miembros",
-aboutTitle:"Sobre la Comunidad",
-aboutText:"Comunidad Global de Fans de Conejo Malo es una comunidad global independiente creada para celebrar la música y el impacto cultural.",
-memberTitle:"Acceso de Membresía",
-tourTitle:"Anuncios de Gira",
-tourText:"Las actualizaciones de conciertos aparecerán aquí.",
-prTitle:"Solicitud Oficial de Prensa"
-}
-
-}
-
-function setLanguage(lang){
-
-document.querySelectorAll("[data-lang]").forEach(el=>{
-
-const key=el.getAttribute("data-lang")
-
-if(translations[lang] && translations[lang][key]){
-
-el.innerText=translations[lang][key]
-
-}
-
-})
-
-}
-
-const userLang=navigator.language.startsWith("es")?"es":"en"
-
-setLanguage(userLang)
-
-</script>
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script src="js/language.js"></script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
