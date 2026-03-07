@@ -7,7 +7,7 @@ background:linear-gradient(
 135deg,
 #3C3B6E,
 #B22234,
-#0033A0,
+#0053A0,
 #D52B1E,
 #00247D,
 #012169
@@ -46,21 +46,24 @@ text-align:center;
 /* FLOATING GLASS PANEL */
 
 .glass{
-background:rgba(255,255,255,0.12);
-border-radius:22px;
-padding:40px;
-
+background:rgba(255,255,255,0.18);
 backdrop-filter:blur(20px);
 -webkit-backdrop-filter:blur(20px);
 
-border:1px solid rgba(255,255,255,0.25);
+border-radius:25px;
+padding:45px;
 
-box-shadow:0 8px 32px rgba(0,0,0,0.35);
+border:1px solid rgba(255,255,255,0.30);
+
+box-shadow:0 20px 50px rgba(0,0,0,0.35);
+
+width:90%;
+max-width:700px;
+
+margin:auto;
+text-align:center;
 
 animation:floatGlass 6s ease-in-out infinite;
-
-max-width:700px;
-margin:auto;
 }
 
 .glass h1{
@@ -78,9 +81,17 @@ opacity:.9;
 
 @keyframes floatGlass{
 
-0%{transform:translateY(0px)}
-50%{transform:translateY(-15px)}
-100%{transform:translateY(0px)}
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-15px);
+}
+
+100%{
+transform:translateY(0px);
+}
 
 }
 
@@ -89,6 +100,7 @@ opacity:.9;
 .button{
 
 background:linear-gradient(45deg,#ff0066,#ff4d4d);
+
 border:none;
 
 padding:14px 30px;
