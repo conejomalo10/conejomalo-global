@@ -1,41 +1,185 @@
-const translations={
+const translations = {
 
-en:{
-title:"Comunidad Global de Fans de Conejo Malo",
-subtitle:"Bad Bunny Global",
-community:"Fan Community",
-loginBtn:"Member Login / Register",
-aboutTitle:"About Community",
-aboutText:"Global fan community celebrating the music and culture of Bad Bunny.",
-memberTitle:"Membership Access"
-},
+  en: {
+    navHome:"HOME", navCommunity:"COMMUNITY", navMembership:"MEMBERSHIP",
+    navEvents:"EVENTS", navSupport:"SUPPORT", navContact:"CONTACT", loginBtn:"LOGIN",
+    heroBadge:"🌍 GLOBAL FAN COMMUNITY",
+    title:"Comunidad Global de Fans de Conejo Malo",
+    subtitle:"Bad Bunny Global Fan Community",
+    heroDesc:"Celebrating music, culture, and the worldwide impact of Bad Bunny. Join millions of fans across the globe.",
+    statGlobal:"Global Community", statVIP:"VIP Access", statMusic:"Exclusive Content",
+    joinBtn:"Join the Community", exploreBtn:"Explore", logoutBtn:"Logout",
+    aboutTag:"ABOUT US", aboutTitle:"About the Community",
+    aboutText:"Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny. We bring together fans from every corner of the planet.",
+    aboutF1:"Exclusive Music",    aboutF1D:"Access exclusive content, previews and curated playlists.",
+    aboutF2:"Global Network",     aboutF2D:"Connect with fans from USA, Spain, Mexico, Brazil, Japan and beyond.",
+    aboutF3:"Fan Rankings",       aboutF3D:"Earn badges and climb the ranks from New Fan to Legend Fan.",
+    aboutF4:"Events Access",      aboutF4D:"Early access to concert announcements and listening parties.",
+    disclaimer:"⚠️ This is an independent fan community. Not officially affiliated with Bad Bunny or his management.",
+    memberTag:"MEMBERSHIP", memberTitle:"Fan Membership Platform",
+    memberSubtitle:"WHERE FANS CONNECT, SHARE, AND SPEAK AS ONE",
+    memberDesc:"Only accessible after login. This is the heart of our global fan community.",
+    tierFree:"Free", allMembersGet:"All Members Get",
+    rankTitle:"Fan Ranking System",
+    rankDesc:"Earn your rank through community participation. The more active you are, the higher you climb!",
+    mapTitle:"Global Fan Map", mapDesc:"Our community spans every continent. Fans united by music.",
+    eventsTitle:"Fan Events", eventsDesc:"Stay connected with listening parties, fan competitions, and concert discussions.",
+    event1:"Listening Parties",    event1D:"Live album listening sessions with the community.",
+    event2:"Fan Competitions",     event2D:"Art contests, lyric challenges, and fan polls.",
+    event3:"Concert Discussions",  event3D:"Live reaction threads during Bad Bunny concerts.",
+    supportTitle:"Support the Community",
+    supportDesc:"Help keep this fan community alive and growing. Every contribution matters.",
+    cryptoMsg:"Contact for address",
+    emailSupport:"📧 Email us for payment instructions and support requests.",
+    contactTitle:"Get In Touch",
+    contactDesc:"Have questions or want to collaborate? Reach out to the community team.",
+    socialIG:"📸 Instagram", socialTT:"🎵 TikTok", socialFB:"👤 Facebook", socialX:"✖️ X (Twitter)",
+    modalTitle:"Member Login / Register",
+    modalSub:"Join the global Bad Bunny fan community",
+    emailLabel:"Email", passLabel:"Password",
+    registerBtn:"Register", loginModalBtn:"Login",
+    modalTerms:"By joining you agree to our community guidelines.",
+  },
 
-es:{
-title:"Comunidad Global de Fans de Conejo Malo",
-subtitle:"Bad Bunny Global",
-community:"Comunidad de Fans",
-loginBtn:"Acceso / Registro de Miembros",
-aboutTitle:"Sobre la Comunidad",
-aboutText:"Comunidad global creada para celebrar la música y cultura de Bad Bunny.",
-memberTitle:"Acceso de Membresía"
-}
+  es: {
+    navHome:"INICIO", navCommunity:"COMUNIDAD", navMembership:"MEMBRESÍA",
+    navEvents:"EVENTOS", navSupport:"APOYO", navContact:"CONTACTO", loginBtn:"ACCESO",
+    heroBadge:"🌍 COMUNIDAD GLOBAL DE FANS",
+    title:"Comunidad Global de Fans de Conejo Malo",
+    subtitle:"Comunidad Global de Fans de Bad Bunny",
+    heroDesc:"Celebrando la música, cultura e impacto mundial de Bad Bunny. Únete a millones de fans en todo el planeta.",
+    statGlobal:"Comunidad Global", statVIP:"Acceso VIP", statMusic:"Contenido Exclusivo",
+    joinBtn:"Únete a la Comunidad", exploreBtn:"Explorar", logoutBtn:"Cerrar Sesión",
+    aboutTag:"SOBRE NOSOTROS", aboutTitle:"Sobre la Comunidad",
+    aboutText:"Comunidad Global de Fans de Conejo Malo es una comunidad global creada para celebrar la música, cultura e impacto mundial de Bad Bunny.",
+    aboutF1:"Música Exclusiva",    aboutF1D:"Accede a contenido exclusivo, previews y listas de reproducción.",
+    aboutF2:"Red Global",          aboutF2D:"Conecta con fans de USA, España, México, Brasil, Japón y más.",
+    aboutF3:"Rankings de Fans",    aboutF3D:"Gana insignias y asciende de Nuevo Fan a Fan Leyenda.",
+    aboutF4:"Acceso a Eventos",    aboutF4D:"Acceso anticipado a conciertos y listening parties.",
+    disclaimer:"⚠️ Esta es una comunidad de fans independiente. No está afiliada oficialmente con Bad Bunny.",
+    memberTag:"MEMBRESÍA", memberTitle:"Plataforma de Membresía de Fans",
+    memberSubtitle:"DONDE LOS FANS SE CONECTAN, COMPARTEN Y HABLAN COMO UNO",
+    memberDesc:"Solo accesible tras iniciar sesión. Este es el corazón de nuestra comunidad global.",
+    tierFree:"Gratis", allMembersGet:"Todos los Miembros Obtienen",
+    rankTitle:"Sistema de Ranking de Fans",
+    rankDesc:"Gana tu rango a través de la participación en la comunidad.",
+    mapTitle:"Mapa Global de Fans", mapDesc:"Nuestra comunidad abarca todos los continentes. Fans unidos por la música.",
+    eventsTitle:"Eventos de Fans", eventsDesc:"Mantente conectado con listening parties, competencias y discusiones.",
+    event1:"Listening Parties",        event1D:"Sesiones de escucha de álbumes en vivo con la comunidad.",
+    event2:"Competencias de Fans",     event2D:"Concursos de arte, desafíos de letras y encuestas.",
+    event3:"Discusiones de Conciertos",event3D:"Hilos de reacción en vivo durante los conciertos.",
+    supportTitle:"Apoya la Comunidad",
+    supportDesc:"Ayuda a mantener esta comunidad de fans viva y creciendo.",
+    cryptoMsg:"Contactar para dirección",
+    emailSupport:"📧 Envíanos un email para instrucciones de pago.",
+    contactTitle:"Contáctanos",
+    contactDesc:"¿Tienes preguntas o quieres colaborar? Escríbenos.",
+    socialIG:"📸 Instagram", socialTT:"🎵 TikTok", socialFB:"👤 Facebook", socialX:"✖️ X (Twitter)",
+    modalTitle:"Acceso / Registro de Miembros",
+    modalSub:"Únete a la comunidad global de fans de Bad Bunny",
+    emailLabel:"Correo Electrónico", passLabel:"Contraseña",
+    registerBtn:"Registrarse", loginModalBtn:"Iniciar Sesión",
+    modalTerms:"Al unirte aceptas nuestras pautas de la comunidad.",
+  },
 
-}
+  fr: {
+    navHome:"ACCUEIL", navCommunity:"COMMUNAUTÉ", navMembership:"ADHÉSION",
+    navEvents:"ÉVÉNEMENTS", navSupport:"SOUTIEN", navContact:"CONTACT", loginBtn:"CONNEXION",
+    heroBadge:"🌍 COMMUNAUTÉ MONDIALE DE FANS",
+    title:"Comunidad Global de Fans de Conejo Malo",
+    subtitle:"Communauté Mondiale des Fans de Bad Bunny",
+    heroDesc:"Célébrant la musique, la culture et l'impact mondial de Bad Bunny. Rejoignez des millions de fans.",
+    statGlobal:"Communauté Mondiale", statVIP:"Accès VIP", statMusic:"Contenu Exclusif",
+    joinBtn:"Rejoindre la Communauté", exploreBtn:"Explorer", logoutBtn:"Déconnexion",
+    aboutTag:"À PROPOS", aboutTitle:"À Propos de la Communauté",
+    aboutText:"Une communauté mondiale créée pour célébrer la musique, la culture et l'impact de Bad Bunny.",
+    aboutF1:"Musique Exclusive",   aboutF1D:"Accédez au contenu exclusif et aux playlists.",
+    aboutF2:"Réseau Mondial",      aboutF2D:"Connectez-vous avec des fans du monde entier.",
+    aboutF3:"Classement des Fans", aboutF3D:"Gagnez des badges et progressez dans les rangs.",
+    aboutF4:"Accès aux Événements",aboutF4D:"Accès anticipé aux concerts et soirées d'écoute.",
+    disclaimer:"⚠️ Ceci est une communauté de fans indépendante. Non affiliée officiellement à Bad Bunny.",
+    memberTag:"ADHÉSION", memberTitle:"Plateforme d'Adhésion des Fans",
+    memberSubtitle:"OÙ LES FANS SE CONNECTENT, PARTAGENT ET PARLENT D'UNE SEULE VOIX",
+    memberDesc:"Accessible uniquement après connexion. C'est le cœur de notre communauté mondiale.",
+    tierFree:"Gratuit", allMembersGet:"Tous les Membres Reçoivent",
+    rankTitle:"Système de Classement des Fans",
+    rankDesc:"Gagnez votre rang grâce à la participation communautaire.",
+    mapTitle:"Carte Mondiale des Fans", mapDesc:"Notre communauté s'étend sur tous les continents.",
+    eventsTitle:"Événements des Fans", eventsDesc:"Restez connectés avec des soirées d'écoute et des discussions.",
+    event1:"Soirées d'Écoute",       event1D:"Sessions d'écoute d'albums en direct avec la communauté.",
+    event2:"Compétitions de Fans",   event2D:"Concours d'art, défis de paroles et sondages.",
+    event3:"Discussions de Concerts",event3D:"Fils de réaction en direct lors des concerts.",
+    supportTitle:"Soutenir la Communauté",
+    supportDesc:"Aidez à maintenir cette communauté vivante et en croissance.",
+    cryptoMsg:"Contacter pour l'adresse",
+    emailSupport:"📧 Envoyez-nous un email pour les instructions de paiement.",
+    contactTitle:"Nous Contacter",
+    contactDesc:"Des questions ou envie de collaborer ? Écrivez-nous.",
+    socialIG:"📸 Instagram", socialTT:"🎵 TikTok", socialFB:"👤 Facebook", socialX:"✖️ X (Twitter)",
+    modalTitle:"Connexion / Inscription des Membres",
+    modalSub:"Rejoignez la communauté mondiale de fans de Bad Bunny",
+    emailLabel:"Email", passLabel:"Mot de passe",
+    registerBtn:"S'inscrire", loginModalBtn:"Se connecter",
+    modalTerms:"En rejoignant, vous acceptez nos règles communautaires.",
+  },
 
-window.setLanguage=function(lang){
+  pt: {
+    navHome:"INÍCIO", navCommunity:"COMUNIDADE", navMembership:"ASSOCIAÇÃO",
+    navEvents:"EVENTOS", navSupport:"APOIO", navContact:"CONTATO", loginBtn:"ENTRAR",
+    heroBadge:"🌍 COMUNIDADE GLOBAL DE FÃS",
+    title:"Comunidad Global de Fans de Conejo Malo",
+    subtitle:"Comunidade Global de Fãs de Bad Bunny",
+    heroDesc:"Celebrando a música, cultura e impacto mundial de Bad Bunny. Junte-se a milhões de fãs.",
+    statGlobal:"Comunidade Global", statVIP:"Acesso VIP", statMusic:"Conteúdo Exclusivo",
+    joinBtn:"Junte-se à Comunidade", exploreBtn:"Explorar", logoutBtn:"Sair",
+    aboutTag:"SOBRE NÓS", aboutTitle:"Sobre a Comunidade",
+    aboutText:"Uma comunidade global criada para celebrar a música, a cultura e o impacto mundial de Bad Bunny.",
+    aboutF1:"Música Exclusiva",  aboutF1D:"Acesse conteúdo exclusivo e playlists curadas.",
+    aboutF2:"Rede Global",       aboutF2D:"Conecte-se com fãs de todo o mundo.",
+    aboutF3:"Ranking de Fãs",    aboutF3D:"Ganhe emblemas e suba no ranking.",
+    aboutF4:"Acesso a Eventos",  aboutF4D:"Acesso antecipado a shows e sessões de escuta.",
+    disclaimer:"⚠️ Esta é uma comunidade de fãs independente. Não afiliada oficialmente a Bad Bunny.",
+    memberTag:"ASSOCIAÇÃO", memberTitle:"Plataforma de Associação de Fãs",
+    memberSubtitle:"ONDE OS FÃS SE CONECTAM, COMPARTILHAM E FALAM COMO UM",
+    memberDesc:"Acessível apenas após o login. Este é o coração da nossa comunidade global.",
+    tierFree:"Grátis", allMembersGet:"Todos os Membros Recebem",
+    rankTitle:"Sistema de Ranking de Fãs",
+    rankDesc:"Ganhe seu ranking através da participação na comunidade.",
+    mapTitle:"Mapa Global de Fãs", mapDesc:"Nossa comunidade abrange todos os continentes.",
+    eventsTitle:"Eventos de Fãs", eventsDesc:"Mantenha-se conectado com sessões de escuta e discussões.",
+    event1:"Sessões de Escuta",   event1D:"Sessões ao vivo de escuta de álbuns com a comunidade.",
+    event2:"Competições de Fãs",  event2D:"Concursos de arte, desafios de letras e enquetes.",
+    event3:"Discussões de Shows", event3D:"Threads de reação ao vivo durante os shows.",
+    supportTitle:"Apoie a Comunidade",
+    supportDesc:"Ajude a manter esta comunidade viva e crescendo.",
+    cryptoMsg:"Entre em contato para o endereço",
+    emailSupport:"📧 Envie-nos um email para instruções de pagamento.",
+    contactTitle:"Entre em Contato",
+    contactDesc:"Tem perguntas ou quer colaborar? Fale com a equipe.",
+    socialIG:"📸 Instagram", socialTT:"🎵 TikTok", socialFB:"👤 Facebook", socialX:"✖️ X (Twitter)",
+    modalTitle:"Login / Registro de Membros",
+    modalSub:"Junte-se à comunidade global de fãs de Bad Bunny",
+    emailLabel:"Email", passLabel:"Senha",
+    registerBtn:"Registrar", loginModalBtn:"Entrar",
+    modalTerms:"Ao entrar, você concorda com nossas diretrizes da comunidade.",
+  }
 
-document.querySelectorAll("[data-lang]").forEach(el=>{
+};
 
-const key=el.getAttribute("data-lang")
+window.setLanguage = function (lang) {
+  const t = translations[lang] || translations["en"];
+  document.querySelectorAll("[data-lang]").forEach(el => {
+    const key = el.getAttribute("data-lang");
+    if (t[key] !== undefined) el.innerText = t[key];
+  });
+  localStorage.setItem("preferredLang", lang);
+  document.documentElement.lang = lang;
+};
 
-if(translations[lang] && translations[lang][key]){
-el.innerText=translations[lang][key]
-}
-
-})
-
-}
-
-const userLang=navigator.language.startsWith("es")?"es":"en"
-
-setLanguage(userLang)
+(function () {
+  const saved    = localStorage.getItem("preferredLang");
+  const browser  = navigator.language?.slice(0,2)?.toLowerCase();
+  const supported = Object.keys(translations);
+  const lang     = saved || (supported.includes(browser) ? browser : "en");
+  setLanguage(lang);
+})();
