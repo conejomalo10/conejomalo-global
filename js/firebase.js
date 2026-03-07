@@ -6,19 +6,19 @@ import { getAuth } from
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
+  apiKey: 
 
-  authDomain: "conejomalo-global.firebaseapp.com",
+  authDomain:
 
-  projectId: "conejomalo-global",
+  projectId: 
 
-  storageBucket: "conejomalo-global.firebasestorage.app",
+  storageBucket: 
 
-messagingSenderId: "886224291739",
+messagingSenderId: 
 
-  appId: "1:886224291739:web:f54c336ac7ea4e3512c33e",
+  appId: 
 
-  measurementId: "G-F07TTHFS7K"
+  measurementId: 
 
 };
 
