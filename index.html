@@ -4,29 +4,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Comunidad Global de Fans de Conejo Malo — Bad Bunny Global Fan Community." />
+  <meta name="description" content="Comunidad Global de Fans de Conejo Malo — Bad Bunny Global Fan Community" />
   <title>Comunidad Global de Fans de Conejo Malo</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
 </head>
 
 <body>
 
+  <!-- BACKGROUND ORBS -->
   <div class="bg-orbs">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
   </div>
 
+  <!-- LANGUAGE SWITCH -->
   <div class="langSwitch">
     <button onclick="setLanguage('en')">🇺🇸 EN</button>
     <button onclick="setLanguage('es')">🇵🇷 ES</button>
     <button onclick="setLanguage('fr')">🇫🇷 FR</button>
     <button onclick="setLanguage('pt')">🇧🇷 PT</button>
+    <button onclick="setLanguage('de')">🇩🇪 DE</button>
+    <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+    <button onclick="setLanguage('ja')">🇯🇵 JA</button>
+    <button onclick="setLanguage('zh')">🇨🇳 ZH</button>
+    <button onclick="setLanguage('ar')">🇸🇦 AR</button>
+    <button onclick="setLanguage('hi')">🇮🇳 HI</button>
+    <button onclick="setLanguage('ko')">🇰🇷 KO</button>
+    <button onclick="setLanguage('it')">🇮🇹 IT</button>
   </div>
 
+  <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="nav-logo">🐰 CONEJO MALO</div>
+    <div class="nav-logo">
+      <span class="rabbit-emblem">🐰</span> CONEJO MALO
+    </div>
     <ul class="nav-links">
       <li><a href="#home"       data-lang="navHome">HOME</a></li>
       <li><a href="#community"  data-lang="navCommunity">COMMUNITY</a></li>
@@ -39,16 +52,28 @@
     <button class="hamburger" onclick="toggleMenu()">☰</button>
   </nav>
 
+  <!-- HERO -->
   <section class="hero" id="home">
+    <div class="hero-images-bg">
+      <img src="IMG_20260308_203731_142.png" class="hero-bg-img img-1" alt="Bad Bunny" />
+      <img src="IMG_20260308_235314_797.png" class="hero-bg-img img-2" alt="Bad Bunny" />
+      <img src="IMG_20260308_235417_729.png" class="hero-bg-img img-3" alt="Bad Bunny" />
+      <img src="IMG_20260308_235445_471.png" class="hero-bg-img img-4" alt="Bad Bunny" />
+      <img src="IMG_20260308_235513_094.png" class="hero-bg-img img-5" alt="Bad Bunny" />
+      <div class="hero-overlay"></div>
+    </div>
     <div class="glass hero-glass">
       <div class="hero-badge" data-lang="heroBadge">🌍 GLOBAL FAN COMMUNITY</div>
-      <h1 data-lang="title">Comunidad Global de Fans de Conejo Malo</h1>
+      <h1 class="hero-title" data-lang="title">Comunidad Global de Fans de Conejo Malo</h1>
       <h2 data-lang="subtitle">Bad Bunny Global Fan Community</h2>
-      <p  data-lang="heroDesc">Celebrating music, culture, and the worldwide impact of Bad Bunny. Join millions of fans across the globe.</p>
+      <p data-lang="heroDesc">Celebrating music, culture, and the worldwide impact of Bad Bunny. Join millions of fans across the globe.</p>
       <div class="hero-stats">
-        <div class="stat"><span>🌎</span><span data-lang="statGlobal">Global Community</span></div>
+        <div class="stat"><span>🌍</span><span data-lang="statGlobal">Global Community</span></div>
         <div class="stat"><span>👑</span><span data-lang="statVIP">VIP Access</span></div>
         <div class="stat"><span>🎵</span><span data-lang="statMusic">Exclusive Content</span></div>
+      </div>
+      <div class="love-banner">
+        ✊ THE ONLY THING MORE POWERFUL THAN HATE IS LOVE — NO RACISM!
       </div>
       <div class="hero-buttons">
         <button class="button button-primary" onclick="openModal()" data-lang="joinBtn">Join the Community</button>
@@ -59,11 +84,12 @@
     </div>
   </section>
 
+  <!-- COMMUNITY -->
   <section class="section" id="community">
     <div class="glass section-glass">
       <div class="section-tag" data-lang="aboutTag">ABOUT US</div>
       <h2 data-lang="aboutTitle">About the Community</h2>
-      <p data-lang="aboutText">Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny.</p>
+      <p data-lang="aboutText">Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny. We bring together fans from every corner of the planet.</p>
       <div class="about-grid">
         <div class="about-card reveal">
           <span class="about-icon">🎧</span>
@@ -81,7 +107,7 @@
           <p data-lang="aboutF3D">Earn badges and climb the ranks from New Fan to Legend Fan.</p>
         </div>
         <div class="about-card reveal">
-          <span class="about-icon">🎟️</span>
+          <span class="about-icon">🎫</span>
           <h4 data-lang="aboutF4">Events Access</h4>
           <p data-lang="aboutF4D">Early access to concert announcements and listening parties.</p>
         </div>
@@ -89,10 +115,12 @@
     </div>
   </section>
 
+  <!-- DISCLAIMER -->
   <div class="disclaimer-bar">
     <p data-lang="disclaimer">⚠️ This is an independent fan community. Not officially affiliated with Bad Bunny or his management.</p>
   </div>
 
+  <!-- MEMBERSHIP -->
   <section class="vip-section" id="membership">
     <div class="section-tag" data-lang="memberTag">MEMBERSHIP</div>
     <h2 data-lang="memberTitle">Fan Membership Platform</h2>
@@ -156,9 +184,9 @@
       <h3 data-lang="allMembersGet">All Members Get</h3>
       <ul>
         <li>🎧 Exclusive music content</li>
-        <li>🎥 Private community videos</li>
+        <li>🎬 Private community videos</li>
         <li>💬 Fan community discussions</li>
-        <li>🎟️ Event announcements</li>
+        <li>🎫 Event announcements</li>
         <li>🏆 Fan ranking and badges</li>
         <li>🎁 Special giveaways</li>
         <li>🌍 Global fan map access</li>
@@ -167,6 +195,7 @@
     </div>
   </section>
 
+  <!-- FAN RANKS -->
   <section class="section" id="ranking">
     <div class="glass section-glass">
       <div class="section-tag">FAN RANKS</div>
@@ -181,6 +210,7 @@
     </div>
   </section>
 
+  <!-- GLOBAL FAN MAP -->
   <section class="section" id="map">
     <div class="glass section-glass">
       <div class="section-tag">WORLDWIDE</div>
@@ -203,6 +233,7 @@
     </div>
   </section>
 
+  <!-- EVENTS -->
   <section class="section" id="events">
     <div class="glass section-glass">
       <div class="section-tag">EVENTS</div>
@@ -228,6 +259,7 @@
     </div>
   </section>
 
+  <!-- SUPPORT -->
   <section class="section" id="support">
     <div class="glass section-glass">
       <div class="section-tag">SUPPORT</div>
@@ -238,10 +270,11 @@
         <div class="crypto-card reveal"><span>Ξ</span><h4>Ethereum</h4><p data-lang="cryptoMsg">Contact for address</p></div>
         <div class="crypto-card reveal"><span>₮</span><h4>Tether</h4><p data-lang="cryptoMsg">Contact for address</p></div>
       </div>
-      <p class="email-note" data-lang="emailSupport">📧 Email us for payment instructions and support requests.</p>
+      <p class="email-note" data-lang="emailSupport">✉ Email us for payment instructions and support requests.</p>
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section class="section" id="contact">
     <div class="glass section-glass" style="text-align:center;">
       <div class="section-tag">CONTACT</div>
@@ -251,11 +284,12 @@
         <a class="social-btn" href="#" data-lang="socialIG">📸 Instagram</a>
         <a class="social-btn" href="#" data-lang="socialTT">🎵 TikTok</a>
         <a class="social-btn" href="#" data-lang="socialFB">👤 Facebook</a>
-        <a class="social-btn" href="#" data-lang="socialX">✖️ X (Twitter)</a>
+        <a class="social-btn" href="#" data-lang="socialX">✖ X (Twitter)</a>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
       <div class="footer-logo">🐰 CONEJO MALO</div>
@@ -271,6 +305,7 @@
     </div>
   </footer>
 
+  <!-- MODAL -->
   <div class="modal" id="authModal">
     <div class="modalBox">
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -278,12 +313,12 @@
       <h3 data-lang="modalTitle">Member Login / Register</h3>
       <p class="modal-sub" data-lang="modalSub">Join the global Bad Bunny fan community</p>
       <div class="input-group">
-        <label for="email"    data-lang="emailLabel">Email</label>
-        <input id="email"     type="email"    placeholder="your@email.com" autocomplete="email" />
+        <label for="email" data-lang="emailLabel">Email</label>
+        <input id="email" type="email" placeholder="your@email.com" autocomplete="email" />
       </div>
       <div class="input-group">
         <label for="password" data-lang="passLabel">Password</label>
-        <input id="password"  type="password" placeholder="••••••••" autocomplete="current-password" />
+        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
       </div>
       <div class="modal-buttons">
         <button class="button button-primary" onclick="register()" data-lang="registerBtn">Register</button>
