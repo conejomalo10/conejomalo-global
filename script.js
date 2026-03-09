@@ -23,13 +23,15 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// HERO IMAGE SLIDESHOW
+// HERO IMAGE SLIDESHOW — fixed for Android
 const heroImgs = document.querySelectorAll('.hero-bg-img');
 let currentImg = 0;
 if (heroImgs.length > 0) {
+  // Show first image immediately
+  heroImgs[0].style.opacity = '0.60';
   setInterval(() => {
     heroImgs[currentImg].style.opacity = '0';
     currentImg = (currentImg + 1) % heroImgs.length;
     heroImgs[currentImg].style.opacity = '0.60';
-  }, 3500);
+  }, 4000);
 }
