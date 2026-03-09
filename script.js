@@ -22,21 +22,18 @@ document.addEventListener('keydown', e => {
 // ---- SCROLL REVEAL ----
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
+    if (entry.isIntersecting) entry.target.classList.add('visible');
   });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ---- HERO IMAGES SLIDESHOW ----
+// ---- HERO IMAGE SLIDESHOW ----
 const heroImgs = document.querySelectorAll('.hero-bg-img');
 let currentImg = 0;
 if (heroImgs.length > 0) {
-  heroImgs[0].style.opacity = '0.55';
   setInterval(() => {
-    heroImgs[currentImg].style.opacity = '0.15';
+    heroImgs[currentImg].style.opacity = '0';
     currentImg = (currentImg + 1) % heroImgs.length;
-    heroImgs[currentImg].style.opacity = '0.55';
-  }, 3000);
+    heroImgs[currentImg].style.opacity = '0.60';
+  }, 3500);
 }
