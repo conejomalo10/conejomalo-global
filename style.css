@@ -271,6 +271,41 @@ body {
 /* Hide old unused elements */
 .spotlight, .eq-bars, .crowd-silhouette { display:none; }
 
+/* ---- BAD BUNNY CHILEAN FLAG PHOTO ---- */
+.bb-photo-wrap {
+  position:absolute;
+  right: clamp(10px, 4vw, 48px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  animation: bbFloat 4s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 18px rgba(255, 215, 0, 0.90))
+    drop-shadow(0 0 40px rgba(255, 0, 102, 0.60));
+}
+.bb-photo {
+  width:  clamp(100px, 14vw, 175px);
+  height: clamp(100px, 14vw, 175px);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 3px solid rgba(255, 215, 0, 0.90);
+  box-shadow:
+    0 0 0 5px rgba(255, 0, 102, 0.35),
+    0 0 0 8px rgba(255, 215, 0, 0.20),
+    0 12px 40px rgba(0, 0, 0, 0.60);
+  display: block;
+}
+@keyframes bbFloat {
+  0%,100% { transform: translateY(-50%) scale(1)    rotate(-1deg); }
+  50%      { transform: translateY(-58%) scale(1.04) rotate(1deg);  }
+}
+
+/* Hide on very small screens to avoid overlap */
+@media (max-width: 500px) {
+  .bb-photo-wrap { display: none; }
+}
+
 /* ---- HERO GLASS PANEL — ORIGINAL RESTORED ---- */
 .hero-glass {
   padding:clamp(24px,4vw,52px) clamp(18px,4vw,48px);
