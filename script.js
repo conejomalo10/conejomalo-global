@@ -27,7 +27,6 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 const heroImgs = document.querySelectorAll('.hero-bg-img');
 let currentImg = 0;
 if (heroImgs.length > 0) {
-  // Show first image immediately
   heroImgs[0].style.opacity = '0.60';
   setInterval(() => {
     heroImgs[currentImg].style.opacity = '0';
