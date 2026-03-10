@@ -271,22 +271,18 @@ body {
 /* Hide old unused elements */
 .spotlight, .eq-bars, .crowd-silhouette { display:none; }
 
-/* ---- HERO GLASS PANEL — TRUE GLASSMORPHISM ---- */
-/* Against bright pearl background = glass is NOW fully visible */
+/* ---- HERO GLASS PANEL — ORIGINAL RESTORED ---- */
 .hero-glass {
   padding:clamp(24px,4vw,52px) clamp(18px,4vw,48px);
   max-width:700px; width:88%; margin:auto;
   position:relative; z-index:2;
-  background: rgba(15, 5, 45, 0.55);
+  background: rgba(10, 4, 30, 0.92);
   border-radius:var(--r-lg);
-  border-top:   1px solid rgba(255,255,255,0.60);
-  border-left:  1px solid rgba(255,255,255,0.50);
-  border-right: 1px solid rgba(255,255,255,0.20);
-  border-bottom:1px solid rgba(255,255,255,0.20);
+  border:1px solid rgba(255,255,255,0.18);
   box-shadow:
-    0 8px 32px rgba(0,0,0,0.35),
-    inset 0 2px 0 rgba(255,255,255,0.55),
-    0 0 80px rgba(100,0,180,0.20);
+    0 8px 40px rgba(0,0,0,0.70),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 0 60px rgba(255,0,102,0.15);
 }
 
 /* ---- HERO BADGE ---- */
