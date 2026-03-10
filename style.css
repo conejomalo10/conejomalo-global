@@ -161,166 +161,132 @@ body {
 }
 
 /* ============================================
-   PURE CSS MUSIC STAGE BACKGROUND
+   MUSIC CANVAS BACKGROUND — BRIGHT PEARL/MIRROR
+   Maximum contrast for visible glassmorphism
    ============================================ */
 .music-stage-bg {
   position:absolute; inset:0; z-index:0;
-  background: radial-gradient(ellipse at 50% 100%,
-    rgba(255,0,102,0.25) 0%,
-    rgba(60,0,120,0.40) 35%,
-    rgba(10,5,30,0.95) 70%,
-    #0a0518 100%
-  );
   overflow:hidden;
+  /* Bright pearlescent mirror base — white/silver/champagne */
+  background:
+    radial-gradient(ellipse at 20% 30%,  rgba(255,230,180,0.90) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%,  rgba(200,220,255,0.85) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%,  rgba(255,180,220,0.80) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 80%,  rgba(180,240,220,0.75) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 70%,  rgba(255,215,100,0.80) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%,  rgba(255,248,235,1.00) 0%, rgba(240,235,255,1.00) 100%);
+  animation:pearlShift 8s ease-in-out infinite;
+}
+@keyframes pearlShift {
+  0%,100% {
+    background:
+      radial-gradient(ellipse at 20% 30%,  rgba(255,230,180,0.90) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 20%,  rgba(200,220,255,0.85) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%,  rgba(255,180,220,0.80) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 80%,  rgba(180,240,220,0.75) 0%, transparent 45%),
+      radial-gradient(ellipse at 90% 70%,  rgba(255,215,100,0.80) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%,  rgba(255,248,235,1.00) 0%, rgba(240,235,255,1.00) 100%);
+  }
+  50% {
+    background:
+      radial-gradient(ellipse at 70% 20%,  rgba(255,200,240,0.90) 0%, transparent 55%),
+      radial-gradient(ellipse at 30% 70%,  rgba(180,230,255,0.85) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 60%,  rgba(255,240,180,0.80) 0%, transparent 55%),
+      radial-gradient(ellipse at 20% 40%,  rgba(220,180,255,0.75) 0%, transparent 45%),
+      radial-gradient(ellipse at 60% 85%,  rgba(255,220,150,0.80) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%,  rgba(248,240,255,1.00) 0%, rgba(255,250,235,1.00) 100%);
+  }
 }
 
-/* Spotlight beams */
-.spotlight {
-  position:absolute;
-  bottom:0;
-  width:180px; height:85vh;
-  border-radius:50% 50% 0 0 / 100% 100% 0 0;
-  opacity:0.12;
-  transform-origin:bottom center;
-}
-.spot-1 {
-  left:15%;
-  background:linear-gradient(to top, rgba(255,100,200,0.8), transparent);
-  animation:swingSpot1 8s ease-in-out infinite;
-}
-.spot-2 {
-  left:50%; transform:translateX(-50%);
-  background:linear-gradient(to top, rgba(255,215,0,0.8), transparent);
-  animation:swingSpot2 6s ease-in-out infinite;
-  opacity:0.15;
-}
-.spot-3 {
-  right:15%;
-  background:linear-gradient(to top, rgba(100,150,255,0.8), transparent);
-  animation:swingSpot3 10s ease-in-out infinite;
-}
-@keyframes swingSpot1 {
-  0%,100% { transform:rotate(-12deg); }
-  50%      { transform:rotate(8deg); }
-}
-@keyframes swingSpot2 {
-  0%,100% { transform:translateX(-50%) rotate(5deg); }
-  50%      { transform:translateX(-50%) rotate(-5deg); }
-}
-@keyframes swingSpot3 {
-  0%,100% { transform:rotate(10deg); }
-  50%      { transform:rotate(-15deg); }
-}
-
-/* Equalizer bars at the bottom */
-.eq-bars {
-  position:absolute; bottom:0; left:0; right:0;
-  height:120px;
-  display:flex; align-items:flex-end;
-  justify-content:center; gap:6px;
-  padding:0 20px; opacity:0.35;
-}
-.eq-bar {
-  width:14px;
-  background:linear-gradient(to top, var(--pink), var(--gold));
-  border-radius:4px 4px 0 0;
-  animation:eqBounce 0.6s ease-in-out infinite alternate;
-}
-.eq-bar:nth-child(1)  { height:30%; animation-delay:0.0s; }
-.eq-bar:nth-child(2)  { height:65%; animation-delay:0.1s; }
-.eq-bar:nth-child(3)  { height:45%; animation-delay:0.2s; }
-.eq-bar:nth-child(4)  { height:80%; animation-delay:0.05s; }
-.eq-bar:nth-child(5)  { height:55%; animation-delay:0.15s; }
-.eq-bar:nth-child(6)  { height:90%; animation-delay:0.25s; }
-.eq-bar:nth-child(7)  { height:40%; animation-delay:0.3s; }
-.eq-bar:nth-child(8)  { height:75%; animation-delay:0.08s; }
-.eq-bar:nth-child(9)  { height:60%; animation-delay:0.18s; }
-.eq-bar:nth-child(10) { height:85%; animation-delay:0.35s; }
-.eq-bar:nth-child(11) { height:50%; animation-delay:0.12s; }
-.eq-bar:nth-child(12) { height:70%; animation-delay:0.22s; }
-.eq-bar:nth-child(13) { height:35%; animation-delay:0.28s; }
-.eq-bar:nth-child(14) { height:95%; animation-delay:0.04s; }
-.eq-bar:nth-child(15) { height:58%; animation-delay:0.16s; }
-.eq-bar:nth-child(16) { height:42%; animation-delay:0.32s; }
-.eq-bar:nth-child(17) { height:72%; animation-delay:0.09s; }
-.eq-bar:nth-child(18) { height:48%; animation-delay:0.20s; }
-@keyframes eqBounce {
-  0%   { transform:scaleY(0.3); }
-  100% { transform:scaleY(1); }
-}
-
-/* Floating music notes */
+/* ---- LARGE STATIC GOLD MUSIC SYMBOLS (always visible) ---- */
 .music-note {
   position:absolute;
-  font-size:28px; opacity:0;
-  animation:floatNote 6s ease-in-out infinite;
-  color:rgba(255,215,0,0.7);
   pointer-events:none;
-  text-shadow:0 0 15px rgba(255,0,102,0.8);
+  line-height:1;
+  font-style:normal;
+  -webkit-font-smoothing:antialiased;
 }
-.n1 { left:8%;  bottom:20%; animation-delay:0s;   animation-duration:7s; }
-.n2 { left:18%; bottom:30%; animation-delay:1.5s; animation-duration:6s; }
-.n3 { left:75%; bottom:25%; animation-delay:0.8s; animation-duration:8s; }
-.n4 { left:85%; bottom:15%; animation-delay:2.5s; animation-duration:5s; }
-.n5 { left:45%; bottom:10%; animation-delay:3.2s; animation-duration:7s; }
-.n6 { left:60%; bottom:20%; animation-delay:1.0s; animation-duration:9s; }
+
+/* Big static symbols scattered across background — deeply visible */
+.n1  { font-size:88px;  top:5%;  left:3%;   opacity:0.82; color:#c8860a; animation:symbolSpin 14s linear infinite; text-shadow:0 0 20px rgba(255,160,0,0.5); }
+.n2  { font-size:72px;  top:8%;  left:82%;  opacity:0.78; color:#b8700a; animation:symbolBob  10s ease-in-out infinite; text-shadow:0 0 20px rgba(255,140,0,0.5); }
+.n3  { font-size:110px; top:30%; left:1%;   opacity:0.70; color:#d4920c; animation:symbolSpin 18s linear infinite reverse; text-shadow:0 0 25px rgba(255,180,0,0.4); }
+.n4  { font-size:80px;  top:55%; left:88%;  opacity:0.75; color:#c07a08; animation:symbolBob  12s ease-in-out infinite 2s; text-shadow:0 0 20px rgba(255,150,0,0.5); }
+.n5  { font-size:96px;  top:70%; left:5%;   opacity:0.72; color:#b86a06; animation:symbolSpin 16s linear infinite; text-shadow:0 0 22px rgba(255,130,0,0.4); }
+.n6  { font-size:64px;  top:80%; left:75%;  opacity:0.80; color:#cc8a10; animation:symbolBob   8s ease-in-out infinite 1s; text-shadow:0 0 18px rgba(255,170,0,0.5); }
+
+/* Floating animated notes — rise from bottom */
+.n7  { font-size:52px;  bottom:8%;  left:12%;  opacity:0; color:#d4920c; animation:floatNote 7s ease-in-out infinite 0s; text-shadow:0 4px 16px rgba(200,120,0,0.6); }
+.n8  { font-size:44px;  bottom:12%; left:35%;  opacity:0; color:#b8780a; animation:floatNote 6s ease-in-out infinite 1.8s; text-shadow:0 4px 16px rgba(180,100,0,0.6); }
+.n9  { font-size:60px;  bottom:6%;  left:58%;  opacity:0; color:#cc900e; animation:floatNote 8s ease-in-out infinite 0.9s; text-shadow:0 4px 16px rgba(210,130,0,0.6); }
+.n10 { font-size:48px;  bottom:15%; left:78%;  opacity:0; color:#d49a12; animation:floatNote 5s ease-in-out infinite 3.0s; text-shadow:0 4px 16px rgba(200,140,0,0.6); }
+.n11 { font-size:56px;  bottom:10%; left:22%;  opacity:0; color:#b86e08; animation:floatNote 9s ease-in-out infinite 2.2s; text-shadow:0 4px 16px rgba(180,110,0,0.6); }
+.n12 { font-size:40px;  bottom:18%; left:92%;  opacity:0; color:#c8840c; animation:floatNote 6s ease-in-out infinite 4.1s; text-shadow:0 4px 16px rgba(200,120,0,0.6); }
+
+/* Sparkle stars between symbols */
+.n13 { font-size:36px; top:18%; left:48%; opacity:0; color:#e8b800; animation:sparkle 3s ease-in-out infinite 0.5s; }
+.n14 { font-size:28px; top:42%; left:25%; opacity:0; color:#f0c400; animation:sparkle 4s ease-in-out infinite 1.2s; }
+.n15 { font-size:32px; top:62%; left:62%; opacity:0; color:#e4b000; animation:sparkle 3.5s ease-in-out infinite 2.8s; }
+
+@keyframes symbolSpin {
+  0%   { transform:rotate(0deg)   scale(1);    }
+  50%  { transform:rotate(180deg) scale(1.06); }
+  100% { transform:rotate(360deg) scale(1);    }
+}
+@keyframes symbolBob {
+  0%,100% { transform:translateY(0)    rotate(-5deg)  scale(1);    }
+  50%      { transform:translateY(-18px) rotate(5deg)  scale(1.08); }
+}
 @keyframes floatNote {
-  0%   { opacity:0; transform:translateY(0) rotate(-10deg) scale(0.8); }
-  20%  { opacity:0.8; }
-  80%  { opacity:0.5; }
-  100% { opacity:0; transform:translateY(-200px) rotate(20deg) scale(1.2); }
+  0%   { opacity:0;    transform:translateY(0)     rotate(-8deg)  scale(0.85); }
+  15%  { opacity:0.90; }
+  75%  { opacity:0.65; }
+  100% { opacity:0;    transform:translateY(-280px) rotate(15deg) scale(1.15); }
+}
+@keyframes sparkle {
+  0%,100% { opacity:0;    transform:scale(0.6) rotate(0deg);   }
+  50%      { opacity:0.95; transform:scale(1.3) rotate(180deg); }
 }
 
-/* Crowd silhouette */
-.crowd-silhouette {
-  position:absolute; bottom:0; left:0; right:0;
-  height:90px;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0px,
-    transparent 8px,
-    rgba(255,255,255,0.06) 8px,
-    rgba(255,255,255,0.06) 12px,
-    transparent 12px,
-    transparent 18px,
-    rgba(255,255,255,0.04) 18px,
-    rgba(255,255,255,0.04) 24px
-  );
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 90'%3E%3Cellipse cx='50' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='90' cy='90' rx='16' ry='32'/%3E%3Cellipse cx='130' cy='90' rx='20' ry='25'/%3E%3Cellipse cx='170' cy='90' rx='15' ry='35'/%3E%3Cellipse cx='210' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='250' cy='90' rx='22' ry='30'/%3E%3Cellipse cx='290' cy='90' rx='16' ry='26'/%3E%3Cellipse cx='330' cy='90' rx='20' ry='33'/%3E%3Cellipse cx='370' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='410' cy='90' rx='15' ry='31'/%3E%3Cellipse cx='450' cy='90' rx='22' ry='27'/%3E%3Cellipse cx='490' cy='90' rx='17' ry='34'/%3E%3Cellipse cx='530' cy='90' rx='19' ry='29'/%3E%3Cellipse cx='570' cy='90' rx='21' ry='26'/%3E%3Cellipse cx='610' cy='90' rx='16' ry='32'/%3E%3Cellipse cx='650' cy='90' rx='20' ry='28'/%3E%3Cellipse cx='690' cy='90' rx='18' ry='30'/%3E%3Cellipse cx='730' cy='90' rx='15' ry='35'/%3E%3Cellipse cx='770' cy='90' rx='22' ry='27'/%3E%3Cellipse cx='810' cy='90' rx='17' ry='31'/%3E%3Cellipse cx='850' cy='90' rx='20' ry='28'/%3E%3Cellipse cx='890' cy='90' rx='16' ry='33'/%3E%3Cellipse cx='930' cy='90' rx='19' ry='26'/%3E%3Cellipse cx='970' cy='90' rx='21' ry='30'/%3E%3Cellipse cx='1010' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='1050' cy='90' rx='15' ry='32'/%3E%3Cellipse cx='1090' cy='90' rx='20' ry='29'/%3E%3Cellipse cx='1130' cy='90' rx='22' ry='27'/%3E%3Cellipse cx='1170' cy='90' rx='16' ry='34'/%3E%3C/svg%3E");
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 90'%3E%3Cellipse cx='50' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='90' cy='90' rx='16' ry='32'/%3E%3Cellipse cx='130' cy='90' rx='20' ry='25'/%3E%3Cellipse cx='170' cy='90' rx='15' ry='35'/%3E%3Cellipse cx='210' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='250' cy='90' rx='22' ry='30'/%3E%3Cellipse cx='290' cy='90' rx='16' ry='26'/%3E%3Cellipse cx='330' cy='90' rx='20' ry='33'/%3E%3Cellipse cx='370' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='410' cy='90' rx='15' ry='31'/%3E%3Cellipse cx='450' cy='90' rx='22' ry='27'/%3E%3Cellipse cx='490' cy='90' rx='17' ry='34'/%3E%3Cellipse cx='530' cy='90' rx='19' ry='29'/%3E%3Cellipse cx='570' cy='90' rx='21' ry='26'/%3E%3Cellipse cx='610' cy='90' rx='16' ry='32'/%3E%3Cellipse cx='650' cy='90' rx='20' ry='28'/%3E%3Cellipse cx='690' cy='90' rx='18' ry='30'/%3E%3Cellipse cx='730' cy='90' rx='15' ry='35'/%3E%3Cellipse cx='770' cy='90' rx='22' ry='27'/%3E%3Cellipse cx='810' cy='90' rx='17' ry='31'/%3E%3Cellipse cx='850' cy='90' rx='20' ry='28'/%3E%3Cellipse cx='890' cy='90' rx='16' ry='33'/%3E%3Cellipse cx='930' cy='90' rx='19' ry='26'/%3E%3Cellipse cx='970' cy='90' rx='21' ry='30'/%3E%3Cellipse cx='1010' cy='90' rx='18' ry='28'/%3E%3Cellipse cx='1050' cy='90' rx='15' ry='32'/%3E%3Cellipse cx='1090' cy='90' rx='20' ry='29'/%3E%3Cellipse cx='1130' cy='90' rx='22' ry='27'/%3E%3Cellipse cx='1170' cy='90' rx='16' ry='34'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
-  -webkit-mask-size: 100% 100%;
-}
-
-/* Stage glow floor */
+/* Shimmer overlay on top of pearl background — mirror effect */
 .stage-floor {
-  position:absolute; bottom:0; left:0; right:0; height:180px;
-  background: radial-gradient(ellipse at 50% 100%,
-    rgba(255,0,102,0.35) 0%,
-    rgba(255,215,0,0.15) 30%,
-    transparent 70%
+  position:absolute; inset:0;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.22) 0%,
+    rgba(255,255,255,0.00) 30%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.00) 70%,
+    rgba(255,255,255,0.20) 100%
   );
-  animation:floorPulse 3s ease-in-out infinite;
+  background-size:300% 300%;
+  animation:mirrorSheen 6s ease-in-out infinite;
+  pointer-events:none;
 }
-@keyframes floorPulse {
-  0%,100% { opacity:0.7; }
-  50%      { opacity:1; }
+@keyframes mirrorSheen {
+  0%,100% { background-position:0% 0%; }
+  50%      { background-position:100% 100%; }
 }
 
-/* ---- HERO GLASS PANEL ---- */
+/* Hide old unused elements */
+.spotlight, .eq-bars, .crowd-silhouette { display:none; }
+
+/* ---- HERO GLASS PANEL — TRUE GLASSMORPHISM ---- */
+/* Against bright pearl background = glass is NOW fully visible */
 .hero-glass {
   padding:clamp(24px,4vw,52px) clamp(18px,4vw,48px);
   max-width:700px; width:88%; margin:auto;
   position:relative; z-index:2;
-  background:rgba(12,6,32,0.78);
-  border:1px solid rgba(255,255,255,0.22);
+  background: rgba(15, 5, 45, 0.55);
   border-radius:var(--r-lg);
+  border-top:   1px solid rgba(255,255,255,0.60);
+  border-left:  1px solid rgba(255,255,255,0.50);
+  border-right: 1px solid rgba(255,255,255,0.20);
+  border-bottom:1px solid rgba(255,255,255,0.20);
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.05),
-    0 0 60px rgba(255,0,102,0.22),
-    0 25px 70px rgba(0,0,0,0.70),
-    inset 0 1px 0 rgba(255,255,255,0.18),
-    inset 0 0 40px rgba(255,0,102,0.04);
+    0 8px 32px rgba(0,0,0,0.35),
+    inset 0 2px 0 rgba(255,255,255,0.55),
+    0 0 80px rgba(100,0,180,0.20);
 }
 
 /* ---- HERO BADGE ---- */
