@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Comunidad Global de Fans de Conejo Malo — Community Dashboard" />
+  <title>Community — Conejo Malo Global</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="community.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0533" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&family=Orbitron:wght@700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- BACKGROUND ORBS -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="rabbit-emblem">🐰</span> CONEJO MALO
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="community.html" class="active">COMMUNITY</a></li>
+      <li><a href="index.html#membership">MEMBERSHIP</a></li>
+      <li><a href="index.html#events">EVENTS</a></li>
+      <li><a href="index.html#support">SUPPORT</a></li>
+      <li><a href="index.html#contact">CONTACT</a></li>
+    </ul>
+    <button class="nav-login-btn" id="navLogoutBtn" onclick="logout()" style="display:none">LOGOUT</button>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <!-- MAIN COMMUNITY WRAPPER -->
+  <main class="community-main">
+
+    <!-- ACCESS DENIED — shown if not logged in -->
+    <div class="access-denied glass" id="accessDenied" style="display:none">
+      <div class="denied-icon">🔒</div>
+      <h2>Members Only</h2>
+      <p>You must be logged in to access the community.</p>
+      <button class="button button-primary" onclick="window.location.href='index.html'">
+        Go Back & Login
+      </button>
+    </div>
+
+    <!-- COMMUNITY DASHBOARD — shown when logged in -->
+    <div id="communityDashboard" style="display:none">
+
+      <!-- WELCOME BANNER -->
+      <div class="welcome-banner glass">
+        <div class="welcome-left">
+          <div class="user-avatar" id="userAvatar">🐰</div>
+          <div class="user-info">
+            <h3 id="welcomeMsg">Welcome back!</h3>
+            <p id="userEmail" class="user-email"></p>
+            <div class="fan-rank-badge" id="fanRankBadge">🌱 New Fan</div>
+          </div>
+        </div>
+        <div class="welcome-right">
+          <div class="stat-pill">🌍 Global Member</div>
+          <div class="stat-pill gold">🎵 Fan Community</div>
+        </div>
+      </div>
+
+      <!-- TWO COLUMN LAYOUT -->
+      <div class="community-grid">
+
+        <!-- LEFT — POST FEED -->
+        <div class="feed-column">
+
+          <!-- CREATE POST BOX -->
+          <div class="create-post glass">
+            <div class="create-post-header">
+              <span class="post-avatar">🐰</span>
+              <span class="post-prompt">Share something with the community...</span>
+            </div>
+            <textarea
+              id="postInput"
+              class="post-textarea"
+              placeholder="🎵 What's on your mind? Share your love for Bad Bunny, fan art links, concert experiences..."
+              maxlength="500"
+            ></textarea>
+            <div class="post-toolbar">
+              <div class="post-type-btns">
+                <button class="type-btn active" data-type="post" onclick="setPostType('post', this)">💬 Post</button>
+                <button class="type-btn" data-type="news" onclick="setPostType('news', this)">📰 News</button>
+                <button class="type-btn" data-type="fanart" onclick="setPostType('fanart', this)">🎨 Fan Art</button>
+                <button class="type-btn" data-type="question" onclick="setPostType('question', this)">❓ Question</button>
+              </div>
+              <div class="post-actions">
+                <span class="char-count" id="charCount">0/500</span>
+                <button class="button button-primary post-btn" onclick="submitPost()">Post 🚀</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- FEED FILTER TABS -->
+          <div class="feed-tabs">
+            <button class="feed-tab active" onclick="filterFeed('all', this)">🌍 All Posts</button>
+            <button class="feed-tab" onclick="filterFeed('news', this)">📰 News</button>
+            <button class="feed-tab" onclick="filterFeed('fanart', this)">🎨 Fan Art</button>
+            <button class="feed-tab" onclick="filterFeed('question', this)">❓ Questions</button>
+          </div>
+
+          <!-- LOADING SPINNER -->
+          <div class="feed-loading" id="feedLoading">
+            <div class="spinner"></div>
+            <p>Loading community posts...</p>
+          </div>
+
+          <!-- POST FEED -->
+          <div class="post-feed" id="postFeed">
+            <!-- Posts injected here by posts.js -->
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div class="empty-feed glass" id="emptyFeed" style="display:none">
+            <div style="font-size:48px">🎵</div>
+            <h3>No posts yet!</h3>
+            <p>Be the first to post something for the community!</p>
+          </div>
+
+        </div>
+
+        <!-- RIGHT — SIDEBAR -->
+        <div class="sidebar-column">
+
+          <!-- COMMUNITY STATS -->
+          <div class="sidebar-card glass">
+            <h4 class="sidebar-title">🌍 Community Stats</h4>
+            <div class="stats-list">
+              <div class="stats-row">
+                <span>Total Members</span>
+                <span class="stats-val" id="totalMembers">—</span>
+              </div>
+              <div class="stats-row">
+                <span>Total Posts</span>
+                <span class="stats-val" id="totalPosts">—</span>
+              </div>
+              <div class="stats-row">
+                <span>Countries</span>
+                <span class="stats-val">12 🌍</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAN RANKS -->
+          <div class="sidebar-card glass">
+            <h4 class="sidebar-title">🏆 Fan Ranks</h4>
+            <div class="rank-list">
+              <div class="rank-row">🌱 <span>New Fan</span> <small>0–4 posts</small></div>
+              <div class="rank-row">⭐ <span>Super Fan</span> <small>5–14 posts</small></div>
+              <div class="rank-row">🔥 <span>Elite Fan</span> <small>15–29 posts</small></div>
+              <div class="rank-row">👑 <span>Legend Fan</span> <small>30+ posts</small></div>
+            </div>
+          </div>
+
+          <!-- COMMUNITY RULES -->
+          <div class="sidebar-card glass">
+            <h4 class="sidebar-title">📋 Community Rules</h4>
+            <ul class="rules-list">
+              <li>✅ Be respectful to all fans</li>
+              <li>✅ Share Bad Bunny love</li>
+              <li>✅ No racism or hate speech</li>
+              <li>✅ No spam or advertising</li>
+              <li>✅ English or Spanish welcome</li>
+              <li>✅ Credit fan art creators</li>
+            </ul>
+          </div>
+
+          <!-- INSTALL APP BUTTON -->
+          <div class="sidebar-card glass install-card" id="installCard" style="display:none">
+            <h4 class="sidebar-title">📱 Install App</h4>
+            <p style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:14px">
+              Install Conejo Malo on your home screen for quick access!
+            </p>
+            <button class="button button-primary" id="installBtn" onclick="installPWA()" style="width:100%">
+              ⬇️ Install App
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="posts.js"></script>
+  <script src="script.js"></script>
+  <script src="pwa.js"></script>
+
+</body>
+</html>
