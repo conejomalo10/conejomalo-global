@@ -1,7 +1,5 @@
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth } from
-  "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+// firebase.js — Comunidad Global de Fans de Conejo Malo
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
@@ -13,5 +11,4 @@ const firebaseConfig = {
   measurementId:     "G-F07TTHFS7K"
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+export const app = initializeApp(firebaseConfig);
