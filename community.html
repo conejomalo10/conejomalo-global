@@ -48,7 +48,7 @@
       <h2>Members Only</h2>
       <p>You must be logged in to access the community.</p>
       <button class="button button-primary" onclick="window.location.href='index.html'">
-        Go Back & Login
+        Go Back &amp; Login
       </button>
     </div>
 
@@ -68,6 +68,8 @@
         <div class="welcome-right">
           <div class="stat-pill">🌍 Global Member</div>
           <div class="stat-pill gold">🎵 Fan Community</div>
+          <!-- Admin badge — shown only to admin via posts.js -->
+          <div class="stat-pill admin-pill" id="adminBadge" style="display:none">👑 ADMIN</div>
         </div>
       </div>
 
@@ -83,12 +85,66 @@
               <span class="post-avatar">🐰</span>
               <span class="post-prompt">Share something with the community...</span>
             </div>
+
             <textarea
               id="postInput"
               class="post-textarea"
               placeholder="🎵 What's on your mind? Share your love for Bad Bunny, fan art links, concert experiences..."
               maxlength="500"
             ></textarea>
+
+            <!-- ── MEDIA UPLOAD TABS ── -->
+            <div class="media-upload-box">
+              <div class="media-tabs">
+                <button class="media-tab active" onclick="switchMediaTab(this,'photo')">📸 Photo</button>
+                <button class="media-tab" onclick="switchMediaTab(this,'video')">🎬 Video</button>
+                <button class="media-tab" onclick="switchMediaTab(this,'audio')">🎵 Audio</button>
+              </div>
+
+              <!-- PHOTO PANEL -->
+              <div class="media-panel active" id="panel-photo">
+                <div class="drop-zone" id="photoDrop"
+                  ondragover="handleDrag(event,true,'photoDrop')"
+                  ondragleave="handleDrag(event,false,'photoDrop')"
+                  ondrop="handleDrop(event,'photo')">
+                  <input type="file" accept="image/*" multiple onchange="handleMediaFiles(this.files,'photo')">
+                  <div class="drop-icon">🖼️</div>
+                  <p>Drop photos here or <strong>browse</strong></p>
+                  <span>JPG · PNG · GIF · WEBP · up to 10MB each</span>
+                </div>
+                <div class="media-previews" id="photoPreviews"></div>
+              </div>
+
+              <!-- VIDEO PANEL -->
+              <div class="media-panel" id="panel-video">
+                <div class="drop-zone" id="videoDrop"
+                  ondragover="handleDrag(event,true,'videoDrop')"
+                  ondragleave="handleDrag(event,false,'videoDrop')"
+                  ondrop="handleDrop(event,'video')">
+                  <input type="file" accept="video/*" multiple onchange="handleMediaFiles(this.files,'video')">
+                  <div class="drop-icon">🎬</div>
+                  <p>Drop videos here or <strong>browse</strong></p>
+                  <span>MP4 · MOV · WEBM · up to 100MB each</span>
+                </div>
+                <div class="media-previews" id="videoPreviews"></div>
+              </div>
+
+              <!-- AUDIO PANEL -->
+              <div class="media-panel" id="panel-audio">
+                <div class="drop-zone" id="audioDrop"
+                  ondragover="handleDrag(event,true,'audioDrop')"
+                  ondragleave="handleDrag(event,false,'audioDrop')"
+                  ondrop="handleDrop(event,'audio')">
+                  <input type="file" accept="audio/*" multiple onchange="handleMediaFiles(this.files,'audio')">
+                  <div class="drop-icon">🎵</div>
+                  <p>Drop audio files here or <strong>browse</strong></p>
+                  <span>MP3 · WAV · OGG · FLAC · up to 50MB each</span>
+                </div>
+                <div id="audioPreviews"></div>
+              </div>
+            </div>
+            <!-- ── END MEDIA UPLOAD TABS ── -->
+
             <div class="post-toolbar">
               <div class="post-type-btns">
                 <button class="type-btn active" data-type="post" onclick="setPostType('post', this)">💬 Post</button>
@@ -192,6 +248,12 @@
       </div>
     </div>
   </main>
+
+  <!-- IMAGE LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightboxImg" src="" alt="Media preview">
+  </div>
 
   <!-- TOAST NOTIFICATION -->
   <div class="toast" id="toast"></div>
