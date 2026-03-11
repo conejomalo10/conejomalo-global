@@ -3,18 +3,19 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import {
   getFirestore, collection, addDoc, deleteDoc,
   doc, query, orderBy, onSnapshot, updateDoc,
-  increment, serverTimestamp, getDoc, arrayUnion, arrayRemove
+  increment, serverTimestamp, arrayUnion, arrayRemove
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import {
-  getStorage, ref as storageRef, uploadBytes, getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 import { app } from "./firebase.js";
 
-const auth    = getAuth(app);
-const db      = getFirestore(app);
-const storage = getStorage(app);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-// ── ADMIN EMAILS — add yours here ──
+// ── CLOUDINARY CONFIG ──
+const CLOUDINARY_CLOUD_NAME    = "dhazrf2xr";
+const CLOUDINARY_UPLOAD_PRESET = "conejomalo_media";
+const CLOUDINARY_UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+
+// ── ADMIN EMAILS ──
 const ADMIN_EMAILS = ["officialdeconejomalo@gmail.com"];
 
 let currentUser     = null;
@@ -135,7 +136,6 @@ function renderMediaPreview(type, idx, url, file) {
     if (!grid) return;
     const div = document.createElement('div');
     div.className = 'preview-item';
-    div.dataset.idx = idx;
     div.innerHTML = `
       <img src="${url}" alt="${escapeHtml(file.name)}">
       <button class="preview-remove" onclick="removeMedia('photo',${idx},this.closest('.preview-item'))">✕</button>`;
@@ -147,7 +147,6 @@ function renderMediaPreview(type, idx, url, file) {
     const div = document.createElement('div');
     div.className = 'preview-item';
     div.style.aspectRatio = '16/9';
-    div.dataset.idx = idx;
     div.innerHTML = `
       <video src="${url}" controls></video>
       <button class="preview-remove" onclick="removeMedia('video',${idx},this.closest('.preview-item'))">✕</button>`;
@@ -158,7 +157,6 @@ function renderMediaPreview(type, idx, url, file) {
     if (!container) return;
     const div = document.createElement('div');
     div.className = 'audio-preview-item';
-    div.dataset.idx = idx;
     div.innerHTML = `
       <div class="audio-preview-icon">🎵</div>
       <div class="audio-preview-info">
@@ -177,12 +175,26 @@ window.removeMedia = function(type, idx, el) {
 };
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  UPLOAD FILE TO FIREBASE STORAGE
+//  UPLOAD TO CLOUDINARY (100% FREE)
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-async function uploadFile(file, path) {
-  const fileRef = storageRef(storage, path);
-  await uploadBytes(fileRef, file);
-  return await getDownloadURL(fileRef);
+async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  formData.append('folder', 'conejomalo_community');
+
+  const response = await fetch(CLOUDINARY_UPLOAD_URL, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.error?.message || 'Upload failed');
+  }
+
+  const data = await response.json();
+  return data.secure_url;
 }
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
@@ -191,9 +203,8 @@ async function uploadFile(file, path) {
 window.submitPost = async function() {
   if (!currentUser) { showToast('⚠️ Please login first!'); return; }
 
-  const input = document.getElementById('postInput');
-  const text  = input?.value?.trim();
-
+  const input  = document.getElementById('postInput');
+  const text   = input?.value?.trim();
   const photos = pendingMedia.photo.filter(Boolean);
   const videos = pendingMedia.video.filter(Boolean);
   const audios = pendingMedia.audio.filter(Boolean);
@@ -206,41 +217,35 @@ window.submitPost = async function() {
 
   const btn = document.querySelector('.post-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Uploading...'; }
+  showToast('⏳ Uploading media, please wait...');
 
   try {
-    const ts = Date.now();
-    const uid = currentUser.uid;
-
-    // Upload all media to Firebase Storage in parallel
+    // Upload all files to Cloudinary in parallel
     const [photoURLs, videoURLs, audioData] = await Promise.all([
-      Promise.all(photos.map((f, i) =>
-        uploadFile(f.file, `posts/${uid}/${ts}/photos/${i}_${f.file.name}`)
-      )),
-      Promise.all(videos.map((f, i) =>
-        uploadFile(f.file, `posts/${uid}/${ts}/videos/${i}_${f.file.name}`)
-      )),
-      Promise.all(audios.map(async (f, i) => {
-        const url = await uploadFile(f.file, `posts/${uid}/${ts}/audio/${i}_${f.file.name}`);
-        return { url, name: f.file.name };
-      }))
+      Promise.all(photos.map(f => uploadToCloudinary(f.file))),
+      Promise.all(videos.map(f => uploadToCloudinary(f.file))),
+      Promise.all(audios.map(async f => ({
+        url:  await uploadToCloudinary(f.file),
+        name: f.file.name
+      })))
     ]);
 
-    // Save post document to Firestore
+    // Save post to Firestore with Cloudinary URLs
     await addDoc(collection(db, 'posts'), {
-      text:         text || '',
-      type:         currentPostType,
-      authorId:     uid,
-      authorEmail:  currentUser.email,
-      authorName:   currentUser.displayName || currentUser.email.split('@')[0],
-      isAdmin:      isAdmin,
-      photos:       photoURLs,
-      videos:       videoURLs,
-      audios:       audioData,
-      likes:        0,
-      likedBy:      [],
-      pinned:       false,
-      comments:     [],
-      createdAt:    serverTimestamp()
+      text:        text || '',
+      type:        currentPostType,
+      authorId:    currentUser.uid,
+      authorEmail: currentUser.email,
+      authorName:  currentUser.displayName || currentUser.email.split('@')[0],
+      isAdmin:     isAdmin,
+      photos:      photoURLs,
+      videos:      videoURLs,
+      audios:      audioData,
+      likes:       0,
+      likedBy:     [],
+      pinned:      false,
+      comments:    [],
+      createdAt:   serverTimestamp()
     });
 
     // Reset form
@@ -250,17 +255,15 @@ window.submitPost = async function() {
     pendingMedia.photo.length = 0;
     pendingMedia.video.length = 0;
     pendingMedia.audio.length = 0;
-    const pp = document.getElementById('photoPreviews');
-    const vp = document.getElementById('videoPreviews');
-    const ap = document.getElementById('audioPreviews');
-    if (pp) pp.innerHTML = '';
-    if (vp) vp.innerHTML = '';
-    if (ap) ap.innerHTML = '';
+    ['photoPreviews','videoPreviews','audioPreviews'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '';
+    });
 
     showToast('🚀 Posted successfully!');
   } catch (err) {
     console.error(err);
-    showToast('❌ Error posting: ' + err.message);
+    showToast('❌ Upload failed: ' + err.message);
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = 'Post 🚀'; }
   }
@@ -298,8 +301,8 @@ function loadPosts() {
     const totalPostsEl = document.getElementById('totalPosts');
     if (totalPostsEl) totalPostsEl.textContent = posts.length;
 
-    // Sort: pinned first, then by time
-    posts.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || 0);
+    // Sort: pinned first then newest
+    posts.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
 
     // Filter by type
     const filtered = currentFilter === 'all'
@@ -338,10 +341,10 @@ function buildPostCard(post) {
   card.className = 'post-card';
   card.id = 'post-' + post.id;
 
-  const isOwner  = currentUser && currentUser.uid === post.authorId;
+  const isOwner   = currentUser && currentUser.uid === post.authorId;
   const canDelete = isAdmin || isOwner;
-  const hasLiked = currentUser && post.likedBy && post.likedBy.includes(currentUser.uid);
-  const initials = (post.authorName || 'F')[0].toUpperCase();
+  const hasLiked  = currentUser && post.likedBy && post.likedBy.includes(currentUser.uid);
+  const initials  = (post.authorName || 'F')[0].toUpperCase();
 
   const typeLabels = {
     post: '💬 Post', news: '📰 News',
@@ -351,40 +354,34 @@ function buildPostCard(post) {
   // ── Media HTML ──
   let mediaHTML = '';
 
-  // Photos
   if (post.photos && post.photos.length) {
     const count = Math.min(post.photos.length, 3);
     mediaHTML += `<div class="post-media-grid count-${count}">`;
     post.photos.slice(0, 3).forEach(url => {
       mediaHTML += `<div class="media-cell" onclick="openLightbox('${url}')">
-        <img src="${url}" alt="photo" loading="lazy">
-      </div>`;
+        <img src="${url}" alt="photo" loading="lazy"></div>`;
     });
     mediaHTML += `</div>`;
   }
 
-  // Videos
   if (post.videos && post.videos.length) {
     post.videos.forEach(url => {
       mediaHTML += `<div class="post-media-grid count-1">
         <div class="media-cell" style="aspect-ratio:16/9">
           <video src="${url}" controls style="width:100%;height:100%;object-fit:contain"></video>
-        </div>
-      </div>`;
+        </div></div>`;
     });
   }
 
-  // Audio
   if (post.audios && post.audios.length) {
     post.audios.forEach(a => {
       mediaHTML += `<div class="post-audio-player">
         <div class="post-audio-art">🎵</div>
         <div class="post-audio-details">
           <div class="post-audio-title">${escapeHtml(a.name)}</div>
-          <div class="post-audio-sub">Audio · posted by ${escapeHtml(post.authorName)}</div>
+          <div class="post-audio-sub">Audio · ${escapeHtml(post.authorName)}</div>
           <audio src="${a.url}" controls></audio>
-        </div>
-      </div>`;
+        </div></div>`;
     });
   }
 
@@ -412,14 +409,18 @@ function buildPostCard(post) {
         <div class="post-time">${timeAgo(post.createdAt)}</div>
       </div>
       <div style="display:flex;gap:4px;margin-left:auto;flex-shrink:0">
-        ${isAdmin ? `<button class="post-action-btn pin-btn ${post.pinned ? 'pinned' : ''}" onclick="togglePin('${post.id}',${post.pinned})" title="${post.pinned ? 'Unpin' : 'Pin'}">📌</button>` : ''}
-        ${canDelete ? `<button class="post-action-btn delete-btn" onclick="deletePost('${post.id}')">🗑️</button>` : ''}
+        ${isAdmin ? `<button class="post-action-btn pin-btn ${post.pinned ? 'pinned' : ''}"
+          onclick="togglePin('${post.id}',${post.pinned})"
+          title="${post.pinned ? 'Unpin' : 'Pin'}">📌</button>` : ''}
+        ${canDelete ? `<button class="post-action-btn delete-btn"
+          onclick="deletePost('${post.id}')">🗑️</button>` : ''}
       </div>
     </div>
     ${post.text ? `<div class="post-body">${escapeHtml(post.text)}</div>` : ''}
     ${mediaHTML}
     <div class="post-footer">
-      <button class="post-action-btn ${hasLiked ? 'liked' : ''}" onclick="toggleLike('${post.id}',${hasLiked})">
+      <button class="post-action-btn ${hasLiked ? 'liked' : ''}"
+        onclick="toggleLike('${post.id}',${hasLiked})">
         ${hasLiked ? '❤️' : '🤍'} <span>${post.likes || 0}</span>
       </button>
       <button class="post-action-btn" onclick="toggleComments('${post.id}')">
@@ -430,7 +431,8 @@ function buildPostCard(post) {
       <div class="comments-list" id="comments-${post.id}">
         ${commentsHTML}
         <div class="comment-input-row">
-          <input type="text" placeholder="Add a comment..." id="commentInput-${post.id}"
+          <input type="text" placeholder="Add a comment..."
+            id="commentInput-${post.id}"
             onkeydown="if(event.key==='Enter') addComment('${post.id}')">
           <button class="comment-send-btn" onclick="addComment('${post.id}')">➤</button>
         </div>
@@ -444,7 +446,7 @@ function buildPostCard(post) {
 //  LIGHTBOX
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 window.openLightbox = function(src) {
-  const lb = document.getElementById('lightbox');
+  const lb  = document.getElementById('lightbox');
   const img = document.getElementById('lightboxImg');
   if (lb && img) { img.src = src; lb.classList.add('open'); }
 };
@@ -461,15 +463,9 @@ window.toggleLike = async function(postId, hasLiked) {
   const ref = doc(db, 'posts', postId);
   try {
     if (hasLiked) {
-      await updateDoc(ref, {
-        likes:   increment(-1),
-        likedBy: arrayRemove(currentUser.uid)
-      });
+      await updateDoc(ref, { likes: increment(-1), likedBy: arrayRemove(currentUser.uid) });
     } else {
-      await updateDoc(ref, {
-        likes:   increment(1),
-        likedBy: arrayUnion(currentUser.uid)
-      });
+      await updateDoc(ref, { likes: increment(1), likedBy: arrayUnion(currentUser.uid) });
       showToast('❤️ Liked!');
     }
   } catch (err) { showToast('❌ ' + err.message); }
@@ -482,7 +478,7 @@ window.togglePin = async function(postId, isPinned) {
   if (!isAdmin) return;
   try {
     await updateDoc(doc(db, 'posts', postId), { pinned: !isPinned });
-    showToast(isPinned ? '📌 Post unpinned' : '📌 Post pinned!');
+    showToast(isPinned ? 'Post unpinned' : '📌 Post pinned!');
   } catch (err) { showToast('❌ ' + err.message); }
 };
 
@@ -511,10 +507,8 @@ window.addComment = async function(postId) {
   const input = document.getElementById('commentInput-' + postId);
   const text  = input?.value?.trim();
   if (!text) return;
-
   try {
-    const ref = doc(db, 'posts', postId);
-    await updateDoc(ref, {
+    await updateDoc(doc(db, 'posts', postId), {
       comments: arrayUnion({
         authorId:   currentUser.uid,
         authorName: currentUser.displayName || currentUser.email.split('@')[0],
