@@ -9,7 +9,7 @@ window.register = function () {
   const password = document.getElementById("password").value.trim();
   if (!email || !password) { alert("Please enter email and password."); return; }
   createUserWithEmailAndPassword(auth, email, password)
-    .then(() => { alert("✅ Registered successfully! Welcome!"); closeModal(); })
+    .then(() => { closeModal(); window.location.href = "community.html"; })
     .catch(err => alert("❌ Registration error: " + err.message));
 };
 
@@ -18,13 +18,13 @@ window.login = function () {
   const password = document.getElementById("password").value.trim();
   if (!email || !password) { alert("Please enter email and password."); return; }
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => { alert("✅ Logged in! Welcome back!"); closeModal(); })
+    .then(() => { closeModal(); window.location.href = "community.html"; })
     .catch(err => alert("❌ Login error: " + err.message));
 };
 
 window.logout = function () {
   signOut(auth)
-    .then(() => alert("👋 Logged out successfully!"))
+    .then(() => { alert("👋 Logged out!"); window.location.href = "index.html"; })
     .catch(err => alert("❌ Logout error: " + err.message));
 };
 
