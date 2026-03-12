@@ -16,7 +16,7 @@ const CLOUDINARY_UPLOAD_PRESET = "conejomalo_media";
 const CLOUDINARY_UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
 // ── ADMIN EMAILS ──
-const ADMIN_EMAILS = ["officialdeconejomalo@gmail.com"];
+const ADMIN_EMAILS = ["official.deconejomalo@gmail.com"];
 
 let currentUser     = null;
 let currentFilter   = 'all';
