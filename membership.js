@@ -1,28 +1,28 @@
 // membership.js — Membership Request System — Conejo Malo Global
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
-  getFirestore, collection, addDoc, getDocs, updateDoc,
-  doc, query, where, orderBy, onSnapshot, serverTimestamp
+  getFirestore, collection, addDoc, updateDoc,
+  doc, query, where, orderBy, onSnapshot, serverTimestamp, setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { app } from "./firebase.js";
 
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-const ADMIN_EMAILS     = ["official.deconejomalo@gmail.com"];
+const ADMIN_EMAILS    = ["official.deconejomalo@gmail.com"];
 const SUB_ADMIN_EMAILS = []; // Add sub-admin emails here
 
-let currentUser   = null;
-let isAdmin       = false;
-let isSubAdmin    = false;
-let selectedTier  = null;
+let currentUser  = null;
+let isAdmin      = false;
+let isSubAdmin   = false;
+let selectedTier = null;
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  MODAL CONTROLS
+//  MODAL OPEN / CLOSE
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 window.showMembershipModal = function() {
   const modal = document.getElementById('membershipModal');
-  if (modal) { modal.classList.add('open'); goBackToStep1(); }
+  if (modal) { modal.classList.add('open'); goToStep(1); }
 };
 
 window.hideMembershipModal = function() {
@@ -34,12 +34,15 @@ window.closeMembershipModal = function(e) {
   if (e.target.id === 'membershipModal') hideMembershipModal();
 };
 
-window.goBackToStep1 = function() {
-  document.getElementById('modalStep1').style.display = 'block';
-  document.getElementById('modalStep2').style.display = 'none';
-  document.getElementById('modalStep3').style.display = 'none';
-  selectedTier = null;
-  // Hide crypto dropdown if open
+// ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
+//  STEP NAVIGATION
+// ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
+window.goToStep = function(step) {
+  [1,2,3,4].forEach(n => {
+    const el = document.getElementById('modalStep' + n);
+    if (el) el.style.display = n === step ? 'block' : 'none';
+  });
+  // Reset crypto dropdown on step change
   const dd = document.getElementById('cryptoDropdown');
   if (dd) dd.style.display = 'none';
   const arrow = document.getElementById('cryptoArrow');
@@ -47,26 +50,64 @@ window.goBackToStep1 = function() {
 };
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  TIER SELECTION
+//  TIER SELECTION → go to registration form
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 window.selectTier = function(tier) {
   selectedTier = tier;
-  document.getElementById('modalStep1').style.display = 'none';
-  document.getElementById('modalStep2').style.display = 'block';
-  const label = document.getElementById('selectedTierLabel');
   const icons = { VIP: '⭐ VIP', VVIP: '💎 VVIP', VVVIP: '👑 VVVIP' };
-  if (label) label.textContent = icons[tier] || tier;
+
+  // Pre-fill email if logged in
+  if (currentUser) {
+    const emailField = document.getElementById('regEmail');
+    if (emailField && !emailField.value) emailField.value = currentUser.email;
+  }
+
+  const label1 = document.getElementById('selectedTierLabel');
+  const label2 = document.getElementById('selectedTierLabel2');
+  if (label1) label1.textContent = icons[tier] || tier;
+  if (label2) label2.textContent = icons[tier] || tier;
+
+  goToStep(2);
 };
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  CRYPTO DROPDOWN TOGGLE
+//  REGISTRATION FORM → validate → go to payment
+// ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
+window.goToStep = function(step) {
+  // If going from step 2 to step 3, validate form first
+  if (step === 3) {
+    const firstName = document.getElementById('regFirstName')?.value?.trim();
+    const lastName  = document.getElementById('regLastName')?.value?.trim();
+    const country   = document.getElementById('regCountry')?.value;
+    const email     = document.getElementById('regEmail')?.value?.trim();
+
+    if (!firstName) { showToast('⚠️ Please enter your first name'); return; }
+    if (!lastName)  { showToast('⚠️ Please enter your last name'); return; }
+    if (!country)   { showToast('⚠️ Please select your country'); return; }
+    if (!email)     { showToast('⚠️ Please enter your email'); return; }
+    if (!email.includes('@')) { showToast('⚠️ Please enter a valid email'); return; }
+  }
+
+  [1,2,3,4].forEach(n => {
+    const el = document.getElementById('modalStep' + n);
+    if (el) el.style.display = n === step ? 'block' : 'none';
+  });
+
+  const dd = document.getElementById('cryptoDropdown');
+  if (dd) dd.style.display = 'none';
+  const arrow = document.getElementById('cryptoArrow');
+  if (arrow) arrow.textContent = '▼';
+};
+
+// ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
+//  CRYPTO DROPDOWN
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 window.toggleCryptoMenu = function() {
   const dd    = document.getElementById('cryptoDropdown');
   const arrow = document.getElementById('cryptoArrow');
   if (!dd) return;
   const isOpen = dd.style.display === 'block';
-  dd.style.display    = isOpen ? 'none' : 'block';
+  dd.style.display = isOpen ? 'none' : 'block';
   if (arrow) arrow.textContent = isOpen ? '▼' : '▲';
 };
 
@@ -74,41 +115,40 @@ window.toggleCryptoMenu = function() {
 //  SUBMIT MEMBERSHIP REQUEST
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 window.submitMembershipRequest = async function(paymentMethod) {
-  if (!currentUser) {
-    hideMembershipModal();
-    window.location.href = 'index.html';
-    return;
-  }
-  if (!selectedTier) { showToast('⚠️ Please select a tier first'); return; }
+  if (!selectedTier) { showToast('⚠️ No tier selected'); return; }
+
+  const firstName  = document.getElementById('regFirstName')?.value?.trim()  || '';
+  const middleName = document.getElementById('regMiddleName')?.value?.trim() || '';
+  const lastName   = document.getElementById('regLastName')?.value?.trim()   || '';
+  const country    = document.getElementById('regCountry')?.value            || '';
+  const email      = document.getElementById('regEmail')?.value?.trim()      || (currentUser?.email || '');
 
   try {
-    // Save request to Firestore
     await addDoc(collection(db, 'membershipRequests'), {
-      userId:        currentUser.uid,
-      userEmail:     currentUser.email,
-      userName:      currentUser.displayName || currentUser.email.split('@')[0],
+      userId:        currentUser?.uid || 'visitor',
+      userEmail:     email,
+      userName:      [firstName, middleName, lastName].filter(Boolean).join(' '),
+      firstName,
+      middleName,
+      lastName,
+      country,
       tier:          selectedTier,
-      paymentMethod: paymentMethod,
+      paymentMethod,
       status:        'pending',
       createdAt:     serverTimestamp()
     });
 
-    // Show success step
-    document.getElementById('modalStep2').style.display = 'none';
-    document.getElementById('modalStep3').style.display = 'block';
+    // Show success
     const confirmedTier    = document.getElementById('confirmedTier');
     const confirmedPayment = document.getElementById('confirmedPayment');
     if (confirmedTier)    confirmedTier.textContent    = selectedTier;
     if (confirmedPayment) confirmedPayment.textContent = paymentMethod;
 
-    // Close crypto dropdown
-    const dd = document.getElementById('cryptoDropdown');
-    if (dd) dd.style.display = 'none';
-
-    showToast('✅ Request submitted!');
+    goToStep(4);
+    showToast('✅ Request submitted successfully!');
   } catch (err) {
     console.error(err);
-    showToast('❌ Error: ' + err.message);
+    showToast('❌ Error submitting: ' + err.message);
   }
 };
 
@@ -144,19 +184,20 @@ function loadAdminRequests() {
 
       const tierColors = { VIP: '#c0c0c0', VVIP: '#64b4ff', VVVIP: '#ffd700' };
       const tierColor  = tierColors[r.tier] || '#fff';
+      const tierIcon   = r.tier === 'VIP' ? '⭐' : r.tier === 'VVIP' ? '💎' : '👑';
 
       item.innerHTML = `
         <div class="request-item-header">
-          <span class="request-item-name">👤 ${escMembership(r.userName)}</span>
+          <span class="request-item-name">👤 ${esc(r.userName || r.userEmail)}</span>
           <span class="request-item-tier" style="background:rgba(255,255,255,0.08);border:1px solid ${tierColor};color:${tierColor}">
-            ${r.tier === 'VIP' ? '⭐' : r.tier === 'VVIP' ? '💎' : '👑'} ${r.tier}
+            ${tierIcon} ${r.tier}
           </span>
         </div>
         <div class="request-item-meta">
-          📧 ${escMembership(r.userEmail)} · 💳 ${escMembership(r.paymentMethod)} · 🕐 ${timeAgoMs(r.createdAt)}
+          📧 ${esc(r.userEmail)} · 🌍 ${esc(r.country || '—')} · 💳 ${esc(r.paymentMethod)} · 🕐 ${timeAgo(r.createdAt)}
         </div>
         <div class="request-item-actions">
-          <button class="approve-btn" onclick="approveRequest('${docSnap.id}','${r.userId}','${r.tier}','${r.userEmail}')">
+          <button class="approve-btn" onclick="approveRequest('${docSnap.id}','${r.userId}','${r.tier}','${esc(r.userEmail)}')">
             ✅ Approve & Assign
           </button>
           <button class="reject-btn" onclick="rejectRequest('${docSnap.id}')">
@@ -169,57 +210,34 @@ function loadAdminRequests() {
 }
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  APPROVE REQUEST
+//  APPROVE
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 window.approveRequest = async function(requestId, userId, tier, userEmail) {
   if (!isAdmin && !isSubAdmin) return;
   if (!confirm(`Approve ${tier} membership for ${userEmail}?`)) return;
-
   try {
-    // Update request status
+    await setDoc(doc(db, 'users', userId), {
+      membership:  tier,
+      memberSince: serverTimestamp(),
+      assignedBy:  currentUser.email
+    }, { merge: true });
+
     await updateDoc(doc(db, 'membershipRequests', requestId), {
       status:     'approved',
       approvedBy: currentUser.email,
       approvedAt: serverTimestamp()
     });
 
-    // Assign membership to user in Firestore
-    await updateDoc(doc(db, 'users', userId), {
-      membership:   tier,
-      memberSince:  serverTimestamp(),
-      assignedBy:   currentUser.email
-    });
-
-    showToast(`✅ ${tier} membership assigned to ${userEmail}!`);
-  } catch (err) {
-    // If user doc doesn't exist, create it
-    try {
-      const { setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-      await setDoc(doc(db, 'users', userId), {
-        membership:  tier,
-        memberSince: serverTimestamp(),
-        assignedBy:  currentUser.email
-      }, { merge: true });
-
-      await updateDoc(doc(db, 'membershipRequests', requestId), {
-        status:     'approved',
-        approvedBy: currentUser.email,
-        approvedAt: serverTimestamp()
-      });
-
-      showToast(`✅ ${tier} membership assigned!`);
-    } catch (e) {
-      showToast('❌ Error: ' + e.message);
-    }
-  }
+    showToast(`✅ ${tier} assigned to ${userEmail}!`);
+  } catch (err) { showToast('❌ ' + err.message); }
 };
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  REJECT REQUEST
+//  REJECT
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 window.rejectRequest = async function(requestId) {
   if (!isAdmin && !isSubAdmin) return;
-  if (!confirm('Reject this membership request?')) return;
+  if (!confirm('Reject this request?')) return;
   try {
     await updateDoc(doc(db, 'membershipRequests', requestId), {
       status:     'rejected',
@@ -238,26 +256,21 @@ window.toggleAdminPanel = function() {
   if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
 };
 
-// ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  HELPERS
-// ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-function escMembership(str) {
+// ── HELPERS ──
+function esc(str) {
   return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
-function timeAgoMs(timestamp) {
+function timeAgo(timestamp) {
   if (!timestamp) return 'just now';
-  const now  = Date.now();
-  const then = timestamp.toMillis ? timestamp.toMillis() : timestamp;
-  const diff = Math.floor((now - then) / 1000);
+  const diff = Math.floor((Date.now() - (timestamp.toMillis?.() || timestamp)) / 1000);
   if (diff < 60) return 'just now';
-  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
-  if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-  return Math.floor(diff / 86400) + 'd ago';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return Math.floor(diff/86400) + 'd ago';
 }
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-//  AUTH LISTENER
+//  AUTH
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 onAuthStateChanged(auth, user => {
   if (user) {
