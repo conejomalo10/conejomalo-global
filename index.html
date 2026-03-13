@@ -12,7 +12,32 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Conejo Malo" />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&family=Orbitron:wght@700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:wght@300;400;500;700&family=Orbitron:wght@700;900&display=block" rel="stylesheet" />
+
+  <style>
+    /* ── Body baseline — never renders white even before style.css loads ── */
+    html, body {
+      background: #0a001a !important;
+      color: white;
+    }
+
+    /* ── Hide hero text until fonts are ready — eliminates FOUT flash ── */
+    .hg-pre-title,
+    .hg-main-title,
+    .hg-artist,
+    .hg-sub {
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .fonts-loaded .hg-pre-title,
+    .fonts-loaded .hg-main-title,
+    .fonts-loaded .hg-artist,
+    .fonts-loaded .hg-sub {
+      opacity: 1;
+    }
+  </style>
 
   <style>
     /* ============================================================
@@ -165,68 +190,74 @@
 
     /* ── Typography ── */
     .hg-pre-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(11px, 1.8vw, 14px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(10px, 1.4vw, 13px);
       font-weight: 700;
-      letter-spacing: 5px;
+      letter-spacing: 6px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.60);
-      margin-bottom: 6px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 10px;
       display: block;
     }
     .hg-main-title {
-      font-family: 'Bebas Neue', cursive;
-      font-size: clamp(58px, 9vw, 100px);
-      line-height: 0.95;
-      letter-spacing: 4px;
+      font-family: 'Unbounded', 'Arial Black', sans-serif;
+      font-size: clamp(42px, 7.5vw, 88px);
+      line-height: 1.0;
+      letter-spacing: -1px;
+      font-weight: 900;
       color: transparent;
       background: linear-gradient(135deg, #00e5ff 0%, #00bcd4 35%, #40e0d0 65%, #00e5ff 100%);
       -webkit-background-clip: text;
       background-clip: text;
-      filter: drop-shadow(0 0 28px rgba(0,229,255,0.30));
+      filter: drop-shadow(0 0 32px rgba(0,229,255,0.28));
       margin-bottom: 4px;
       display: block;
     }
     .hg-divider {
       width: 80px; height: 2px;
       background: linear-gradient(to right, rgba(0,229,255,0), rgba(0,229,255,0.8), rgba(255,20,147,0.8), rgba(255,20,147,0));
-      margin: 14px auto 16px;
+      margin: 16px auto 18px;
       border-radius: 999px;
     }
     .hg-artist {
-      font-family: 'Bebas Neue', cursive;
-      font-size: clamp(24px, 3.5vw, 38px);
-      letter-spacing: 6px;
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 4px;
+      text-transform: uppercase;
       color: #ff6b6b;
-      filter: drop-shadow(0 0 10px rgba(255,107,107,0.45));
-      margin-bottom: 4px;
+      filter: drop-shadow(0 0 14px rgba(255,107,107,0.50));
+      margin-bottom: 6px;
       display: block;
+      line-height: 1;
     }
     .hg-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(11px, 1.6vw, 13px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(11px, 1.5vw, 14px);
       font-weight: 300;
-      letter-spacing: 4px;
+      letter-spacing: 5px;
       text-transform: uppercase;
       color: #a8edea;
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      line-height: 1.7;
     }
 
     /* ── Love banner ── */
     .hg-love-banner {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 1.5px;
-      color: rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.50);
       text-transform: uppercase;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: 6px;
-      padding: 7px 14px;
-      margin-bottom: 20px;
-      line-height: 1.5;
+      padding: 8px 14px;
+      margin-bottom: 22px;
+      line-height: 1.6;
     }
 
     /* ── Stats row ── */
@@ -247,15 +278,16 @@
     .hg-stat:last-child { border-right: none; }
     .hg-stat-val {
       display: block;
-      font-family: 'Bebas Neue', cursive;
-      font-size: 20px; letter-spacing: 2px; color: #ffd700;
+      font-family: 'Unbounded', 'Arial Black', sans-serif;
+      font-size: 16px; letter-spacing: 0px; color: #ffd700;
+      font-weight: 700;
     }
     .hg-stat-label {
       display: block;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 9px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: rgba(255,255,255,0.40); margin-top: 2px;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.38); margin-top: 4px;
     }
 
     /* ── CTA buttons ── */
@@ -265,31 +297,36 @@
       margin-bottom: 20px;
     }
     .hg-btn-primary {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800; font-size: 12px;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 13px 28px; border-radius: 999px; border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700; font-size: 12px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 14px 30px; border-radius: 999px; border: none;
       cursor: pointer;
       background: linear-gradient(135deg, #ff0066, #ff6b6b);
       color: white;
       box-shadow: 0 4px 20px rgba(255,0,102,0.40);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
+    .hg-btn-primary:hover  { transform: scale(1.06); box-shadow: 0 6px 28px rgba(255,0,102,0.55); }
     .hg-btn-secondary {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 700; font-size: 12px;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 12px 24px; border-radius: 999px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 13px 26px; border-radius: 999px;
       border: 1px solid rgba(0,229,255,0.40);
       cursor: pointer;
       background: rgba(0,229,255,0.07);
       backdrop-filter: blur(8px);
       color: #a8edea;
+      transition: transform 0.25s ease, background 0.25s ease;
     }
+    .hg-btn-secondary:hover { transform: scale(1.06); background: rgba(0,229,255,0.15); }
 
-    /* ── Status & logout (kept from original) ── */
+    /* ── Status & logout ── */
     .hg-status-text {
-      font-size: 12px;
-      color: rgba(255,255,255,0.40);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
       margin-top: 6px;
       margin-bottom: 0;
     }
@@ -299,7 +336,7 @@
       background: rgba(255,0,102,0.15);
       border: 1px solid rgba(255,0,102,0.40);
       color: #ff6699;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 12px; font-weight: 700;
       padding: 7px 20px; border-radius: 999px; cursor: pointer;
     }
@@ -310,22 +347,14 @@
       gap: 8px; flex-wrap: wrap; margin-top: 18px;
     }
     .hg-tier-badge {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 10px; font-weight: 800;
-      letter-spacing: 1.5px; padding: 4px 14px; border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; padding: 5px 16px; border-radius: 999px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
     }
     .hg-tier-badge.vip   { background: rgba(192,192,192,0.10); border: 1px solid rgba(192,192,192,0.35); color: #c0c0c0; }
     .hg-tier-badge.vvip  { background: rgba(100,180,255,0.10); border: 1px solid rgba(100,180,255,0.35); color: #64b4ff; }
     .hg-tier-badge.vvvip { background: rgba(255,215,0,0.10);   border: 1px solid rgba(255,215,0,0.35);   color: #ffd700; }
-
-    /* ── Button hover effects ── */
-    .hg-btn-primary  { transition: transform 0.25s ease, box-shadow 0.25s ease; }
-    .hg-btn-primary:hover  { transform: scale(1.06); box-shadow: 0 6px 28px rgba(255,0,102,0.55); }
-    .hg-btn-secondary { transition: transform 0.25s ease, background 0.25s ease; }
-    .hg-btn-secondary:hover { transform: scale(1.06); background: rgba(0,229,255,0.15); }
-
-    /* ── Tier badge hover ── */
-    .hg-tier-badge { transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
     .hg-tier-badge:hover { transform: scale(1.10); }
     .hg-tier-badge.vip:hover   { box-shadow: 0 0 14px rgba(192,192,192,0.40); }
     .hg-tier-badge.vvip:hover  { box-shadow: 0 0 14px rgba(100,180,255,0.45); }
@@ -422,6 +451,17 @@
 </head>
 
 <body>
+
+  <!-- Font load detector — fires fonts-loaded on <html> the moment Bebas Neue + Montserrat are ready -->
+  <script>
+    document.fonts.ready.then(function () {
+      document.documentElement.classList.add('fonts-loaded');
+    });
+    // Failsafe — if fonts take too long, show text anyway after 1.2s
+    setTimeout(function () {
+      document.documentElement.classList.add('fonts-loaded');
+    }, 1200);
+  </script>
 
   <!-- BACKGROUND ORBS -->
   <div class="bg-orbs">
