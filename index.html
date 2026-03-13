@@ -264,28 +264,33 @@
        HERO TYPOGRAPHY — locked to approved Image 1
        Font: Inter 900 — bold, geometric, mixed-case, no italics
     ============================================================ */
+    .hg-title-block {
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+    }
     .hg-pre-title {
       font-family: 'Inter', 'DM Sans', sans-serif !important;
-      font-size: clamp(28px, 6vw, 52px);
+      font-size: clamp(28px, 7vw, 56px);
       font-weight: 900;
       letter-spacing: -1px;
-      line-height: 1.12;
+      line-height: 1.15;
       text-transform: none;
       color: #ffffff;
       text-shadow: 0 2px 12px rgba(0,0,0,0.6);
-      margin-bottom: 0;
       display: block;
       opacity: 0;
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-pre-title { opacity: 1; }
 
+    /* "de Conejo Malo" — inline inside hg-pre-title, cyan only */
     .hg-main-title {
       font-family: 'Inter', 'DM Sans', sans-serif !important;
-      font-size: clamp(28px, 6vw, 52px);
+      font-size: clamp(28px, 7vw, 56px);
       font-weight: 900;
       letter-spacing: -1px;
-      line-height: 1.12;
+      line-height: 1.15;
       text-transform: none;
       color: #00d4ff;
       background: none;
@@ -293,13 +298,10 @@
       background-clip: unset;
       -webkit-text-fill-color: #00d4ff;
       filter: none;
-      text-shadow: 0 0 20px rgba(0,212,255,0.40), 0 2px 12px rgba(0,0,0,0.5);
-      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(0,212,255,0.35);
       display: block;
-      opacity: 0;
-      transition: opacity 0.40s ease;
+      opacity: 1; /* inherits from parent hg-pre-title fade */
     }
-    .fonts-loaded .hg-main-title { opacity: 1; }
 
     .hg-divider {
       width: 60px; height: 2px;
@@ -573,8 +575,9 @@
     <!-- GLASS CARD -->
     <div class="hg-card floating-glass">
 
-      <span class="hg-pre-title">Communidad Global de<br>Fans de</span>
-      <span class="hg-main-title">Conejo Malo</span>
+      <div class="hg-title-block">
+        <span class="hg-pre-title">Communidad Global<br>de Fans<br><span class="hg-main-title">de Conejo Malo</span></span>
+      </div>
       <div class="hg-divider"></div>
       <div class="hg-artist-sub-row">
         <span class="hg-artist">Bad Bunny </span><span class="hg-sub">Global Fans<br>Community</span>
