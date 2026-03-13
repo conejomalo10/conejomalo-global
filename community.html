@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +11,6 @@
   <meta name="theme-color" content="#1a0533" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&family=Orbitron:wght@700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
 </head>
-
 <body>
 
   <div class="bg-orbs">
@@ -42,7 +40,7 @@
       <div class="visitor-banner glass">
         <div class="visitor-banner-left">
           <h2>🐰 Welcome to Conejo Malo Global</h2>
-          <p>You're browsing as a <strong>Visitor</strong>. Join the community to like, comment, post and access exclusive content!</p>
+          <p>You're browsing as a <strong>Visitor</strong>. See what the community is about — then join to interact!</p>
           <div class="visitor-actions">
             <button class="button button-primary" onclick="window.location.href='index.html'">🔐 Login / Register</button>
             <button class="button button-outline" onclick="showMembershipModal()">👑 View Membership Tiers</button>
@@ -54,20 +52,37 @@
           <span class="tier-pill vvvip">👑 VVVIP</span>
         </div>
       </div>
+
+      <!-- Feed filters -->
       <div class="feed-tabs">
-        <button class="feed-tab active" onclick="filterVisitorFeed('all',this)">🌍 All Posts</button>
-        <button class="feed-tab" onclick="filterVisitorFeed('news',this)">📰 News</button>
-        <button class="feed-tab" onclick="filterVisitorFeed('fanart',this)">🎨 Fan Art</button>
-        <button class="feed-tab" onclick="filterVisitorFeed('question',this)">❓ Questions</button>
+        <button class="feed-tab active" onclick="setVisitorFilter('all',this)">🌍 All Posts</button>
+        <button class="feed-tab" onclick="setVisitorFilter('news',this)">📰 News</button>
+        <button class="feed-tab" onclick="setVisitorFilter('fanart',this)">🎨 Fan Art</button>
+        <button class="feed-tab" onclick="setVisitorFilter('question',this)">❓ Questions</button>
       </div>
+
       <div class="feed-loading" id="visitorFeedLoading"><div class="spinner"></div><p>Loading posts...</p></div>
       <div class="post-feed" id="visitorPostFeed"></div>
+
+      <!-- MEMBERSHIP BLUR WALL -->
+      <div class="membership-wall" id="membershipWall" style="display:none">
+        <div class="membership-wall-inner glass">
+          <div style="font-size:48px;margin-bottom:12px">🔒</div>
+          <h3>Join Conejo Malo Global</h3>
+          <p>Become a member to see all posts, like, comment and be part of the movement!</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px">
+            <button class="button button-primary" onclick="window.location.href='index.html'">🔐 Login / Register</button>
+            <button class="button button-outline" onclick="showMembershipModal()">👑 Request Membership</button>
+          </div>
+        </div>
+      </div>
+
       <div class="empty-feed glass" id="visitorEmptyFeed" style="display:none">
-        <div style="font-size:48px">🎵</div><h3>No posts yet!</h3><p>Be the first to post!</p>
+        <div style="font-size:48px">🎵</div><h3>No posts yet!</h3><p>Check back soon!</p>
       </div>
     </div>
 
-    <!-- ── NO MEMBERSHIP YET ── -->
+    <!-- ── NO MEMBERSHIP ── -->
     <div class="access-denied glass" id="accessDenied" style="display:none">
       <div class="denied-icon">🔒</div>
       <h2>Membership Required</h2>
@@ -124,14 +139,25 @@
               <span class="post-avatar">🐰</span>
               <span class="post-prompt">Share something with the community...</span>
             </div>
-            <textarea id="postInput" class="post-textarea" placeholder="🎵 What's on your mind? Share your love for Bad Bunny, fan art links, concert experiences..." maxlength="500"></textarea>
+
+            <!-- POST TYPE SELECTOR — shows different placeholder per type -->
+            <div class="post-type-btns" style="margin-bottom:10px">
+              <button class="type-btn active" data-type="post"     onclick="setPostType('post',this)">💬 Post</button>
+              <button class="type-btn"         data-type="news"     onclick="setPostType('news',this)">📰 News</button>
+              <button class="type-btn"         data-type="fanart"   onclick="setPostType('fanart',this)">🎨 Fan Art</button>
+              <button class="type-btn"         data-type="question" onclick="setPostType('question',this)">❓ Question</button>
+            </div>
+
+            <textarea id="postInput" class="post-textarea"
+              placeholder="🎵 What's on your mind? Share your love for Bad Bunny, fan art links, concert experiences..."
+              maxlength="500"></textarea>
 
             <!-- MEDIA — VVIP, VVVIP & Admin only -->
             <div class="media-upload-box" id="mediaUploadBox" style="display:none">
               <div class="media-tabs">
                 <button class="media-tab active" onclick="switchMediaTab(this,'photo')">📸 Photo</button>
-                <button class="media-tab" onclick="switchMediaTab(this,'video')">🎬 Video</button>
-                <button class="media-tab" onclick="switchMediaTab(this,'audio')">🎵 Audio</button>
+                <button class="media-tab"        onclick="switchMediaTab(this,'video')">🎬 Video</button>
+                <button class="media-tab" id="audioTabBtn" onclick="switchMediaTab(this,'audio')">🎵 Audio</button>
               </div>
               <div class="media-panel active" id="panel-photo">
                 <div class="drop-zone" id="photoDrop" ondragover="handleDrag(event,true,'photoDrop')" ondragleave="handleDrag(event,false,'photoDrop')" ondrop="handleDrop(event,'photo')">
@@ -163,19 +189,12 @@
             </div>
 
             <div class="post-toolbar">
-              <div class="post-type-btns">
-                <button class="type-btn active" data-type="post" onclick="setPostType('post',this)">💬 Post</button>
-                <button class="type-btn" data-type="news" onclick="setPostType('news',this)">📰 News</button>
-                <button class="type-btn" data-type="fanart" onclick="setPostType('fanart',this)">🎨 Fan Art</button>
-                <button class="type-btn" data-type="question" onclick="setPostType('question',this)">❓ Question</button>
-              </div>
-              <div class="post-actions">
-                <span class="char-count" id="charCount">0/500</span>
-                <button class="button button-primary post-btn" onclick="submitPost()">Post 🚀</button>
-              </div>
+              <span class="char-count" id="charCount">0/500</span>
+              <button class="button button-primary post-btn" onclick="submitPost()">Post 🚀</button>
             </div>
           </div>
 
+          <!-- FEED FILTERS -->
           <div class="feed-tabs">
             <button class="feed-tab active" onclick="filterFeed('all',this)">🌍 All Posts</button>
             <button class="feed-tab" onclick="filterFeed('news',this)">📰 News</button>
@@ -252,14 +271,14 @@
     </div>
   </main>
 
-  <!-- ══════════════════════════════════ -->
-  <!--  MEMBERSHIP MODAL                 -->
-  <!-- ══════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════ -->
+  <!--  MEMBERSHIP MODAL                          -->
+  <!-- ══════════════════════════════════════════ -->
   <div class="modal-overlay" id="membershipModal" onclick="closeMembershipModal(event)">
     <div class="modal-box glass">
       <button class="modal-close" onclick="hideMembershipModal()">✕</button>
 
-      <!-- STEP 1: Pick Tier -->
+      <!-- STEP 1: Choose Tier -->
       <div id="modalStep1">
         <h3 class="modal-title">👑 Choose Your Membership</h3>
         <p class="modal-subtitle">Select a tier to unlock your privileges</p>
@@ -311,17 +330,55 @@
         </div>
       </div>
 
-      <!-- STEP 2: Pick Payment -->
+      <!-- STEP 2: Registration Form -->
       <div id="modalStep2" style="display:none">
-        <button class="modal-back-btn" onclick="goBackToStep1()">← Back</button>
-        <h3 class="modal-title">💳 Choose Payment Method</h3>
+        <button class="modal-back-btn" onclick="goToStep(1)">← Back</button>
+        <h3 class="modal-title">📋 Complete Your Profile</h3>
         <p class="modal-subtitle">Selected: <strong id="selectedTierLabel"></strong></p>
-        <div class="payment-methods">
 
+        <div class="reg-form">
+          <div class="reg-form-row">
+            <div class="reg-field">
+              <label>First Name *</label>
+              <input type="text" id="regFirstName" placeholder="Enter first name">
+            </div>
+            <div class="reg-field">
+              <label>Middle Name <span style="opacity:0.5">(optional)</span></label>
+              <input type="text" id="regMiddleName" placeholder="Enter middle name">
+            </div>
+          </div>
+          <div class="reg-field">
+            <label>Last Name *</label>
+            <input type="text" id="regLastName" placeholder="Enter last name">
+          </div>
+          <div class="reg-field">
+            <label>Country *</label>
+            <select id="regCountry">
+              <option value="">Select your country...</option>
+              <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Argentina</option><option>Australia</option><option>Austria</option><option>Belgium</option><option>Bolivia</option><option>Brazil</option><option>Canada</option><option>Chile</option><option>China</option><option>Colombia</option><option>Costa Rica</option><option>Cuba</option><option>Dominican Republic</option><option>Ecuador</option><option>Egypt</option><option>El Salvador</option><option>France</option><option>Germany</option><option>Ghana</option><option>Greece</option><option>Guatemala</option><option>Haiti</option><option>Honduras</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option><option>Jordan</option><option>Kenya</option><option>Lebanon</option><option>Malaysia</option><option>Mexico</option><option>Morocco</option><option>Netherlands</option><option>New Zealand</option><option>Nicaragua</option><option>Nigeria</option><option>Norway</option><option>Pakistan</option><option>Panama</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Puerto Rico</option><option>Romania</option><option>Russia</option><option>Saudi Arabia</option><option>Senegal</option><option>South Africa</option><option>South Korea</option><option>Spain</option><option>Sweden</option><option>Switzerland</option><option>Trinidad and Tobago</option><option>Tunisia</option><option>Turkey</option><option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Uruguay</option><option>Venezuela</option><option>Vietnam</option><option>Other</option>
+            </select>
+          </div>
+          <div class="reg-field">
+            <label>Email Address *</label>
+            <input type="email" id="regEmail" placeholder="Enter your email">
+          </div>
+        </div>
+
+        <button class="button button-primary" style="width:100%;margin-top:20px;font-size:15px" onclick="goToStep(3)">
+          Next → Choose Payment
+        </button>
+      </div>
+
+      <!-- STEP 3: Payment -->
+      <div id="modalStep3" style="display:none">
+        <button class="modal-back-btn" onclick="goToStep(2)">← Back</button>
+        <h3 class="modal-title">💳 Choose Payment Method</h3>
+        <p class="modal-subtitle">Selected: <strong id="selectedTierLabel2"></strong></p>
+
+        <div class="payment-methods">
           <button class="payment-btn paypal-btn" onclick="submitMembershipRequest('PayPal')">
             <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="PayPal" style="height:22px">
           </button>
-
           <div class="crypto-wrapper">
             <button class="payment-btn crypto-btn" onclick="toggleCryptoMenu()">
               🪙 Crypto <span id="cryptoArrow">▼</span>
@@ -334,13 +391,12 @@
               <button class="crypto-option" onclick="submitMembershipRequest('USDC')">💲 USDC</button>
             </div>
           </div>
-
         </div>
         <p class="payment-note">🔒 Your request goes directly to our admin team. Payment address will be sent upon approval.</p>
       </div>
 
-      <!-- STEP 3: Success -->
-      <div id="modalStep3" style="display:none">
+      <!-- STEP 4: Success -->
+      <div id="modalStep4" style="display:none">
         <div class="modal-success">
           <div class="success-icon">🎉</div>
           <h3 class="modal-title">Request Submitted!</h3>
