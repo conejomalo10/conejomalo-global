@@ -551,6 +551,8 @@ onAuthStateChanged(auth, async user => {
     currentUser=null; isAdmin=false; isSubAdmin=false; userMembership=null;
     if(dashboard)   dashboard.style.display='none';
     if(denied)      denied.style.display='none';
+    const previewSec=document.getElementById('previewSection');
+    if(previewSec)  previewSec.style.display='none';
     if(visitorView) visitorView.style.display='block';
     if(navLogout)   navLogout.style.display='none';
     loadVisitorPosts();
