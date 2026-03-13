@@ -407,7 +407,7 @@ function loadPreviewPosts() {
     feed.innerHTML='';
     posts.slice(0,VISITOR_PREVIEW_COUNT).forEach(post=>feed.appendChild(buildPostCard(post,true)));
     const loaderEl=document.getElementById('previewInfiniteLoader');
-    if(loaderEl) loaderEl.style.display=posts.length>0?'flex':'none';
+    if(loaderEl) loaderEl.style.display=posts.length>VISITOR_PREVIEW_COUNT?'flex':'none';
   });
 }
 
