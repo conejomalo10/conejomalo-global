@@ -524,6 +524,8 @@ onAuthStateChanged(auth, async user => {
     } else {
       if (dashboard) dashboard.style.display='none';
       if (denied)    denied.style.display='block';
+      const previewSec=document.getElementById('previewSection');
+      if(previewSec) previewSec.style.display='block';
       loadPreviewPosts();
     }
 
