@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Comunidad Global de Fans de Conejo Malo \u2014 Community Dashboard" />
-  <title>Community \u2014 Conejo Malo Global</title>
+  <meta name="description" content="Comunidad Global de Fans de Conejo Malo — Community Dashboard" />
+  <title>Community — Conejo Malo Global</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="community.css" />
   <link rel="manifest" href="manifest.json" />
@@ -22,7 +22,7 @@
   </div>
 
   <nav class="navbar">
-    <div class="nav-logo"><span class="rabbit-emblem">\ud83d\udc30</span> CONEJO MALO</div>
+    <div class="nav-logo"><span class="rabbit-emblem">🐰</span> CONEJO MALO</div>
     <ul class="nav-links">
       <li><a href="index.html">HOME</a></li>
       <li><a href="community.html" class="active">COMMUNITY</a></li>
@@ -32,70 +32,95 @@
       <li><a href="index.html#contact">CONTACT</a></li>
     </ul>
     <button class="nav-login-btn" id="navLogoutBtn" onclick="logout()" style="display:none">LOGOUT</button>
-    <button class="hamburger" onclick="toggleMenu()">\u2630</button>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
   </nav>
 
   <main class="community-main">
 
-    <!-- \u2500\u2500 VISITOR VIEW \u2500\u2500 -->
+    <!-- ── VISITOR VIEW ── -->
     <div id="visitorView" style="display:none">
       <div class="visitor-banner glass">
         <div class="visitor-banner-left">
-          <h2>\ud83d\udc30 Welcome to Conejo Malo Global</h2>
+          <h2>🐰 Welcome to Conejo Malo Global</h2>
           <p>You're browsing as a <strong>Visitor</strong>. Join the community to like, comment, post and access exclusive content!</p>
           <div class="visitor-actions">
-            <button class="button button-primary" onclick="window.location.href='index.html'">\ud83d\udd10 Login / Register</button>
-            <button class="button button-outline" onclick="showMembershipModal()">\ud83d\udc51 View Membership Tiers</button>
+            <button class="button button-primary" onclick="window.location.href='index.html'">🔐 Login / Register</button>
+            <button class="button button-outline" onclick="showMembershipModal()">👑 View Membership Tiers</button>
           </div>
         </div>
         <div class="visitor-banner-right">
-          <span class="tier-pill vip">\u2b50 VIP</span>
-          <span class="tier-pill vvip">\ud83d\udc8e VVIP</span>
-          <span class="tier-pill vvvip">\ud83d\udc51 VVVIP</span>
+          <span class="tier-pill vip">⭐ VIP</span>
+          <span class="tier-pill vvip">💎 VVIP</span>
+          <span class="tier-pill vvvip">👑 VVVIP</span>
         </div>
       </div>
       <div class="feed-tabs">
-        <button class="feed-tab active" onclick="filterVisitorFeed('all',this)">\ud83c\udf0d All Posts</button>
-        <button class="feed-tab" onclick="filterVisitorFeed('news',this)">\ud83d\udcf0 News</button>
-        <button class="feed-tab" onclick="filterVisitorFeed('fanart',this)">\ud83c\udfa8 Fan Art</button>
-        <button class="feed-tab" onclick="filterVisitorFeed('question',this)">\u2753 Questions</button>
+        <button class="feed-tab active" onclick="filterVisitorFeed('all',this)">🌍 All Posts</button>
+        <button class="feed-tab" onclick="filterVisitorFeed('news',this)">📰 News</button>
+        <button class="feed-tab" onclick="filterVisitorFeed('fanart',this)">🎨 Fan Art</button>
+        <button class="feed-tab" onclick="filterVisitorFeed('question',this)">❓ Questions</button>
       </div>
       <div class="feed-loading" id="visitorFeedLoading"><div class="spinner"></div><p>Loading posts...</p></div>
       <div class="post-feed" id="visitorPostFeed"></div>
       <div class="empty-feed glass" id="visitorEmptyFeed" style="display:none">
-        <div style="font-size:48px">\ud83c\udfb5</div><h3>No posts yet!</h3><p>Be the first to post!</p>
+        <div style="font-size:48px">🎵</div><h3>No posts yet!</h3><p>Be the first to post!</p>
       </div>
     </div>
 
-    <!-- \u2500\u2500 NO MEMBERSHIP YET \u2500\u2500 -->
+    <!-- ── NO MEMBERSHIP YET ── -->
     <div class="access-denied glass" id="accessDenied" style="display:none">
-      <div class="denied-icon">\ud83d\udd12</div>
+      <div class="denied-icon">🔒</div>
       <h2>Membership Required</h2>
       <p>Your account is registered but you don't have an active membership yet.</p>
       <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:24px">Request VIP, VVIP or VVVIP to unlock full access.</p>
-      <button class="button button-primary" onclick="showMembershipModal()">\ud83d\udc51 Request Membership</button>
+      <button class="button button-primary" onclick="showMembershipModal()">👑 Request Membership</button>
+    
+
+    <!-- ── PREVIEW FEED (registered users, no membership yet) ── -->
+    <div id="previewSection" style="display:none">
+
+      <div class="preview-section-header">
+        <div class="preview-section-line"></div>
+        <span class="preview-section-label">🌍 Live From The Community</span>
+        <div class="preview-section-line"></div>
+      </div>
+
+      <div class="feed-loading" id="previewFeedLoading"><div class="spinner"></div><p>Loading community posts...</p></div>
+      <div class="post-feed" id="previewPostFeed"></div>
+
+      <!-- INFINITE LOADER — entices them to upgrade -->
+      <div class="preview-infinite-loader" id="previewInfiniteLoader" style="display:none">
+        <div class="infinite-dots">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="infinite-loader-text">There's so much more inside...</p>
+        <button class="button button-primary" style="margin-top:16px" onclick="showMembershipModal()">
+          👑 Unlock Full Access
+        </button>
+      </div>
+
     </div>
 
-    <!-- \u2500\u2500 FULL DASHBOARD \u2500\u2500 -->
+    <!-- ── FULL DASHBOARD ── -->
     <div id="communityDashboard" style="display:none">
 
       <!-- WELCOME BANNER -->
       <div class="welcome-banner glass">
         <div class="welcome-left">
-          <div class="user-avatar" id="userAvatar">\ud83d\udc30</div>
+          <div class="user-avatar" id="userAvatar">🐰</div>
           <div class="user-info">
             <h3 id="welcomeMsg">Welcome back!</h3>
             <p id="userEmail" class="user-email"></p>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-              <div class="fan-rank-badge" id="fanRankBadge">\ud83c\udf31 New Fan</div>
+              <div class="fan-rank-badge" id="fanRankBadge">🌱 New Fan</div>
               <div class="membership-badge" id="membershipBadge" style="display:none"></div>
             </div>
           </div>
         </div>
         <div class="welcome-right">
-          <div class="stat-pill">\ud83c\udf0d Global Member</div>
-          <div class="stat-pill gold">\ud83c\udfb5 Fan Community</div>
-          <div class="stat-pill admin-pill" id="adminBadge" style="display:none">\ud83d\udc51 ADMIN</div>
+          <div class="stat-pill">🌍 Global Member</div>
+          <div class="stat-pill gold">🎵 Fan Community</div>
+          <div class="stat-pill admin-pill" id="adminBadge" style="display:none">👑 ADMIN</div>
         </div>
       </div>
 
@@ -153,42 +178,42 @@
           <!-- CREATE POST -->
           <div class="create-post glass" id="createPostBox">
             <div class="create-post-header">
-              <span class="post-avatar">\ud83d\udc30</span>
+              <span class="post-avatar">🐰</span>
               <span class="post-prompt">Share something with the community...</span>
             </div>
-            <textarea id="postInput" class="post-textarea" placeholder="\ud83c\udfb5 What's on your mind? Share your love for Bad Bunny, fan art links, concert experiences..." maxlength="500"></textarea>
+            <textarea id="postInput" class="post-textarea" placeholder="🎵 What's on your mind? Share your love for Bad Bunny, fan art links, concert experiences..." maxlength="500"></textarea>
 
-            <!-- MEDIA \u2014 VVIP, VVVIP & Admin only -->
+            <!-- MEDIA — VVIP, VVVIP & Admin only -->
             <div class="media-upload-box" id="mediaUploadBox" style="display:none">
               <div class="media-tabs">
-                <button class="media-tab active" onclick="switchMediaTab(this,'photo')">\ud83d\udcf8 Photo</button>
-                <button class="media-tab" onclick="switchMediaTab(this,'video')">\ud83c\udfac Video</button>
-                <button class="media-tab" onclick="switchMediaTab(this,'audio')">\ud83c\udfb5 Audio</button>
+                <button class="media-tab active" onclick="switchMediaTab(this,'photo')">📸 Photo</button>
+                <button class="media-tab" onclick="switchMediaTab(this,'video')">🎬 Video</button>
+                <button class="media-tab" onclick="switchMediaTab(this,'audio')">🎵 Audio</button>
               </div>
               <div class="media-panel active" id="panel-photo">
                 <div class="drop-zone" id="photoDrop" ondragover="handleDrag(event,true,'photoDrop')" ondragleave="handleDrag(event,false,'photoDrop')" ondrop="handleDrop(event,'photo')">
                   <input type="file" accept="image/*" multiple onchange="handleMediaFiles(this.files,'photo')">
-                  <div class="drop-icon">\ud83d\uddbc\ufe0f</div>
+                  <div class="drop-icon">🖼️</div>
                   <p>Drop photos here or <strong>browse</strong></p>
-                  <span>JPG \u00b7 PNG \u00b7 GIF \u00b7 WEBP \u00b7 up to 10MB each</span>
+                  <span>JPG · PNG · GIF · WEBP · up to 10MB each</span>
                 </div>
                 <div class="media-previews" id="photoPreviews"></div>
               </div>
               <div class="media-panel" id="panel-video">
                 <div class="drop-zone" id="videoDrop" ondragover="handleDrag(event,true,'videoDrop')" ondragleave="handleDrag(event,false,'videoDrop')" ondrop="handleDrop(event,'video')">
                   <input type="file" accept="video/*" multiple onchange="handleMediaFiles(this.files,'video')">
-                  <div class="drop-icon">\ud83c\udfac</div>
+                  <div class="drop-icon">🎬</div>
                   <p>Drop videos here or <strong>browse</strong></p>
-                  <span>MP4 \u00b7 MOV \u00b7 WEBM \u00b7 up to 100MB each</span>
+                  <span>MP4 · MOV · WEBM · up to 100MB each</span>
                 </div>
                 <div class="media-previews" id="videoPreviews"></div>
               </div>
               <div class="media-panel" id="panel-audio">
                 <div class="drop-zone" id="audioDrop" ondragover="handleDrag(event,true,'audioDrop')" ondragleave="handleDrag(event,false,'audioDrop')" ondrop="handleDrop(event,'audio')">
                   <input type="file" accept="audio/*" multiple onchange="handleMediaFiles(this.files,'audio')">
-                  <div class="drop-icon">\ud83c\udfb5</div>
+                  <div class="drop-icon">🎵</div>
                   <p>Drop audio here or <strong>browse</strong></p>
-                  <span>MP3 \u00b7 WAV \u00b7 OGG \u00b7 FLAC \u00b7 up to 50MB each</span>
+                  <span>MP3 · WAV · OGG · FLAC · up to 50MB each</span>
                 </div>
                 <div id="audioPreviews"></div>
               </div>
@@ -196,29 +221,29 @@
 
             <div class="post-toolbar">
               <div class="post-type-btns">
-                <button class="type-btn active" data-type="post" onclick="setPostType('post',this)">\ud83d\udcac Post</button>
-                <button class="type-btn" data-type="news" onclick="setPostType('news',this)">\ud83d\udcf0 News</button>
-                <button class="type-btn" data-type="fanart" onclick="setPostType('fanart',this)">\ud83c\udfa8 Fan Art</button>
-                <button class="type-btn" data-type="question" onclick="setPostType('question',this)">\u2753 Question</button>
+                <button class="type-btn active" data-type="post" onclick="setPostType('post',this)">💬 Post</button>
+                <button class="type-btn" data-type="news" onclick="setPostType('news',this)">📰 News</button>
+                <button class="type-btn" data-type="fanart" onclick="setPostType('fanart',this)">🎨 Fan Art</button>
+                <button class="type-btn" data-type="question" onclick="setPostType('question',this)">❓ Question</button>
               </div>
               <div class="post-actions">
                 <span class="char-count" id="charCount">0/500</span>
-                <button class="button button-primary post-btn" onclick="submitPost()">Post \ud83d\ude80</button>
+                <button class="button button-primary post-btn" onclick="submitPost()">Post 🚀</button>
               </div>
             </div>
           </div>
 
           <div class="feed-tabs">
-            <button class="feed-tab active" onclick="filterFeed('all',this)">\ud83c\udf0d All Posts</button>
-            <button class="feed-tab" onclick="filterFeed('news',this)">\ud83d\udcf0 News</button>
-            <button class="feed-tab" onclick="filterFeed('fanart',this)">\ud83c\udfa8 Fan Art</button>
-            <button class="feed-tab" onclick="filterFeed('question',this)">\u2753 Questions</button>
+            <button class="feed-tab active" onclick="filterFeed('all',this)">🌍 All Posts</button>
+            <button class="feed-tab" onclick="filterFeed('news',this)">📰 News</button>
+            <button class="feed-tab" onclick="filterFeed('fanart',this)">🎨 Fan Art</button>
+            <button class="feed-tab" onclick="filterFeed('question',this)">❓ Questions</button>
           </div>
 
           <div class="feed-loading" id="feedLoading"><div class="spinner"></div><p>Loading community posts...</p></div>
           <div class="post-feed" id="postFeed"></div>
           <div class="empty-feed glass" id="emptyFeed" style="display:none">
-            <div style="font-size:48px">\ud83c\udfb5</div><h3>No posts yet!</h3><p>Be the first to post something!</p>
+            <div style="font-size:48px">🎵</div><h3>No posts yet!</h3><p>Be the first to post something!</p>
           </div>
 
         </div>
@@ -227,56 +252,56 @@
         <div class="sidebar-column">
 
           <div class="sidebar-card glass upgrade-card" id="upgradeCard" style="display:none">
-            <h4 class="sidebar-title">\u2b06\ufe0f Upgrade Membership</h4>
+            <h4 class="sidebar-title">⬆️ Upgrade Membership</h4>
             <p style="font-size:12px;color:rgba(255,255,255,0.60);margin-bottom:14px">Unlock more privileges!</p>
-            <button class="button button-primary" style="width:100%;font-size:13px" onclick="showMembershipModal()">\ud83d\udc51 Upgrade Now</button>
+            <button class="button button-primary" style="width:100%;font-size:13px" onclick="showMembershipModal()">👑 Upgrade Now</button>
           </div>
 
           <div class="sidebar-card glass">
-            <h4 class="sidebar-title">\ud83c\udf0d Community Stats</h4>
+            <h4 class="sidebar-title">🌍 Community Stats</h4>
             <div class="stats-list">
-              <div class="stats-row"><span>Total Members</span><span class="stats-val" id="totalMembers">\u2014</span></div>
-              <div class="stats-row"><span>Total Posts</span><span class="stats-val" id="totalPosts">\u2014</span></div>
-              <div class="stats-row"><span>Reach</span><span class="stats-val">Worldwide \ud83c\udf0e</span></div>
+              <div class="stats-row"><span>Total Members</span><span class="stats-val" id="totalMembers">—</span></div>
+              <div class="stats-row"><span>Total Posts</span><span class="stats-val" id="totalPosts">—</span></div>
+              <div class="stats-row"><span>Reach</span><span class="stats-val">Worldwide 🌎</span></div>
             </div>
           </div>
 
           <div class="sidebar-card glass">
-            <h4 class="sidebar-title">\ud83c\udfc6 Fan Ranks</h4>
+            <h4 class="sidebar-title">🏆 Fan Ranks</h4>
             <div class="rank-list">
-              <div class="rank-row">\ud83c\udf31 <span>New Fan</span><small>0\u20134 posts</small></div>
-              <div class="rank-row">\u2b50 <span>Super Fan</span><small>5\u201314 posts</small></div>
-              <div class="rank-row">\ud83d\udd25 <span>Elite Fan</span><small>15\u201329 posts</small></div>
-              <div class="rank-row">\ud83d\udc51 <span>Legend Fan</span><small>30+ posts</small></div>
+              <div class="rank-row">🌱 <span>New Fan</span><small>0–4 posts</small></div>
+              <div class="rank-row">⭐ <span>Super Fan</span><small>5–14 posts</small></div>
+              <div class="rank-row">🔥 <span>Elite Fan</span><small>15–29 posts</small></div>
+              <div class="rank-row">👑 <span>Legend Fan</span><small>30+ posts</small></div>
             </div>
           </div>
 
           <div class="sidebar-card glass">
-            <h4 class="sidebar-title">\ud83d\udc8e Membership Tiers</h4>
+            <h4 class="sidebar-title">💎 Membership Tiers</h4>
             <div class="rank-list">
-              <div class="rank-row">\u2b50 <span>VIP</span><small>Like \u00b7 Comment \u00b7 Text</small></div>
-              <div class="rank-row">\ud83d\udc8e <span>VVIP</span><small>+ Images</small></div>
-              <div class="rank-row">\ud83d\udc51 <span>VVVIP</span><small>+ Video \u00b7 Audio \u00b7 All</small></div>
+              <div class="rank-row">⭐ <span>VIP</span><small>Like · Comment · Text</small></div>
+              <div class="rank-row">💎 <span>VVIP</span><small>+ Images</small></div>
+              <div class="rank-row">👑 <span>VVVIP</span><small>+ Video · Audio · All</small></div>
             </div>
-            <button class="button button-outline" style="width:100%;margin-top:14px;font-size:12px" onclick="showMembershipModal()">\ud83d\ude80 Request Membership</button>
+            <button class="button button-outline" style="width:100%;margin-top:14px;font-size:12px" onclick="showMembershipModal()">🚀 Request Membership</button>
           </div>
 
           <div class="sidebar-card glass">
-            <h4 class="sidebar-title">\ud83d\udccb Community Rules</h4>
+            <h4 class="sidebar-title">📋 Community Rules</h4>
             <ul class="rules-list">
-              <li>\u2705 Be respectful to all fans</li>
-              <li>\u2705 Share Bad Bunny love</li>
-              <li>\u2705 No racism or hate speech</li>
-              <li>\u2705 No spam or advertising</li>
-              <li>\u2705 English or Spanish welcome</li>
-              <li>\u2705 Credit fan art creators</li>
+              <li>✅ Be respectful to all fans</li>
+              <li>✅ Share Bad Bunny love</li>
+              <li>✅ No racism or hate speech</li>
+              <li>✅ No spam or advertising</li>
+              <li>✅ English or Spanish welcome</li>
+              <li>✅ Credit fan art creators</li>
             </ul>
           </div>
 
           <div class="sidebar-card glass install-card" id="installCard" style="display:none">
-            <h4 class="sidebar-title">\ud83d\udcf1 Install App</h4>
+            <h4 class="sidebar-title">📱 Install App</h4>
             <p style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:14px">Install Conejo Malo on your home screen!</p>
-            <button class="button button-primary" id="installBtn" onclick="installPWA()" style="width:100%">\u2b07\ufe0f Install App</button>
+            <button class="button button-primary" id="installBtn" onclick="installPWA()" style="width:100%">⬇️ Install App</button>
           </div>
 
         </div>
@@ -284,69 +309,69 @@
     </div>
   </main>
 
-  <!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->
+  <!-- ══════════════════════════════════ -->
   <!--  MEMBERSHIP MODAL                 -->
-  <!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->
+  <!-- ══════════════════════════════════ -->
   <div class="modal-overlay" id="membershipModal" onclick="closeMembershipModal(event)">
     <div class="modal-box glass">
-      <button class="modal-close" onclick="hideMembershipModal()">\u2715</button>
+      <button class="modal-close" onclick="hideMembershipModal()">✕</button>
 
       <!-- STEP 1: Pick Tier -->
       <div id="modalStep1">
-        <h3 class="modal-title">\ud83d\udc51 Choose Your Membership</h3>
+        <h3 class="modal-title">👑 Choose Your Membership</h3>
         <p class="modal-subtitle">Select a tier to unlock your privileges</p>
         <div class="tier-cards">
 
           <div class="tier-card" onclick="selectTier('VIP')">
-            <div class="tier-card-icon">\u2b50</div>
+            <div class="tier-card-icon">⭐</div>
             <div class="tier-card-name">VIP</div>
             <ul class="tier-card-perks">
-              <li>\u2705 Like &amp; comment on posts</li>
-              <li>\u2705 Post text messages</li>
-              <li>\u2705 Message admins privately</li>
-              <li>\u2705 VIP-only content access</li>
-              <li>\u274c No image/video posting</li>
+              <li>✅ Like &amp; comment on posts</li>
+              <li>✅ Post text messages</li>
+              <li>✅ Message admins privately</li>
+              <li>✅ VIP-only content access</li>
+              <li>❌ No image/video posting</li>
             </ul>
-            <button class="button button-outline tier-select-btn">Select VIP \u2b50</button>
+            <button class="button button-outline tier-select-btn">Select VIP ⭐</button>
           </div>
 
           <div class="tier-card featured" onclick="selectTier('VVIP')">
             <div class="tier-featured-label">POPULAR</div>
-            <div class="tier-card-icon">\ud83d\udc8e</div>
+            <div class="tier-card-icon">💎</div>
             <div class="tier-card-name">VVIP</div>
             <ul class="tier-card-perks">
-              <li>\u2705 Everything in VIP</li>
-              <li>\u2705 Post text + images</li>
-              <li>\u2705 VVIP-only content</li>
-              <li>\u2705 Early event access</li>
-              <li>\u274c No video/audio posting</li>
+              <li>✅ Everything in VIP</li>
+              <li>✅ Post text + images</li>
+              <li>✅ VVIP-only content</li>
+              <li>✅ Early event access</li>
+              <li>❌ No video/audio posting</li>
             </ul>
-            <button class="button button-primary tier-select-btn">Select VVIP \ud83d\udc8e</button>
+            <button class="button button-primary tier-select-btn">Select VVIP 💎</button>
           </div>
 
           <div class="tier-card premium" onclick="selectTier('VVVIP')">
-            <div class="tier-card-icon">\ud83d\udc51</div>
+            <div class="tier-card-icon">👑</div>
             <div class="tier-card-name">VVVIP</div>
             <ul class="tier-card-perks">
-              <li>\u2705 Everything in VVIP</li>
-              <li>\u2705 Post videos &amp; audio</li>
-              <li>\u2705 ALL exclusive content</li>
-              <li>\u2705 First access to tickets</li>
-              <li>\u2705 Merch drop priority</li>
+              <li>✅ Everything in VVIP</li>
+              <li>✅ Post videos &amp; audio</li>
+              <li>✅ ALL exclusive content</li>
+              <li>✅ First access to tickets</li>
+              <li>✅ Merch drop priority</li>
             </ul>
-            <button class="button button-gold tier-select-btn">Select VVVIP \ud83d\udc51</button>
+            <button class="button button-gold tier-select-btn">Select VVVIP 👑</button>
           </div>
 
         </div>
         <div class="free-upgrade-note">
-          \ud83c\udf81 <strong>Free upgrades available!</strong> Earn VIP/VVIP/VVVIP through Q&amp;A challenges, community tasks &amp; activities!
+          🎁 <strong>Free upgrades available!</strong> Earn VIP/VVIP/VVVIP through Q&amp;A challenges, community tasks &amp; activities!
         </div>
       </div>
 
       <!-- STEP 2: Pick Payment -->
       <div id="modalStep2" style="display:none">
-        <button class="modal-back-btn" onclick="goBackToStep1()">\u2190 Back</button>
-        <h3 class="modal-title">\ud83d\udcb3 Choose Payment Method</h3>
+        <button class="modal-back-btn" onclick="goBackToStep1()">← Back</button>
+        <h3 class="modal-title">💳 Choose Payment Method</h3>
         <p class="modal-subtitle">Selected: <strong id="selectedTierLabel"></strong></p>
         <div class="payment-methods">
 
@@ -356,29 +381,29 @@
 
           <div class="crypto-wrapper">
             <button class="payment-btn crypto-btn" onclick="toggleCryptoMenu()">
-              \ud83e\ude99 Crypto <span id="cryptoArrow">\u25bc</span>
+              🪙 Crypto <span id="cryptoArrow">▼</span>
             </button>
             <div class="crypto-dropdown" id="cryptoDropdown" style="display:none">
-              <button class="crypto-option" onclick="submitMembershipRequest('Bitcoin (BTC)')">\u20bf Bitcoin (BTC)</button>
-              <button class="crypto-option" onclick="submitMembershipRequest('Ethereum (ETH)')">\u039e Ethereum (ETH)</button>
-              <button class="crypto-option" onclick="submitMembershipRequest('USDT')">\u20ae USDT</button>
-              <button class="crypto-option" onclick="submitMembershipRequest('Tether (USDT TRC20)')">\u20ae Tether (USDT TRC20)</button>
-              <button class="crypto-option" onclick="submitMembershipRequest('USDC')">\ud83d\udcb2 USDC</button>
+              <button class="crypto-option" onclick="submitMembershipRequest('Bitcoin (BTC)')">₿ Bitcoin (BTC)</button>
+              <button class="crypto-option" onclick="submitMembershipRequest('Ethereum (ETH)')">Ξ Ethereum (ETH)</button>
+              <button class="crypto-option" onclick="submitMembershipRequest('USDT')">₮ USDT</button>
+              <button class="crypto-option" onclick="submitMembershipRequest('Tether (USDT TRC20)')">₮ Tether (USDT TRC20)</button>
+              <button class="crypto-option" onclick="submitMembershipRequest('USDC')">💲 USDC</button>
             </div>
           </div>
 
         </div>
-        <p class="payment-note">\ud83d\udd12 Your request goes directly to our admin team. Payment address will be sent upon approval.</p>
+        <p class="payment-note">🔒 Your request goes directly to our admin team. Payment address will be sent upon approval.</p>
       </div>
 
       <!-- STEP 3: Success -->
       <div id="modalStep3" style="display:none">
         <div class="modal-success">
-          <div class="success-icon">\ud83c\udf89</div>
+          <div class="success-icon">🎉</div>
           <h3 class="modal-title">Request Submitted!</h3>
           <p class="modal-subtitle">Your <strong id="confirmedTier"></strong> request via <strong id="confirmedPayment"></strong> is <span style="color:#ffd700">under review</span>.</p>
-          <div class="success-message">\ud83d\udcec Our admin team will review your request and send you the payment address shortly. Keep an eye on your email!</div>
-          <button class="button button-primary" style="margin-top:20px" onclick="hideMembershipModal()">Got it! \ud83d\udc30</button>
+          <div class="success-message">📬 Our admin team will review your request and send you the payment address shortly. Keep an eye on your email!</div>
+          <button class="button button-primary" style="margin-top:20px" onclick="hideMembershipModal()">Got it! 🐰</button>
         </div>
       </div>
 
@@ -387,7 +412,7 @@
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <button class="lightbox-close" onclick="closeLightbox()">\u2715</button>
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
     <img id="lightboxImg" src="" alt="Media preview">
   </div>
 
