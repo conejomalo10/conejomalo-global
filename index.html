@@ -318,6 +318,35 @@
     .hg-tier-badge.vvip  { background: rgba(100,180,255,0.10); border: 1px solid rgba(100,180,255,0.35); color: #64b4ff; }
     .hg-tier-badge.vvvip { background: rgba(255,215,0,0.10);   border: 1px solid rgba(255,215,0,0.35);   color: #ffd700; }
 
+    /* ── Button hover effects ── */
+    .hg-btn-primary  { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .hg-btn-primary:hover  { transform: scale(1.06); box-shadow: 0 6px 28px rgba(255,0,102,0.55); }
+    .hg-btn-secondary { transition: transform 0.25s ease, background 0.25s ease; }
+    .hg-btn-secondary:hover { transform: scale(1.06); background: rgba(0,229,255,0.15); }
+
+    /* ── Tier badge hover ── */
+    .hg-tier-badge { transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
+    .hg-tier-badge:hover { transform: scale(1.10); }
+    .hg-tier-badge.vip:hover   { box-shadow: 0 0 14px rgba(192,192,192,0.40); }
+    .hg-tier-badge.vvip:hover  { box-shadow: 0 0 14px rgba(100,180,255,0.45); }
+    .hg-tier-badge.vvvip:hover { box-shadow: 0 0 14px rgba(255,215,0,0.50); }
+
+    /* ── Floating particles ── */
+    .hg-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2;
+      animation: hgParticleRise linear infinite;
+    }
+    @keyframes hgParticleRise {
+      0%   { transform: translateY(0)   translateX(0)   scale(0.5); opacity: 0.25; }
+      50%  { opacity: 0.65; }
+      100% { transform: translateY(-110vh) translateX(80px) scale(1.1); opacity: 0; }
+    }
+
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .hg-photo-wrap { display: none; }
@@ -756,6 +785,48 @@
       <p class="modal-terms" data-lang="modalTerms">By joining you agree to our community guidelines.</p>
     </div>
   </div>
+
+  <!-- ============================================================
+       HERO UPGRADES — Particles + Auto Language Detection
+  ============================================================ -->
+  <script>
+    // ── Floating particles inside hero section only ──
+    (function spawnParticles() {
+      const hero = document.querySelector('.hero-glass-section');
+      if (!hero) return;
+      for (let i = 0; i < 70; i++) {
+        const p = document.createElement('div');
+        p.className = 'hg-particle';
+        const size = 3 + Math.random() * 4;
+        p.style.cssText = [
+          'width:'  + size + 'px',
+          'height:' + size + 'px',
+          'left:'   + Math.random() * 100 + '%',
+          'top:'    + (60 + Math.random() * 40) + '%',
+          'animation-duration:' + (12 + Math.random() * 14) + 's',
+          'animation-delay:'    + (Math.random() * 12) + 's',
+        ].join(';');
+        hero.appendChild(p);
+      }
+    })();
+
+    // ── Auto language detection on first load ──
+    window.addEventListener('load', function () {
+      // Only auto-detect if language.js hasn't already set a preference
+      if (typeof setLanguage === 'function' && !localStorage.getItem('cm_lang')) {
+        const browserLang = (navigator.language || navigator.userLanguage || 'en').slice(0, 2).toLowerCase();
+        const supported = ['en','es','fr','pt','de','ru','ja','zh','ar','hi','ko','it'];
+        const lang = supported.includes(browserLang) ? browserLang : 'en';
+        setLanguage(lang);
+      }
+    });
+
+    // ── Smooth scroll helper (backs up any inline onclick usage) ──
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 
   <script type="module" src="firebase.js"></script>
   <script type="module" src="auth.js"></script>
