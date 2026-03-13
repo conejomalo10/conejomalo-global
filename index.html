@@ -13,6 +13,363 @@
   <meta name="apple-mobile-web-app-title" content="Conejo Malo" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&family=Orbitron:wght@700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       HERO GLASSMORPHISM — scoped only to #home .hero-glass-section
+       Does NOT affect modals, inputs, or any other page section
+    ============================================================ */
+
+    /* ── Hero wrapper ── */
+    .hero-glass-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #0a001a;
+      padding: 100px 20px 60px;
+    }
+
+    /* ── Neon gradient background — static, no keyframes ── */
+    .hero-glass-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 20% 30%,  rgba(138,43,226,0.55) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 20%,  rgba(0,200,255,0.40)  0%, transparent 65%),
+        radial-gradient(ellipse 55% 60% at 50% 80%,  rgba(255,20,147,0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 75% 65%,  rgba(100,0,255,0.35)  0%, transparent 60%),
+        radial-gradient(ellipse 35% 35% at 10% 75%,  rgba(0,255,200,0.20)  0%, transparent 55%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Dot texture ── */
+    .hero-glass-section::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Static light streaks ── */
+    .hg-streak-1 {
+      position: absolute;
+      top: -60px; right: 12%;
+      width: 2px; height: 55%;
+      background: linear-gradient(to bottom, transparent, rgba(0,220,255,0.30), rgba(180,0,255,0.20), transparent);
+      z-index: 1; border-radius: 999px; filter: blur(3px);
+      pointer-events: none;
+    }
+    .hg-streak-2 {
+      position: absolute;
+      bottom: -40px; left: 14%;
+      width: 2px; height: 40%;
+      background: linear-gradient(to bottom, transparent, rgba(255,20,147,0.25), transparent);
+      z-index: 1; border-radius: 999px; filter: blur(3px);
+      pointer-events: none;
+    }
+
+    /* ── Decorative rings ── */
+    .hg-ring-1, .hg-ring-2 {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hg-ring-1 {
+      width: 420px; height: 420px;
+      border: 1px solid rgba(138,43,226,0.15);
+      box-shadow: 0 0 50px rgba(138,43,226,0.08) inset;
+    }
+    .hg-ring-2 {
+      width: 650px; height: 650px;
+      border: 1px solid rgba(0,200,255,0.08);
+    }
+
+    /* ── Bunny watermark ── */
+    .hg-bunny-mark {
+      position: absolute;
+      font-size: 300px;
+      opacity: 0.035;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      user-select: none;
+      line-height: 1;
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    /* ── Bad Bunny photo ── */
+    .hg-photo-wrap {
+      position: absolute;
+      right: 3%;
+      bottom: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hg-photo {
+      height: min(80vh, 600px);
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(-8px 0 40px rgba(138,43,226,0.40));
+      opacity: 0.92;
+    }
+
+    /* ── Glass card ── */
+    .hg-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 640px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 28px;
+      padding: 52px 48px 48px;
+      text-align: center;
+      box-shadow:
+        0 8px 60px rgba(0,0,0,0.55),
+        0 0 0 1px rgba(255,255,255,0.05) inset,
+        0 1px 0 rgba(255,255,255,0.18) inset;
+    }
+
+    /* top glow line */
+    .hg-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0,220,255,0.55), rgba(180,0,255,0.55), transparent);
+      border-radius: 999px;
+    }
+    /* bottom glow line */
+    .hg-card::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 20%; right: 20%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,20,147,0.35), transparent);
+      border-radius: 999px;
+    }
+
+    /* ── Typography ── */
+    .hg-pre-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(11px, 1.8vw, 14px);
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.60);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .hg-main-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(58px, 9vw, 100px);
+      line-height: 0.95;
+      letter-spacing: 4px;
+      color: transparent;
+      background: linear-gradient(135deg, #00e5ff 0%, #00bcd4 35%, #40e0d0 65%, #00e5ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 0 28px rgba(0,229,255,0.30));
+      margin-bottom: 4px;
+      display: block;
+    }
+    .hg-divider {
+      width: 80px; height: 2px;
+      background: linear-gradient(to right, rgba(0,229,255,0), rgba(0,229,255,0.8), rgba(255,20,147,0.8), rgba(255,20,147,0));
+      margin: 14px auto 16px;
+      border-radius: 999px;
+    }
+    .hg-artist {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(24px, 3.5vw, 38px);
+      letter-spacing: 6px;
+      color: #ff6b6b;
+      filter: drop-shadow(0 0 10px rgba(255,107,107,0.45));
+      margin-bottom: 4px;
+      display: block;
+    }
+    .hg-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(11px, 1.6vw, 13px);
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #a8edea;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* ── Love banner ── */
+    .hg-love-banner {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 6px;
+      padding: 7px 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* ── Stats row ── */
+    .hg-stats {
+      display: flex;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      margin-bottom: 24px;
+    }
+    .hg-stat {
+      flex: 1;
+      padding: 12px 10px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .hg-stat:last-child { border-right: none; }
+    .hg-stat-val {
+      display: block;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 20px; letter-spacing: 2px; color: #ffd700;
+    }
+    .hg-stat-label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.40); margin-top: 2px;
+    }
+
+    /* ── CTA buttons ── */
+    .hg-btn-row {
+      display: flex; gap: 10px;
+      justify-content: center; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .hg-btn-primary {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 12px;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 13px 28px; border-radius: 999px; border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff0066, #ff6b6b);
+      color: white;
+      box-shadow: 0 4px 20px rgba(255,0,102,0.40);
+    }
+    .hg-btn-secondary {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: 12px;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 12px 24px; border-radius: 999px;
+      border: 1px solid rgba(0,229,255,0.40);
+      cursor: pointer;
+      background: rgba(0,229,255,0.07);
+      backdrop-filter: blur(8px);
+      color: #a8edea;
+    }
+
+    /* ── Status & logout (kept from original) ── */
+    .hg-status-text {
+      font-size: 12px;
+      color: rgba(255,255,255,0.40);
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+    .hg-logout-btn {
+      display: none;
+      margin-top: 10px;
+      background: rgba(255,0,102,0.15);
+      border: 1px solid rgba(255,0,102,0.40);
+      color: #ff6699;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 700;
+      padding: 7px 20px; border-radius: 999px; cursor: pointer;
+    }
+
+    /* ── Tier badges ── */
+    .hg-tier-row {
+      display: flex; justify-content: center;
+      gap: 8px; flex-wrap: wrap; margin-top: 18px;
+    }
+    .hg-tier-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 1.5px; padding: 4px 14px; border-radius: 999px;
+    }
+    .hg-tier-badge.vip   { background: rgba(192,192,192,0.10); border: 1px solid rgba(192,192,192,0.35); color: #c0c0c0; }
+    .hg-tier-badge.vvip  { background: rgba(100,180,255,0.10); border: 1px solid rgba(100,180,255,0.35); color: #64b4ff; }
+    .hg-tier-badge.vvvip { background: rgba(255,215,0,0.10);   border: 1px solid rgba(255,215,0,0.35);   color: #ffd700; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hg-photo-wrap { display: none; }
+      .hg-ring-1, .hg-ring-2 { display: none; }
+    }
+    @media (max-width: 600px) {
+      .hg-card { padding: 38px 22px 36px; border-radius: 20px; }
+      .hg-stats { flex-wrap: wrap; }
+      .hg-stat  { min-width: 33%; }
+    }
+
+    /* ============================================================
+       MODAL FIX — ensure login modal inputs are always on top
+       and never obscured by glass blur layers
+    ============================================================ */
+    .modal {
+      z-index: 99999 !important;
+    }
+    .modalBox {
+      position: relative;
+      z-index: 100000 !important;
+      background: rgba(10,4,30,0.98) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .modalBox input,
+    .modalBox label,
+    .modalBox button,
+    .modalBox h3,
+    .modalBox p {
+      position: relative;
+      z-index: 1;
+    }
+    .input-group {
+      position: relative;
+      z-index: 1;
+    }
+    .input-group input {
+      position: relative;
+      z-index: 2;
+      background: rgba(255,255,255,0.09) !important;
+      border: 1px solid rgba(255,255,255,0.20) !important;
+      color: white !important;
+      pointer-events: all !important;
+    }
+    .input-group input:focus {
+      outline: none !important;
+      border-color: rgba(0,229,255,0.55) !important;
+      background: rgba(255,255,255,0.13) !important;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -57,58 +414,69 @@
     <button class="hamburger" onclick="toggleMenu()">☰</button>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
+  <!-- ============================================================
+       HERO — GLASSMORPHISM
+  ============================================================ -->
+  <section class="hero-glass-section" id="home">
 
-    <!-- PURE CSS MUSIC STAGE BACKGROUND — BRIGHT PEARL + GOLD SYMBOLS -->
-    <div class="music-stage-bg">
-      <!-- Large static gold music symbols — always visible -->
-      <div class="music-note n1">🎵</div>
-      <div class="music-note n2">🎸</div>
-      <div class="music-note n3">🎼</div>
-      <div class="music-note n4">🎷</div>
-      <div class="music-note n5">🎺</div>
-      <div class="music-note n6">🎧</div>
-      <!-- Floating rising notes -->
-      <div class="music-note n7">♪</div>
-      <div class="music-note n8">♫</div>
-      <div class="music-note n9">🎶</div>
-      <div class="music-note n10">♬</div>
-      <div class="music-note n11">🎤</div>
-      <div class="music-note n12">🎙️</div>
-      <!-- Sparkles -->
-      <div class="music-note n13">✨</div>
-      <div class="music-note n14">⭐</div>
-      <div class="music-note n15">✨</div>
-      <!-- Mirror sheen overlay -->
-      <div class="stage-floor"></div>
+    <!-- Static decorative layers -->
+    <div class="hg-streak-1"></div>
+    <div class="hg-streak-2"></div>
+    <div class="hg-ring-1"></div>
+    <div class="hg-ring-2"></div>
+    <div class="hg-bunny-mark">🐰</div>
+
+    <!-- Bad Bunny photo — right side -->
+    <div class="hg-photo-wrap">
+      <img src="images/Compress_20260309_175859_9892.jpg" class="hg-photo" alt="Bad Bunny" />
     </div>
 
-    <!-- BAD BUNNY CHILEAN FLAG PHOTO — RIGHT SIDE FLOAT -->
-    <div class="bb-photo-wrap">
-      <img src="images/Compress_20260309_175859_9892.jpg" class="bb-photo" alt="Bad Bunny Chilean Flag" />
-    </div>
+    <!-- GLASS CARD -->
+    <div class="hg-card">
 
-    <!-- GLASS PANEL -->
-    <div class="glass hero-glass">
-      <div class="hero-badge" data-lang="heroBadge">🌍 GLOBAL FAN COMMUNITY</div>
-      <h1 class="hero-title" data-lang="title">Comunidad Global de Fans de Conejo Malo</h1>
-      <h2 data-lang="subtitle">Bad Bunny Global Fan Community</h2>
-      <p data-lang="heroDesc">Celebrating music, culture, and the worldwide impact of Bad Bunny. Join millions of fans across the globe.</p>
-      <div class="hero-stats">
-        <div class="stat"><span>🌍</span><span data-lang="statGlobal">Global Community</span></div>
-        <div class="stat"><span>👑</span><span data-lang="statVIP">VIP Access</span></div>
-        <div class="stat"><span>🎵</span><span data-lang="statMusic">Exclusive Content</span></div>
+      <span class="hg-pre-title" data-lang="heroBadge">🌍 Comunidad Global de</span>
+      <span class="hg-main-title">CONEJO MALO</span>
+      <div class="hg-divider"></div>
+      <span class="hg-artist">BAD BUNNY</span>
+      <span class="hg-sub" data-lang="subtitle">Global Fans Community</span>
+
+      <div class="hg-love-banner">
+        ✊ The only thing more powerful than hate is love — No Racism!
       </div>
-      <div class="love-banner">
-        ✊ THE ONLY THING MORE POWERFUL THAN HATE IS LOVE — NO RACISM!
+
+      <!-- Stats -->
+      <div class="hg-stats">
+        <div class="hg-stat">
+          <span class="hg-stat-val">1,000+</span>
+          <span class="hg-stat-label" data-lang="statGlobal">Members</span>
+        </div>
+        <div class="hg-stat">
+          <span class="hg-stat-val">🌎</span>
+          <span class="hg-stat-label">Worldwide</span>
+        </div>
+        <div class="hg-stat">
+          <span class="hg-stat-val" data-lang="statVIP">👑 VIP</span>
+          <span class="hg-stat-label" data-lang="statMusic">Access</span>
+        </div>
       </div>
-      <div class="hero-buttons">
-        <button class="button button-primary" onclick="openModal()" data-lang="joinBtn">Join the Community</button>
-        <button class="button button-outline" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-lang="exploreBtn">Explore</button>
+
+      <!-- CTA Buttons -->
+      <div class="hg-btn-row">
+        <button class="hg-btn-primary" onclick="openModal()" data-lang="joinBtn">Join the Community</button>
+        <button class="hg-btn-secondary" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-lang="exploreBtn">Explore</button>
       </div>
-      <p id="status" class="status-text">Not logged in</p>
-      <button id="logoutBtn" class="logout-btn" onclick="logout()" style="display:none" data-lang="logoutBtn">Logout</button>
+
+      <!-- Auth status (kept from original) -->
+      <p id="status" class="hg-status-text">Not logged in</p>
+      <button id="logoutBtn" class="hg-logout-btn" onclick="logout()" data-lang="logoutBtn">Logout</button>
+
+      <!-- Tier badges -->
+      <div class="hg-tier-row">
+        <span class="hg-tier-badge vip">⭐ VIP</span>
+        <span class="hg-tier-badge vvip">💎 VVIP</span>
+        <span class="hg-tier-badge vvvip">👑 VVVIP</span>
+      </div>
+
     </div>
   </section>
 
@@ -294,27 +662,10 @@
       <h2 data-lang="supportTitle">Support the Community</h2>
       <p data-lang="supportDesc">Help keep this fan community alive and growing. Every contribution matters.</p>
       <div class="crypto-grid">
-        <div class="crypto-card reveal">
-          <span>₿</span>
-          <h4>Bitcoin</h4>
-          <p data-lang="cryptoMsg">Contact for address</p>
-        </div>
-        <div class="crypto-card reveal">
-          <span>Ξ</span>
-          <h4>Ethereum</h4>
-          <p data-lang="cryptoMsg">Contact for address</p>
-        </div>
-        <div class="crypto-card reveal">
-          <span>₮</span>
-          <h4>Tether</h4>
-          <p data-lang="cryptoMsg">Contact for address</p>
-        </div>
-        <div class="crypto-card reveal paypal-card">
-          <span>🅿️</span>
-          <h4>PayPal</h4>
-          <p>Coming Soon</p>
-          <div class="coming-soon-badge">COMING SOON</div>
-        </div>
+        <div class="crypto-card reveal"><span>₿</span><h4>Bitcoin</h4><p data-lang="cryptoMsg">Contact for address</p></div>
+        <div class="crypto-card reveal"><span>Ξ</span><h4>Ethereum</h4><p data-lang="cryptoMsg">Contact for address</p></div>
+        <div class="crypto-card reveal"><span>₮</span><h4>Tether</h4><p data-lang="cryptoMsg">Contact for address</p></div>
+        <div class="crypto-card reveal paypal-card"><span>🅿️</span><h4>PayPal</h4><p>Coming Soon</p><div class="coming-soon-badge">COMING SOON</div></div>
       </div>
       <p class="email-note" data-lang="emailSupport">✉ Email us for payment instructions and support requests.</p>
     </div>
@@ -351,7 +702,7 @@
     </div>
   </footer>
 
-  <!-- MODAL -->
+  <!-- LOGIN / REGISTER MODAL -->
   <div class="modal" id="authModal">
     <div class="modalBox">
       <button class="modal-close" onclick="closeModal()">✕</button>
