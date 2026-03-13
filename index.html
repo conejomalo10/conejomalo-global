@@ -16,7 +16,7 @@
   <!-- PREMIUM FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700;900&family=Poppins:wght@400;600;800&family=Raleway:wght@400;700;900&family=Lora:wght@400;700&family=Orbitron:wght@400;500;700&display=block" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700;900&family=Poppins:wght@400;600;800;900&family=Raleway:wght@400;700;900&family=Lora:wght@400;700&family=Orbitron:wght@400;500;700&family=DM+Sans:wght@400;700;900&family=Inter:wght@400;700;800;900&display=block" rel="stylesheet" />
 
   <style>
 
@@ -43,44 +43,13 @@
     .fonts-loaded .hg-sub { opacity: 1; }
 
     /* ============================================================
-       GLOBAL FONT OVERRIDES — every section of the site
+       FONT SCOPING — hero card only. style.css handles everything else.
     ============================================================ */
-    h1, h2, h3, h4, h5, h6,
-    .hg-main-title, .hg-stat-val,
-    .rank-card strong, .tier-badge,
-    .section-tag, .vip-subtitle,
-    .footer-logo, .nav-logo {
-      font-family: 'Bebas Neue', 'Arial Black', sans-serif !important;
-      letter-spacing: 2px;
-    }
-
-    body, p, li, span, label, input, textarea, select,
-    .hg-love-banner, .hg-stat-label,
-    .vip-description, .modal-sub,
-    .button, .tier-btn, .tier-features li,
-    .about-card p, .event-card p,
-    .footer-disclaimer, footer p {
-      font-family: 'Montserrat', sans-serif !important;
-    }
-
-    .hg-pre-title, .hg-tier-badge,
-    .nav-links a, .social-btn,
-    .langSwitch button {
-      font-family: 'Poppins', sans-serif !important;
-    }
-
-    .hg-sub, .hg-love-banner {
-      font-family: 'Lora', serif !important;
-    }
-
-    .hg-artist {
-      font-family: 'Raleway', sans-serif !important;
-      font-weight: 900 !important;
-      font-style: italic !important;
-    }
-
-    .hg-stat-val, .hg-glow-text {
-      font-family: 'Orbitron', sans-serif !important;
+    .hg-pre-title, .hg-main-title, .hg-artist, .hg-sub,
+    .hg-love-banner, .hg-stat-val, .hg-stat-label,
+    .hg-tier-badge, .hg-btn-primary, .hg-btn-secondary,
+    .hg-status-text, .hg-logout-btn {
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
     }
 
     /* ============================================================
@@ -292,29 +261,31 @@
     }
 
     /* ============================================================
-       HERO TYPOGRAPHY
+       HERO TYPOGRAPHY — locked to approved Image 1
+       Font: Inter 900 — bold, geometric, mixed-case, no italics
     ============================================================ */
     .hg-pre-title {
-      font-family: 'Montserrat', sans-serif !important;
-      font-size: clamp(26px, 5vw, 48px);
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      line-height: 1.15;
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
+      font-size: clamp(28px, 6vw, 52px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.12;
       text-transform: none;
       color: #ffffff;
-      text-shadow: 0 2px 18px rgba(0,0,0,0.55);
-      margin-bottom: 2px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+      margin-bottom: 0;
       display: block;
       opacity: 0;
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-pre-title { opacity: 1; }
+
     .hg-main-title {
-      font-family: 'Montserrat', sans-serif !important;
-      font-size: clamp(36px, 7.5vw, 72px);
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
+      font-size: clamp(28px, 6vw, 52px);
       font-weight: 900;
       letter-spacing: -1px;
-      line-height: 1.10;
+      line-height: 1.12;
       text-transform: none;
       color: #00d4ff;
       background: none;
@@ -322,70 +293,67 @@
       background-clip: unset;
       -webkit-text-fill-color: #00d4ff;
       filter: none;
-      text-shadow: 0 0 24px rgba(0,212,255,0.50), 0 2px 18px rgba(0,0,0,0.45);
+      text-shadow: 0 0 20px rgba(0,212,255,0.40), 0 2px 12px rgba(0,0,0,0.5);
       margin-bottom: 10px;
       display: block;
       opacity: 0;
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-main-title { opacity: 1; }
+
     .hg-divider {
       width: 60px; height: 2px;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.35), transparent);
-      margin: 10px auto 12px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.30), transparent);
+      margin: 8px auto 12px;
       border-radius: 999px;
-      box-shadow: none;
+    }
+
+    /* "Bad Bunny Global Fans Community" row */
+    .hg-artist-sub-row {
+      display: block;
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.5;
     }
     .hg-artist {
-      font-family: 'Montserrat', sans-serif !important;
-      font-size: clamp(16px, 3vw, 26px);
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
+      font-size: clamp(14px, 2.8vw, 22px);
       font-weight: 700;
       font-style: normal !important;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       text-transform: none;
       color: #ff5c5c;
-      filter: none;
-      text-shadow: 0 2px 12px rgba(255,92,92,0.40);
-      margin-bottom: 0px;
+      text-shadow: none;
       display: inline;
-      line-height: 1.5;
       opacity: 0;
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-artist { opacity: 1; }
+
     .hg-sub {
-      font-family: 'Montserrat', sans-serif !important;
-      font-size: clamp(16px, 3vw, 26px);
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
+      font-size: clamp(14px, 2.8vw, 22px);
       font-weight: 700;
       font-style: normal;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       text-transform: none;
       color: #ffffff;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.40);
+      text-shadow: none;
       display: inline;
-      margin-bottom: 0px;
-      line-height: 1.5;
       opacity: 0;
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-sub { opacity: 1; }
 
-    /* Wrapper to put artist + sub on same line then wrap naturally */
-    .hg-artist-sub-row {
-      display: block;
-      text-align: center;
-      margin-bottom: 16px;
-      line-height: 1.55;
-    }
-
     /* ── Love banner ── */
     .hg-love-banner {
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
       font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-weight: 600;
+      letter-spacing: 0;
       color: #ffffff;
       font-style: normal;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+      text-shadow: none;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,75,241,0.30);
       border-radius: 8px;
@@ -408,16 +376,23 @@
     }
     .hg-stat:last-child { border-right: none; }
     .hg-stat-val {
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
       display: block;
-      font-size: 15px; letter-spacing: 1px; color: #ffea00;
-      font-weight: 700;
-      text-shadow: 0 0 8px rgba(255,234,0,0.60);
+      font-size: 16px;
+      letter-spacing: 0;
+      color: #ffea00;
+      font-weight: 800;
+      text-shadow: none;
+      -webkit-font-smoothing: antialiased;
     }
     .hg-stat-label {
+      font-family: 'Inter', 'DM Sans', sans-serif !important;
       display: block;
       font-size: 9px; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(255,255,255,0.38); margin-top: 4px;
+      color: rgba(255,255,255,0.50); margin-top: 4px;
+      text-shadow: none;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── CTA buttons ── */
@@ -598,11 +573,12 @@
     <!-- GLASS CARD -->
     <div class="hg-card floating-glass">
 
-      <span class="hg-pre-title">🌍 Comunidad Official de Fans de</span>
-      <span class="hg-main-title">CONEJO MALO</span>
+      <span class="hg-pre-title">Communidad Global de</span>
+      <span class="hg-main-title">Conejo Malo</span>
       <div class="hg-divider"></div>
-      <span class="hg-artist">BAD BUNNY</span>
-      <span class="hg-sub">Global Fans<br>Community</span>
+      <div class="hg-artist-sub-row">
+        <span class="hg-artist">Bad Bunny </span><span class="hg-sub">Global Fans Community</span>
+      </div>
 
       <div class="hg-love-banner">
         ✊ The only thing more powerful than hate is love — No Racism!
@@ -610,7 +586,7 @@
 
       <div class="hg-stats">
         <div class="hg-stat">
-          <span class="hg-stat-val">1,000+</span>
+          <span class="hg-stat-val">1000+</span>
           <span class="hg-stat-label">Members</span>
         </div>
         <div class="hg-stat">
