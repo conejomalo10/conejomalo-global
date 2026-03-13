@@ -14,9 +14,9 @@ const CLOUDINARY_CLOUD_NAME    = "dhazrf2xr";
 const CLOUDINARY_UPLOAD_PRESET = "conejomalo_media";
 const CLOUDINARY_UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
-const ADMIN_EMAILS     = ["official.deconejomalo@gmail.com"];
-const SUB_ADMIN_EMAILS = [];
-const VISITOR_PREVIEW_COUNT = 5; // how many posts visitors can see before blur wall
+const ADMIN_EMAILS          = ["official.deconejomalo@gmail.com"];
+const SUB_ADMIN_EMAILS      = [];
+const VISITOR_PREVIEW_COUNT = 5;
 
 let currentUser     = null;
 let currentFilter   = 'all';
@@ -94,7 +94,7 @@ window.setPostType = function(type, btn) {
 document.getElementById('postInput')?.addEventListener('input', function() {
   const count = this.value.length;
   const el = document.getElementById('charCount');
-  if (el) { el.textContent = count + '/500'; el.style.color = count > 450 ? '#ff6666' : 'rgba(255,255,255,0.40)'; }
+  if (el) { el.textContent = count+'/500'; el.style.color = count>450?'#ff6666':'rgba(255,255,255,0.40)'; }
 });
 
 // ── MEDIA TABS ──
@@ -102,8 +102,7 @@ window.switchMediaTab = function(btn, type) {
   document.querySelectorAll('.media-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.media-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  const panel = document.getElementById('panel-' + type);
-  if (panel) panel.classList.add('active');
+  document.getElementById('panel-'+type)?.classList.add('active');
 };
 
 window.handleDrag = function(e, over, zoneId) {
@@ -133,20 +132,20 @@ window.handleMediaFiles = function(files, type) {
 };
 
 function renderPreview(type, idx, url, file) {
-  if (type === 'photo') {
-    const g = document.getElementById('photoPreviews'); if (!g) return;
-    const d = document.createElement('div'); d.className = 'preview-item';
-    d.innerHTML = `<img src="${url}" alt="${esc(file.name)}"><button class="preview-remove" onclick="removeMedia('photo',${idx},this.closest('.preview-item'))">✕</button>`;
+  if (type==='photo') {
+    const g=document.getElementById('photoPreviews'); if(!g) return;
+    const d=document.createElement('div'); d.className='preview-item';
+    d.innerHTML=`<img src="${url}" alt="${esc(file.name)}"><button class="preview-remove" onclick="removeMedia('photo',${idx},this.closest('.preview-item'))">✕</button>`;
     g.appendChild(d);
-  } else if (type === 'video') {
-    const g = document.getElementById('videoPreviews'); if (!g) return;
-    const d = document.createElement('div'); d.className = 'preview-item'; d.style.aspectRatio='16/9';
-    d.innerHTML = `<video src="${url}" controls></video><button class="preview-remove" onclick="removeMedia('video',${idx},this.closest('.preview-item'))">✕</button>`;
+  } else if (type==='video') {
+    const g=document.getElementById('videoPreviews'); if(!g) return;
+    const d=document.createElement('div'); d.className='preview-item'; d.style.aspectRatio='16/9';
+    d.innerHTML=`<video src="${url}" controls></video><button class="preview-remove" onclick="removeMedia('video',${idx},this.closest('.preview-item'))">✕</button>`;
     g.appendChild(d);
   } else {
-    const c = document.getElementById('audioPreviews'); if (!c) return;
-    const d = document.createElement('div'); d.className = 'audio-preview-item';
-    d.innerHTML = `<div class="audio-preview-icon">🎵</div>
+    const c=document.getElementById('audioPreviews'); if(!c) return;
+    const d=document.createElement('div'); d.className='audio-preview-item';
+    d.innerHTML=`<div class="audio-preview-icon">🎵</div>
       <div class="audio-preview-info">
         <div class="audio-preview-name">${esc(file.name)}</div>
         <div class="audio-preview-size">${(file.size/1024/1024).toFixed(2)} MB</div>
@@ -158,24 +157,24 @@ function renderPreview(type, idx, url, file) {
 }
 
 window.removeMedia = function(type, idx, el) {
-  pendingMedia[type][idx] = null; if (el) el.remove();
+  pendingMedia[type][idx]=null; if(el) el.remove();
 };
 
-// ── CLOUDINARY UPLOAD ──
+// ── CLOUDINARY ──
 async function uploadToCloudinary(file) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   fd.append('folder', 'conejomalo_community');
-  const res = await fetch(CLOUDINARY_UPLOAD_URL, { method:'POST', body:fd });
-  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message||'Upload failed'); }
+  const res = await fetch(CLOUDINARY_UPLOAD_URL, {method:'POST',body:fd});
+  if (!res.ok) { const e=await res.json(); throw new Error(e.error?.message||'Upload failed'); }
   return (await res.json()).secure_url;
 }
 
 // ── SUBMIT POST ──
 window.submitPost = async function() {
-  if (!currentUser)   { showToast('⚠️ Please login first!'); return; }
-  if (!canPost())     { showToast('⚠️ Membership required to post!'); return; }
+  if (!currentUser)  { showToast('⚠️ Please login first!'); return; }
+  if (!canPost())    { showToast('⚠️ Membership required to post!'); return; }
 
   const input  = document.getElementById('postInput');
   const text   = input?.value?.trim();
@@ -217,13 +216,13 @@ window.submitPost = async function() {
       createdAt:   serverTimestamp()
     });
 
-    if (input) input.value = '';
-    document.getElementById('charCount').textContent = '0/500';
-    pendingMedia.photo.length = pendingMedia.video.length = pendingMedia.audio.length = 0;
-    ['photoPreviews','videoPreviews','audioPreviews'].forEach(id => { const e=document.getElementById(id); if(e) e.innerHTML=''; });
+    if (input) input.value='';
+    const cc=document.getElementById('charCount'); if(cc) cc.textContent='0/500';
+    pendingMedia.photo.length=pendingMedia.video.length=pendingMedia.audio.length=0;
+    ['photoPreviews','videoPreviews','audioPreviews'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='';});
     showToast('🚀 Posted successfully!');
   } catch(err) {
-    console.error(err); showToast('❌ ' + err.message);
+    console.error(err); showToast('❌ '+err.message);
   } finally {
     if (btn) { btn.disabled=false; btn.textContent='Post 🚀'; }
   }
@@ -242,28 +241,28 @@ window.setVisitorFilter = function(type, btn) {
   btn.classList.add('active');
 };
 
-// ── LOAD POSTS ──
+// ── LOAD FULL FEED (members) ──
 function loadPosts() {
   const feed    = document.getElementById('postFeed');
   const loading = document.getElementById('feedLoading');
   const empty   = document.getElementById('emptyFeed');
   if (!feed) return;
-  if (loading) loading.style.display = 'block';
+  if (loading) loading.style.display='block';
 
   const q = query(collection(db,'posts'), orderBy('createdAt','desc'));
   onSnapshot(q, snap => {
-    if (loading) loading.style.display = 'none';
-    let posts = snap.docs.map(d => ({id:d.id,...d.data()}));
+    if (loading) loading.style.display='none';
+    let posts = snap.docs.map(d=>({id:d.id,...d.data()}));
 
     const el = document.getElementById('totalPosts');
     if (el) el.textContent = posts.length;
 
-    posts.sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0));
+    posts.sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0));
     const filtered = currentFilter==='all' ? posts : posts.filter(p=>p.type===currentFilter);
 
-    feed.innerHTML = '';
+    feed.innerHTML='';
     if (filtered.length===0) { if(empty) empty.style.display='block'; return; }
-    if (empty) empty.style.display = 'none';
+    if (empty) empty.style.display='none';
     filtered.forEach(post => feed.appendChild(buildPostCard(post, false)));
 
     if (currentUser) {
@@ -275,79 +274,94 @@ function loadPosts() {
   });
 }
 
-// ── LOAD VISITOR POSTS (with blur wall after N posts) ──
+// ── LOAD VISITOR FEED (public, 5 posts then wall) ──
 function loadVisitorPosts() {
   const feed    = document.getElementById('visitorPostFeed');
   const loading = document.getElementById('visitorFeedLoading');
   const empty   = document.getElementById('visitorEmptyFeed');
   const wall    = document.getElementById('membershipWall');
   if (!feed) return;
-  if (loading) loading.style.display = 'block';
+  if (loading) loading.style.display='block';
 
   const q = query(collection(db,'posts'), orderBy('createdAt','desc'));
   onSnapshot(q, snap => {
-    if (loading) loading.style.display = 'none';
-    let posts = snap.docs.map(d => ({id:d.id,...d.data()}));
-    posts.sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0));
-
+    if (loading) loading.style.display='none';
+    let posts = snap.docs.map(d=>({id:d.id,...d.data()}));
+    posts.sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0));
     const filtered = visitorFilter==='all' ? posts : posts.filter(p=>p.type===visitorFilter);
 
-    feed.innerHTML = '';
+    feed.innerHTML='';
     if (filtered.length===0) { if(empty) empty.style.display='block'; if(wall) wall.style.display='none'; return; }
-    if (empty) empty.style.display = 'none';
+    if (empty) empty.style.display='none';
 
-    // Show only first N posts, then blur wall
-    const preview = filtered.slice(0, VISITOR_PREVIEW_COUNT);
+    filtered.slice(0, VISITOR_PREVIEW_COUNT).forEach(post => feed.appendChild(buildPostCard(post, true)));
+    if (wall) wall.style.display = filtered.length > VISITOR_PREVIEW_COUNT ? 'block' : 'none';
+  });
+}
+
+// ── LOAD PREVIEW POSTS BELOW "MEMBERSHIP REQUIRED" (registered, no tier yet) ──
+function loadPreviewPosts() {
+  const feed    = document.getElementById('previewPostFeed');
+  const loading = document.getElementById('previewFeedLoading');
+  if (!feed) return;
+  if (loading) loading.style.display='block';
+
+  const q = query(collection(db,'posts'), orderBy('createdAt','desc'));
+  onSnapshot(q, snap => {
+    if (loading) loading.style.display='none';
+    let posts = snap.docs.map(d=>({id:d.id,...d.data()}));
+
+    // Prioritise pinned posts first, then recent
+    posts.sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0) || (b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0));
+
+    feed.innerHTML='';
+    const preview = posts.slice(0, VISITOR_PREVIEW_COUNT);
     preview.forEach(post => feed.appendChild(buildPostCard(post, true)));
 
-    if (filtered.length > VISITOR_PREVIEW_COUNT) {
-      if (wall) wall.style.display = 'block';
-    } else {
-      if (wall) wall.style.display = 'none';
-    }
+    // Show infinite loader if there are more posts
+    const loaderEl = document.getElementById('previewInfiniteLoader');
+    if (loaderEl) loaderEl.style.display = posts.length > 0 ? 'flex' : 'none';
   });
 }
 
 // ── BUILD POST CARD ──
 function buildPostCard(post, isVisitor=false) {
-  const card      = document.createElement('div');
-  card.className  = 'post-card';
-  card.id         = 'post-' + post.id;
+  const card     = document.createElement('div');
+  card.className = 'post-card';
+  card.id        = 'post-'+post.id;
 
-  const isOwner   = currentUser && currentUser.uid === post.authorId;
-  const canDel    = isAdmin || isSubAdmin || isOwner;
-  const hasLiked  = currentUser && (post.likedBy||[]).includes(currentUser.uid);
-  const initials  = (post.authorName||'F')[0].toUpperCase();
-  const typeLabels= { post:'💬 Post', news:'📰 News', fanart:'🎨 Fan Art', question:'❓ Question' };
+  const isOwner  = currentUser && currentUser.uid===post.authorId;
+  const canDel   = isAdmin || isSubAdmin || isOwner;
+  const hasLiked = currentUser && (post.likedBy||[]).includes(currentUser.uid);
+  const initials = (post.authorName||'F')[0].toUpperCase();
+  const typeLabels = {post:'💬 Post',news:'📰 News',fanart:'🎨 Fan Art',question:'❓ Question'};
 
-  // Member tag
-  let memberTag = '';
-  if (post.isAdmin) memberTag = '<span class="admin-tag">👑 ADMIN</span>';
+  let memberTag='';
+  if (post.isAdmin) memberTag='<span class="admin-tag">👑 ADMIN</span>';
   else if (post.membership) {
-    const m = post.membership.toLowerCase();
-    const i = post.membership==='VIP'?'⭐':post.membership==='VVIP'?'💎':'👑';
-    memberTag = `<span class="post-member-tag ${m}">${i} ${post.membership}</span>`;
+    const m=post.membership.toLowerCase();
+    const i=post.membership==='VIP'?'⭐':post.membership==='VVIP'?'💎':'👑';
+    memberTag=`<span class="post-member-tag ${m}">${i} ${post.membership}</span>`;
   }
 
-  // Media
-  let mediaHTML = '';
+  let mediaHTML='';
   if (post.photos?.length) {
-    const cnt = Math.min(post.photos.length,3);
-    mediaHTML += `<div class="post-media-grid count-${cnt}">`;
-    post.photos.slice(0,3).forEach(url => {
-      mediaHTML += `<div class="media-cell" onclick="openLightbox('${url}')"><img src="${url}" alt="photo" loading="lazy"></div>`;
+    const cnt=Math.min(post.photos.length,3);
+    mediaHTML+=`<div class="post-media-grid count-${cnt}">`;
+    post.photos.slice(0,3).forEach(url=>{
+      mediaHTML+=`<div class="media-cell" onclick="openLightbox('${url}')"><img src="${url}" alt="photo" loading="lazy"></div>`;
     });
-    mediaHTML += `</div>`;
+    mediaHTML+=`</div>`;
   }
   if (post.videos?.length) {
-    post.videos.forEach(url => {
-      mediaHTML += `<div class="post-media-grid count-1"><div class="media-cell" style="aspect-ratio:16/9">
+    post.videos.forEach(url=>{
+      mediaHTML+=`<div class="post-media-grid count-1"><div class="media-cell" style="aspect-ratio:16/9">
         <video src="${url}" controls style="width:100%;height:100%;object-fit:contain"></video></div></div>`;
     });
   }
   if (post.audios?.length) {
-    post.audios.forEach(a => {
-      mediaHTML += `<div class="post-audio-player"><div class="post-audio-art">🎵</div>
+    post.audios.forEach(a=>{
+      mediaHTML+=`<div class="post-audio-player"><div class="post-audio-art">🎵</div>
         <div class="post-audio-details">
           <div class="post-audio-title">${esc(a.name)}</div>
           <div class="post-audio-sub">Audio · ${esc(post.authorName)}</div>
@@ -356,20 +370,19 @@ function buildPostCard(post, isVisitor=false) {
     });
   }
 
-  // Footer
-  let footer = '';
+  let footer='';
   if (isVisitor) {
-    footer = `<div class="visitor-lock" onclick="showMembershipModal()">🔒 Join to like &amp; comment →</div>`;
+    footer=`<div class="visitor-lock" onclick="showMembershipModal()">🔒 Join to like &amp; comment →</div>`;
   } else {
-    const commentsArr = post.comments || [];
-    footer = `
+    const commentsArr=post.comments||[];
+    footer=`
       <div class="post-footer">
         <button class="post-action-btn ${hasLiked?'liked':''}" onclick="${canLike()?`toggleLike('${post.id}',${hasLiked})`:`showToast('⚠️ Membership required!')`}">
           ${hasLiked?'❤️':'🤍'} <span>${post.likes||0}</span>
         </button>
         <button class="post-action-btn" onclick="toggleComments('${post.id}')">💬 ${commentsArr.length}</button>
-        ${(isAdmin||isSubAdmin) ? `<button class="post-action-btn pin-btn ${post.pinned?'pinned':''}" onclick="togglePin('${post.id}',${post.pinned})" title="${post.pinned?'Unpin':'Pin'}">📌</button>` : ''}
-        ${canDel ? `<button class="post-action-btn delete-btn" onclick="deletePost('${post.id}')">🗑️</button>` : ''}
+        ${(isAdmin||isSubAdmin)?`<button class="post-action-btn pin-btn ${post.pinned?'pinned':''}" onclick="togglePin('${post.id}',${post.pinned})" title="${post.pinned?'Unpin':'Pin'}">📌</button>`:''}
+        ${canDel?`<button class="post-action-btn delete-btn" onclick="deletePost('${post.id}')">🗑️</button>`:''}
       </div>
       <div class="comments-section">
         <div class="comments-list" id="comments-${post.id}">
@@ -381,17 +394,17 @@ function buildPostCard(post, isVisitor=false) {
                 <div class="comment-text">${esc(c.text)}</div>
               </div>
             </div>`).join('')}
-          ${canComment() ? `
+          ${canComment()?`
             <div class="comment-input-row">
               <input type="text" placeholder="Add a comment..." id="commentInput-${post.id}" onkeydown="if(event.key==='Enter')addComment('${post.id}')">
               <button class="comment-send-btn" onclick="addComment('${post.id}')">➤</button>
-            </div>` : `<div class="visitor-lock" onclick="showMembershipModal()">🔒 Join to comment →</div>`}
+            </div>`:`<div class="visitor-lock" onclick="showMembershipModal()">🔒 Join to comment →</div>`}
         </div>
       </div>`;
   }
 
-  card.innerHTML = `
-    ${post.pinned ? '<div class="pinned-banner">📌 PINNED POST</div>' : ''}
+  card.innerHTML=`
+    ${post.pinned?'<div class="pinned-banner">📌 PINNED POST</div>':''}
     <div class="post-header">
       <div class="post-user-avatar">${initials}</div>
       <div class="post-meta">
@@ -399,7 +412,7 @@ function buildPostCard(post, isVisitor=false) {
         <div class="post-time">${timeAgo(post.createdAt)}</div>
       </div>
     </div>
-    ${post.text ? `<div class="post-body">${esc(post.text)}</div>` : ''}
+    ${post.text?`<div class="post-body">${esc(post.text)}</div>`:''}
     ${mediaHTML}
     ${footer}`;
 
@@ -407,24 +420,24 @@ function buildPostCard(post, isVisitor=false) {
 }
 
 // ── LIGHTBOX ──
-window.openLightbox  = function(src) { const lb=document.getElementById('lightbox'),img=document.getElementById('lightboxImg'); if(lb&&img){img.src=src;lb.classList.add('open');} };
-window.closeLightbox = function()    { document.getElementById('lightbox')?.classList.remove('open'); };
+window.openLightbox  = function(src){ const lb=document.getElementById('lightbox'),img=document.getElementById('lightboxImg'); if(lb&&img){img.src=src;lb.classList.add('open');} };
+window.closeLightbox = function()   { document.getElementById('lightbox')?.classList.remove('open'); };
 
 // ── LIKE ──
 window.toggleLike = async function(postId, hasLiked) {
   if (!currentUser||!canLike()) { showToast('⚠️ Membership required!'); return; }
-  const ref = doc(db,'posts',postId);
+  const ref=doc(db,'posts',postId);
   try {
     if (hasLiked) await updateDoc(ref,{likes:increment(-1),likedBy:arrayRemove(currentUser.uid)});
     else { await updateDoc(ref,{likes:increment(1),likedBy:arrayUnion(currentUser.uid)}); showToast('❤️ Liked!'); }
-  } catch(e) { showToast('❌ '+e.message); }
+  } catch(e){ showToast('❌ '+e.message); }
 };
 
 // ── PIN ──
 window.togglePin = async function(postId, isPinned) {
   if (!isAdmin&&!isSubAdmin) return;
   try { await updateDoc(doc(db,'posts',postId),{pinned:!isPinned}); showToast(isPinned?'Post unpinned':'📌 Pinned!'); }
-  catch(e) { showToast('❌ '+e.message); }
+  catch(e){ showToast('❌ '+e.message); }
 };
 
 // ── DELETE ──
@@ -432,27 +445,27 @@ window.deletePost = async function(postId) {
   if (!currentUser) return;
   if (!confirm('Delete this post?')) return;
   try { await deleteDoc(doc(db,'posts',postId)); showToast('🗑️ Deleted!'); }
-  catch(e) { showToast('❌ '+e.message); }
+  catch(e){ showToast('❌ '+e.message); }
 };
 
 // ── COMMENTS ──
-window.toggleComments = function(postId) { document.getElementById('comments-'+postId)?.classList.toggle('open'); };
+window.toggleComments = function(postId){ document.getElementById('comments-'+postId)?.classList.toggle('open'); };
 
 window.addComment = async function(postId) {
-  if (!currentUser||!canComment()) { showToast('⚠️ Membership required!'); return; }
-  const input = document.getElementById('commentInput-'+postId);
-  const text  = input?.value?.trim(); if (!text) return;
+  if (!currentUser||!canComment()){ showToast('⚠️ Membership required!'); return; }
+  const input=document.getElementById('commentInput-'+postId);
+  const text=input?.value?.trim(); if(!text) return;
   try {
     await updateDoc(doc(db,'posts',postId),{
-      comments: arrayUnion({ authorId:currentUser.uid, authorName:currentUser.displayName||currentUser.email.split('@')[0], text, createdAt:Date.now() })
+      comments:arrayUnion({authorId:currentUser.uid,authorName:currentUser.displayName||currentUser.email.split('@')[0],text,createdAt:Date.now()})
     });
-    if (input) input.value='';
-  } catch(e) { showToast('❌ '+e.message); }
+    if(input) input.value='';
+  } catch(e){ showToast('❌ '+e.message); }
 };
 
 // ── TOAST ──
-window.showToast = function(msg) {
-  const t = document.getElementById('toast'); if (!t) return;
+window.showToast = function(msg){
+  const t=document.getElementById('toast'); if(!t) return;
   t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
 };
 
@@ -467,52 +480,47 @@ onAuthStateChanged(auth, async user => {
     currentUser = user;
     isAdmin     = ADMIN_EMAILS.includes(user.email);
     isSubAdmin  = SUB_ADMIN_EMAILS.includes(user.email);
-    if (navLogout) navLogout.style.display = 'inline-block';
-    if (visitorView) visitorView.style.display = 'none';
+    if (navLogout) navLogout.style.display='inline-block';
+    if (visitorView) visitorView.style.display='none';
 
-    // Fetch membership
     try {
       const userDoc = await getDoc(doc(db,'users',user.uid));
       if (userDoc.exists()) userMembership = userDoc.data().membership || null;
-    } catch(e) { console.warn(e); }
+    } catch(e){ console.warn(e); }
 
     const hasAccess = isAdmin || isSubAdmin || userMembership;
 
     if (hasAccess) {
-      if (dashboard) dashboard.style.display = 'block';
-      if (denied)    denied.style.display    = 'none';
+      if (dashboard) dashboard.style.display='block';
+      if (denied)    denied.style.display='none';
     } else {
-      if (dashboard) dashboard.style.display = 'none';
-      if (denied)    denied.style.display    = 'block';
+      // Registered but no membership yet — show access denied + preview posts below
+      if (dashboard) dashboard.style.display='none';
+      if (denied)    denied.style.display='block';
+      loadPreviewPosts(); // 🔥 show teaser posts below the lock screen
     }
 
-    // Admin badge
-    const ab = document.getElementById('adminBadge');
-    if (ab) { ab.style.display=(isAdmin||isSubAdmin)?'inline-block':'none'; if(isSubAdmin&&!isAdmin) ab.textContent='🛡️ SUB ADMIN'; }
+    const ab=document.getElementById('adminBadge');
+    if (ab){ ab.style.display=(isAdmin||isSubAdmin)?'inline-block':'none'; if(isSubAdmin&&!isAdmin) ab.textContent='🛡️ SUB ADMIN'; }
 
-    // Admin notif bar
-    const nb = document.getElementById('adminNotifBar');
-    if (nb) nb.style.display = (isAdmin||isSubAdmin) ? 'block' : 'none';
+    const nb=document.getElementById('adminNotifBar');
+    if (nb) nb.style.display=(isAdmin||isSubAdmin)?'block':'none';
 
-    // Welcome
-    const name = user.displayName || user.email.split('@')[0];
-    const wEl  = document.getElementById('welcomeMsg');
-    const eEl  = document.getElementById('userEmail');
-    if (wEl) wEl.textContent = '👋 Welcome, ' + name + '!';
-    if (eEl) eEl.textContent = user.email;
+    const name=user.displayName||user.email.split('@')[0];
+    const wEl=document.getElementById('welcomeMsg'); if(wEl) wEl.textContent='👋 Welcome, '+name+'!';
+    const eEl=document.getElementById('userEmail');  if(eEl) eEl.textContent=user.email;
 
     setupUIForMembership();
     if (hasAccess) loadPosts();
 
-    const mEl = document.getElementById('totalMembers');
-    if (mEl) mEl.textContent = '1,000+';
+    const mEl=document.getElementById('totalMembers'); if(mEl) mEl.textContent='1,000+';
 
   } else {
     currentUser=null; isAdmin=false; isSubAdmin=false; userMembership=null;
-    if (dashboard)   dashboard.style.display   = 'none';
-    if (denied)      denied.style.display      = 'none';
-    if (visitorView) visitorView.style.display  = 'block';
-    if (navLogout)   navLogout.style.display    = 'none';
+    if (dashboard)   dashboard.style.display='none';
+    if (denied)      denied.style.display='none';
+    if (visitorView) visitorView.style.display='block';
+    if (navLogout)   navLogout.style.display='none';
     loadVisitorPosts();
   }
 });
