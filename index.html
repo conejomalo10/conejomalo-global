@@ -2,734 +2,411 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Comunidad Global de Fans de Conejo Malo — Bad Bunny Global Fan Community" />
-  <title>Comunidad Global de Fans de Conejo Malo</title>
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#1a0533" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Conejo Malo" />
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Bebas+Neue&family=Orbitron:wght@700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
 
-  <style>
-    /* ============================================================
-       HERO GLASSMORPHISM — scoped only to #home .hero-glass-section
-       Does NOT affect modals, inputs, or any other page section
-    ============================================================ */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    /* ── Hero wrapper ── */
-    .hero-glass-section {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background: #0a001a;
-      padding: 100px 20px 60px;
-    }
+<title>Conejo Malo Global Fans Community</title>
 
-    /* ── Neon gradient background — static, no keyframes ── */
-    .hero-glass-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 55% at 20% 30%,  rgba(138,43,226,0.55) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 50% at 80% 20%,  rgba(0,200,255,0.40)  0%, transparent 65%),
-        radial-gradient(ellipse 55% 60% at 50% 80%,  rgba(255,20,147,0.45) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 75% 65%,  rgba(100,0,255,0.35)  0%, transparent 60%),
-        radial-gradient(ellipse 35% 35% at 10% 75%,  rgba(0,255,200,0.20)  0%, transparent 55%);
-      z-index: 0;
-      pointer-events: none;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    /* ── Dot texture ── */
-    .hero-glass-section::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-      background-size: 28px 28px;
-      z-index: 0;
-      pointer-events: none;
-    }
+<style>
 
-    /* ── Static light streaks ── */
-    .hg-streak-1 {
-      position: absolute;
-      top: -60px; right: 12%;
-      width: 2px; height: 55%;
-      background: linear-gradient(to bottom, transparent, rgba(0,220,255,0.30), rgba(180,0,255,0.20), transparent);
-      z-index: 1; border-radius: 999px; filter: blur(3px);
-      pointer-events: none;
-    }
-    .hg-streak-2 {
-      position: absolute;
-      bottom: -40px; left: 14%;
-      width: 2px; height: 40%;
-      background: linear-gradient(to bottom, transparent, rgba(255,20,147,0.25), transparent);
-      z-index: 1; border-radius: 999px; filter: blur(3px);
-      pointer-events: none;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Montserrat,sans-serif;
+}
 
-    /* ── Decorative rings ── */
-    .hg-ring-1, .hg-ring-2 {
-      position: absolute;
-      border-radius: 50%;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-      pointer-events: none;
-    }
-    .hg-ring-1 {
-      width: 420px; height: 420px;
-      border: 1px solid rgba(138,43,226,0.15);
-      box-shadow: 0 0 50px rgba(138,43,226,0.08) inset;
-    }
-    .hg-ring-2 {
-      width: 650px; height: 650px;
-      border: 1px solid rgba(0,200,255,0.08);
-    }
+body{
 
-    /* ── Bunny watermark ── */
-    .hg-bunny-mark {
-      position: absolute;
-      font-size: 300px;
-      opacity: 0.035;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-      user-select: none;
-      line-height: 1;
-      filter: blur(2px);
-      pointer-events: none;
-    }
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
 
-    /* ── Bad Bunny photo ── */
-    .hg-photo-wrap {
-      position: absolute;
-      right: 3%;
-      bottom: 0;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .hg-photo {
-      height: min(80vh, 600px);
-      width: auto;
-      object-fit: contain;
-      display: block;
-      filter: drop-shadow(-8px 0 40px rgba(138,43,226,0.40));
-      opacity: 0.92;
-    }
+}
 
-    /* ── Glass card ── */
-    .hg-card {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 640px;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 28px;
-      padding: 52px 48px 48px;
-      text-align: center;
-      box-shadow:
-        0 8px 60px rgba(0,0,0,0.55),
-        0 0 0 1px rgba(255,255,255,0.05) inset,
-        0 1px 0 rgba(255,255,255,0.18) inset;
-    }
+/* NAVBAR */
 
-    /* top glow line */
-    .hg-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 10%; right: 10%; height: 1px;
-      background: linear-gradient(to right, transparent, rgba(0,220,255,0.55), rgba(180,0,255,0.55), transparent);
-      border-radius: 999px;
-    }
-    /* bottom glow line */
-    .hg-card::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 20%; right: 20%; height: 1px;
-      background: linear-gradient(to right, transparent, rgba(255,20,147,0.35), transparent);
-      border-radius: 999px;
-    }
+.navbar{
 
-    /* ── Typography ── */
-    .hg-pre-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(11px, 1.8vw, 14px);
-      font-weight: 700;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.60);
-      margin-bottom: 6px;
-      display: block;
-    }
-    .hg-main-title {
-      font-family: 'Bebas Neue', cursive;
-      font-size: clamp(58px, 9vw, 100px);
-      line-height: 0.95;
-      letter-spacing: 4px;
-      color: transparent;
-      background: linear-gradient(135deg, #00e5ff 0%, #00bcd4 35%, #40e0d0 65%, #00e5ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      filter: drop-shadow(0 0 28px rgba(0,229,255,0.30));
-      margin-bottom: 4px;
-      display: block;
-    }
-    .hg-divider {
-      width: 80px; height: 2px;
-      background: linear-gradient(to right, rgba(0,229,255,0), rgba(0,229,255,0.8), rgba(255,20,147,0.8), rgba(255,20,147,0));
-      margin: 14px auto 16px;
-      border-radius: 999px;
-    }
-    .hg-artist {
-      font-family: 'Bebas Neue', cursive;
-      font-size: clamp(24px, 3.5vw, 38px);
-      letter-spacing: 6px;
-      color: #ff6b6b;
-      filter: drop-shadow(0 0 10px rgba(255,107,107,0.45));
-      margin-bottom: 4px;
-      display: block;
-    }
-    .hg-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(11px, 1.6vw, 13px);
-      font-weight: 300;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #a8edea;
-      display: block;
-      margin-bottom: 10px;
-    }
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
 
-    /* ── Love banner ── */
-    .hg-love-banner {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      color: rgba(255,255,255,0.55);
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 6px;
-      padding: 7px 14px;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
+padding:15px 40px;
 
-    /* ── Stats row ── */
-    .hg-stats {
-      display: flex;
-      justify-content: center;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 14px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.04);
-      margin-bottom: 24px;
-    }
-    .hg-stat {
-      flex: 1;
-      padding: 12px 10px;
-      border-right: 1px solid rgba(255,255,255,0.08);
-    }
-    .hg-stat:last-child { border-right: none; }
-    .hg-stat-val {
-      display: block;
-      font-family: 'Bebas Neue', cursive;
-      font-size: 20px; letter-spacing: 2px; color: #ffd700;
-    }
-    .hg-stat-label {
-      display: block;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 9px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: rgba(255,255,255,0.40); margin-top: 2px;
-    }
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(12px);
 
-    /* ── CTA buttons ── */
-    .hg-btn-row {
-      display: flex; gap: 10px;
-      justify-content: center; flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-    .hg-btn-primary {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800; font-size: 12px;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 13px 28px; border-radius: 999px; border: none;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff0066, #ff6b6b);
-      color: white;
-      box-shadow: 0 4px 20px rgba(255,0,102,0.40);
-    }
-    .hg-btn-secondary {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700; font-size: 12px;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 12px 24px; border-radius: 999px;
-      border: 1px solid rgba(0,229,255,0.40);
-      cursor: pointer;
-      background: rgba(0,229,255,0.07);
-      backdrop-filter: blur(8px);
-      color: #a8edea;
-    }
+border-bottom:1px solid rgba(255,255,255,0.2);
 
-    /* ── Status & logout (kept from original) ── */
-    .hg-status-text {
-      font-size: 12px;
-      color: rgba(255,255,255,0.40);
-      margin-top: 6px;
-      margin-bottom: 0;
-    }
-    .hg-logout-btn {
-      display: none;
-      margin-top: 10px;
-      background: rgba(255,0,102,0.15);
-      border: 1px solid rgba(255,0,102,0.40);
-      color: #ff6699;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 12px; font-weight: 700;
-      padding: 7px 20px; border-radius: 999px; cursor: pointer;
-    }
+z-index:100;
 
-    /* ── Tier badges ── */
-    .hg-tier-row {
-      display: flex; justify-content: center;
-      gap: 8px; flex-wrap: wrap; margin-top: 18px;
-    }
-    .hg-tier-badge {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 10px; font-weight: 800;
-      letter-spacing: 1.5px; padding: 4px 14px; border-radius: 999px;
-    }
-    .hg-tier-badge.vip   { background: rgba(192,192,192,0.10); border: 1px solid rgba(192,192,192,0.35); color: #c0c0c0; }
-    .hg-tier-badge.vvip  { background: rgba(100,180,255,0.10); border: 1px solid rgba(100,180,255,0.35); color: #64b4ff; }
-    .hg-tier-badge.vvvip { background: rgba(255,215,0,0.10);   border: 1px solid rgba(255,215,0,0.35);   color: #ffd700; }
+}
 
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .hg-photo-wrap { display: none; }
-      .hg-ring-1, .hg-ring-2 { display: none; }
-    }
-    @media (max-width: 600px) {
-      .hg-card { padding: 38px 22px 36px; border-radius: 20px; }
-      .hg-stats { flex-wrap: wrap; }
-      .hg-stat  { min-width: 33%; }
-    }
+.logo{
 
-    /* ============================================================
-       MODAL FIX — ensure login modal inputs are always on top
-       and never obscured by glass blur layers
-    ============================================================ */
-    .modal {
-      z-index: 99999 !important;
-    }
-    .modalBox {
-      position: relative;
-      z-index: 100000 !important;
-      background: rgba(10,4,30,0.98) !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-    }
-    .modalBox input,
-    .modalBox label,
-    .modalBox button,
-    .modalBox h3,
-    .modalBox p {
-      position: relative;
-      z-index: 1;
-    }
-    .input-group {
-      position: relative;
-      z-index: 1;
-    }
-    .input-group input {
-      position: relative;
-      z-index: 2;
-      background: rgba(255,255,255,0.09) !important;
-      border: 1px solid rgba(255,255,255,0.20) !important;
-      color: white !important;
-      pointer-events: all !important;
-    }
-    .input-group input:focus {
-      outline: none !important;
-      border-color: rgba(0,229,255,0.55) !important;
-      background: rgba(255,255,255,0.13) !important;
-    }
+font-weight:700;
+font-size:20px;
 
-  </style>
+}
+
+.nav-links{
+
+display:flex;
+gap:20px;
+
+}
+
+.nav-links a{
+
+color:white;
+text-decoration:none;
+
+}
+
+/* LANGUAGE SELECT */
+
+.lang-switch{
+
+background:transparent;
+border:1px solid white;
+color:white;
+padding:5px 8px;
+
+}
+
+/* HERO */
+
+.hero{
+
+height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+text-align:center;
+padding-top:80px;
+
+}
+
+/* GLASS CARD */
+
+.glass-card{
+
+width:90%;
+max-width:700px;
+
+padding:50px;
+
+background:rgba(255,255,255,0.12);
+
+border-radius:20px;
+
+border:1px solid rgba(255,255,255,0.3);
+
+backdrop-filter:blur(18px);
+
+box-shadow:0 10px 40px rgba(0,0,0,0.4);
+
+animation:float 6s ease-in-out infinite;
+
+}
+
+/* FLOATING */
+
+@keyframes float{
+
+0%{transform:translateY(0)}
+50%{transform:translateY(-20px)}
+100%{transform:translateY(0)}
+
+}
+
+.hero h1{
+
+font-size:50px;
+color:#00e0ff;
+
+}
+
+.hero h2{
+
+margin-top:10px;
+font-size:28px;
+
+}
+
+.hero p{
+
+margin-top:10px;
+opacity:0.8;
+
+}
+
+/* BUTTONS */
+
+.buttons{
+
+margin-top:30px;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+padding:12px 22px;
+border-radius:8px;
+border:none;
+cursor:pointer;
+
+}
+
+.btn-primary{
+
+background:#00e0ff;
+color:black;
+
+}
+
+.btn-outline{
+
+background:transparent;
+border:1px solid white;
+color:white;
+
+}
+
+/* COMMUNITY SECTION */
+
+.community{
+
+padding:80px 20px;
+text-align:center;
+
+}
+
+.tiers{
+
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+
+margin-top:30px;
+
+}
+
+.tier{
+
+padding:25px;
+width:220px;
+
+background:rgba(255,255,255,0.1);
+border-radius:15px;
+
+backdrop-filter:blur(10px);
+
+}
+
+.vip{border:2px solid gold;}
+.vvip{border:2px solid cyan;}
+.vvvip{border:2px solid red;}
+
+/* LOGIN MODAL */
+
+.modal{
+
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.7);
+
+justify-content:center;
+align-items:center;
+
+}
+
+.modal-content{
+
+background:#111;
+padding:30px;
+border-radius:10px;
+width:300px;
+
+}
+
+input{
+
+width:100%;
+padding:10px;
+margin:10px 0;
+
+}
+
+/* FOOTER */
+
+footer{
+
+text-align:center;
+padding:25px;
+opacity:0.7;
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-  <!-- BACKGROUND ORBS -->
-  <div class="bg-orbs">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
+<!-- NAVBAR -->
 
-  <!-- LANGUAGE SWITCH -->
-  <div class="langSwitch">
-    <button onclick="setLanguage('en')">🇺🇸 EN</button>
-    <button onclick="setLanguage('es')">🇵🇷 ES</button>
-    <button onclick="setLanguage('fr')">🇫🇷 FR</button>
-    <button onclick="setLanguage('pt')">🇧🇷 PT</button>
-    <button onclick="setLanguage('de')">🇩🇪 DE</button>
-    <button onclick="setLanguage('ru')">🇷🇺 RU</button>
-    <button onclick="setLanguage('ja')">🇯🇵 JA</button>
-    <button onclick="setLanguage('zh')">🇨🇳 ZH</button>
-    <button onclick="setLanguage('ar')">🇸🇦 AR</button>
-    <button onclick="setLanguage('hi')">🇮🇳 HI</button>
-    <button onclick="setLanguage('ko')">🇰🇷 KO</button>
-    <button onclick="setLanguage('it')">🇮🇹 IT</button>
-  </div>
+<div class="navbar">
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-logo">
-      <span class="rabbit-emblem">🐰</span> CONEJO MALO
-    </div>
-    <ul class="nav-links">
-      <li><a href="#home"       data-lang="navHome">HOME</a></li>
-      <li><a href="#community"  data-lang="navCommunity">COMMUNITY</a></li>
-      <li><a href="#membership" data-lang="navMembership">MEMBERSHIP</a></li>
-      <li><a href="#events"     data-lang="navEvents">EVENTS</a></li>
-      <li><a href="#support"    data-lang="navSupport">SUPPORT</a></li>
-      <li><a href="#contact"    data-lang="navContact">CONTACT</a></li>
-    </ul>
-    <button class="nav-login-btn" onclick="openModal()" data-lang="loginBtn">LOGIN</button>
-    <button class="hamburger" onclick="toggleMenu()">☰</button>
-  </nav>
+<div class="logo">CONEJO MALO</div>
 
-  <!-- ============================================================
-       HERO — GLASSMORPHISM
-  ============================================================ -->
-  <section class="hero-glass-section" id="home">
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#community">Community</a>
+<a href="#" onclick="openLogin()">Login</a>
+</div>
 
-    <!-- Static decorative layers -->
-    <div class="hg-streak-1"></div>
-    <div class="hg-streak-2"></div>
-    <div class="hg-ring-1"></div>
-    <div class="hg-ring-2"></div>
-    <div class="hg-bunny-mark">🐰</div>
+<select class="lang-switch" onchange="changeLang(this.value)">
+<option value="en">EN</option>
+<option value="es">ES</option>
+<option value="fr">FR</option>
+</select>
 
-    <!-- Bad Bunny photo — right side -->
-    <div class="hg-photo-wrap">
-      <img src="images/Compress_20260309_175859_9892.jpg" class="hg-photo" alt="Bad Bunny" />
-    </div>
+</div>
 
-    <!-- GLASS CARD -->
-    <div class="hg-card">
+<!-- HERO -->
 
-      <span class="hg-pre-title" data-lang="heroBadge">🌍 Comunidad Global de</span>
-      <span class="hg-main-title">CONEJO MALO</span>
-      <div class="hg-divider"></div>
-      <span class="hg-artist">BAD BUNNY</span>
-      <span class="hg-sub" data-lang="subtitle">Global Fans Community</span>
+<section class="hero">
 
-      <div class="hg-love-banner">
-        ✊ The only thing more powerful than hate is love — No Racism!
-      </div>
+<div class="glass-card">
 
-      <!-- Stats -->
-      <div class="hg-stats">
-        <div class="hg-stat">
-          <span class="hg-stat-val">1,000+</span>
-          <span class="hg-stat-label" data-lang="statGlobal">Members</span>
-        </div>
-        <div class="hg-stat">
-          <span class="hg-stat-val">🌎</span>
-          <span class="hg-stat-label">Worldwide</span>
-        </div>
-        <div class="hg-stat">
-          <span class="hg-stat-val" data-lang="statVIP">👑 VIP</span>
-          <span class="hg-stat-label" data-lang="statMusic">Access</span>
-        </div>
-      </div>
+<h1>Conejo Malo</h1>
 
-      <!-- CTA Buttons -->
-      <div class="hg-btn-row">
-        <button class="hg-btn-primary" onclick="openModal()" data-lang="joinBtn">Join the Community</button>
-        <button class="hg-btn-secondary" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-lang="exploreBtn">Explore</button>
-      </div>
+<h2>Bad Bunny Global Fans Community</h2>
 
-      <!-- Auth status (kept from original) -->
-      <p id="status" class="hg-status-text">Not logged in</p>
-      <button id="logoutBtn" class="hg-logout-btn" onclick="logout()" data-lang="logoutBtn">Logout</button>
+<p>The only thing more powerful than hate is love</p>
 
-      <!-- Tier badges -->
-      <div class="hg-tier-row">
-        <span class="hg-tier-badge vip">⭐ VIP</span>
-        <span class="hg-tier-badge vvip">💎 VVIP</span>
-        <span class="hg-tier-badge vvvip">👑 VVVIP</span>
-      </div>
+<div class="buttons">
 
-    </div>
-  </section>
+<button class="btn btn-primary" onclick="openLogin()">Join Community</button>
 
-  <!-- COMMUNITY -->
-  <section class="section" id="community">
-    <div class="glass section-glass">
-      <div class="section-tag" data-lang="aboutTag">ABOUT US</div>
-      <h2 data-lang="aboutTitle">About the Community</h2>
-      <p data-lang="aboutText">Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny. We bring together fans from every corner of the planet.</p>
-      <div class="about-grid">
-        <div class="about-card reveal">
-          <span class="about-icon">🎧</span>
-          <h4 data-lang="aboutF1">Exclusive Music</h4>
-          <p data-lang="aboutF1D">Access exclusive content, previews and curated playlists.</p>
-        </div>
-        <div class="about-card reveal">
-          <span class="about-icon">🌍</span>
-          <h4 data-lang="aboutF2">Global Network</h4>
-          <p data-lang="aboutF2D">Connect with fans from USA, Spain, Mexico, Brazil, Japan and beyond.</p>
-        </div>
-        <div class="about-card reveal">
-          <span class="about-icon">🏆</span>
-          <h4 data-lang="aboutF3">Fan Rankings</h4>
-          <p data-lang="aboutF3D">Earn badges and climb the ranks from New Fan to Legend Fan.</p>
-        </div>
-        <div class="about-card reveal">
-          <span class="about-icon">🎫</span>
-          <h4 data-lang="aboutF4">Events Access</h4>
-          <p data-lang="aboutF4D">Early access to concert announcements and listening parties.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<button class="btn btn-outline" onclick="scrollCommunity()">Explore</button>
 
-  <!-- DISCLAIMER -->
-  <div class="disclaimer-bar">
-    <p data-lang="disclaimer">⚠️ This is an independent fan community. Not officially affiliated with Bad Bunny or his management.</p>
-  </div>
+</div>
 
-  <!-- MEMBERSHIP -->
-  <section class="vip-section" id="membership">
-    <div class="section-tag" data-lang="memberTag">MEMBERSHIP</div>
-    <h2 data-lang="memberTitle">Fan Membership Platform</h2>
-    <h3 class="vip-subtitle" data-lang="memberSubtitle">WHERE FANS CONNECT, SHARE, AND SPEAK AS ONE</h3>
-    <p class="vip-description" data-lang="memberDesc">Only accessible after login. This is the heart of our global fan community.</p>
-    <div class="vip-levels">
-      <div class="vip-card member-tier reveal">
-        <div class="tier-badge">FREE</div>
-        <h4>🌟 Member</h4>
-        <p class="tier-price" data-lang="tierFree">Free</p>
-        <ul class="tier-features">
-          <li>✅ Basic community access</li>
-          <li>✅ Public posts &amp; feed</li>
-          <li>✅ Fan profile</li>
-          <li>❌ Exclusive content</li>
-          <li>❌ Private events</li>
-        </ul>
-        <button class="button tier-btn" onclick="openModal()">Join Free</button>
-      </div>
-      <div class="vip-card vip-tier reveal">
-        <div class="tier-badge popular-badge">POPULAR</div>
-        <h4>⭐ VIP</h4>
-        <p class="tier-price">Premium</p>
-        <ul class="tier-features">
-          <li>✅ Everything in Member</li>
-          <li>✅ Exclusive posts</li>
-          <li>✅ Special updates</li>
-          <li>✅ VIP badge</li>
-          <li>❌ Private events</li>
-        </ul>
-        <button class="button tier-btn" onclick="openModal()">Get VIP</button>
-      </div>
-      <div class="vip-card vvip-tier reveal">
-        <div class="tier-badge">ELITE</div>
-        <h4>⭐⭐ VVIP</h4>
-        <p class="tier-price">Elite</p>
-        <ul class="tier-features">
-          <li>✅ Everything in VIP</li>
-          <li>✅ Premium media</li>
-          <li>✅ Priority announcements</li>
-          <li>✅ Early content access</li>
-          <li>❌ Private events</li>
-        </ul>
-        <button class="button tier-btn" onclick="openModal()">Get VVIP</button>
-      </div>
-      <div class="vip-card vvvip-tier reveal">
-        <div class="tier-badge legend-badge">LEGEND</div>
-        <h4>⭐⭐⭐ VVVIP</h4>
-        <p class="tier-price">Legend</p>
-        <ul class="tier-features">
-          <li>✅ Everything in VVIP</li>
-          <li>✅ Private fan events</li>
-          <li>✅ Early content access</li>
-          <li>✅ Legend badge</li>
-          <li>✅ Community role</li>
-        </ul>
-        <button class="button tier-btn" onclick="openModal()">Get VVVIP</button>
-      </div>
-    </div>
-    <div class="vip-features">
-      <h3 data-lang="allMembersGet">All Members Get</h3>
-      <ul>
-        <li>🎧 Exclusive music content</li>
-        <li>🎬 Private community videos</li>
-        <li>💬 Fan community discussions</li>
-        <li>🎫 Event announcements</li>
-        <li>🏆 Fan ranking and badges</li>
-        <li>🎁 Special giveaways</li>
-        <li>🌍 Global fan map access</li>
-        <li>📰 News &amp; album updates</li>
-      </ul>
-    </div>
-  </section>
+</div>
 
-  <!-- FAN RANKS -->
-  <section class="section" id="ranking">
-    <div class="glass section-glass">
-      <div class="section-tag">FAN RANKS</div>
-      <h2 data-lang="rankTitle">Fan Ranking System</h2>
-      <p data-lang="rankDesc">Earn your rank through community participation. The more active you are, the higher you climb!</p>
-      <div class="rank-grid">
-        <div class="rank-card reveal">🌱<strong>New Fan</strong><p>Just joined</p></div>
-        <div class="rank-card reveal">⭐<strong>Super Fan</strong><p>Active member</p></div>
-        <div class="rank-card reveal">🔥<strong>Elite Fan</strong><p>Top contributor</p></div>
-        <div class="rank-card reveal">👑<strong>Legend Fan</strong><p>Community icon</p></div>
-      </div>
-    </div>
-  </section>
+</section>
 
-  <!-- GLOBAL FAN MAP -->
-  <section class="section" id="map">
-    <div class="glass section-glass">
-      <div class="section-tag">WORLDWIDE</div>
-      <h2 data-lang="mapTitle">Global Fan Map</h2>
-      <p data-lang="mapDesc">Our community spans every continent. Fans united by music.</p>
-      <div class="fan-map">
-        <div class="map-region reveal">🇺🇸 USA</div>
-        <div class="map-region reveal">🇪🇸 Spain</div>
-        <div class="map-region reveal">🇲🇽 Mexico</div>
-        <div class="map-region reveal">🇧🇷 Brazil</div>
-        <div class="map-region reveal">🇨🇦 Canada</div>
-        <div class="map-region reveal">🇩🇪 Germany</div>
-        <div class="map-region reveal">🇳🇱 Netherlands</div>
-        <div class="map-region reveal">🇯🇵 Japan</div>
-        <div class="map-region reveal">🇸🇦 Saudi Arabia</div>
-        <div class="map-region reveal">🇮🇩 Indonesia</div>
-        <div class="map-region reveal">🇫🇷 France</div>
-        <div class="map-region reveal">🇬🇧 UK</div>
-      </div>
-    </div>
-  </section>
+<!-- COMMUNITY -->
 
-  <!-- EVENTS -->
-  <section class="section" id="events">
-    <div class="glass section-glass">
-      <div class="section-tag">EVENTS</div>
-      <h2 data-lang="eventsTitle">Fan Events</h2>
-      <p data-lang="eventsDesc">Stay connected with listening parties, fan competitions, and concert discussions.</p>
-      <div class="events-grid">
-        <div class="event-card reveal">
-          <span class="event-icon">🎵</span>
-          <h4 data-lang="event1">Listening Parties</h4>
-          <p data-lang="event1D">Live album listening sessions with the community.</p>
-        </div>
-        <div class="event-card reveal">
-          <span class="event-icon">🏆</span>
-          <h4 data-lang="event2">Fan Competitions</h4>
-          <p data-lang="event2D">Art contests, lyric challenges, and fan polls.</p>
-        </div>
-        <div class="event-card reveal">
-          <span class="event-icon">🎤</span>
-          <h4 data-lang="event3">Concert Discussions</h4>
-          <p data-lang="event3D">Live reaction threads during Bad Bunny concerts.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<section class="community" id="community">
 
-  <!-- SUPPORT -->
-  <section class="section" id="support">
-    <div class="glass section-glass">
-      <div class="section-tag">SUPPORT</div>
-      <h2 data-lang="supportTitle">Support the Community</h2>
-      <p data-lang="supportDesc">Help keep this fan community alive and growing. Every contribution matters.</p>
-      <div class="crypto-grid">
-        <div class="crypto-card reveal"><span>₿</span><h4>Bitcoin</h4><p data-lang="cryptoMsg">Contact for address</p></div>
-        <div class="crypto-card reveal"><span>Ξ</span><h4>Ethereum</h4><p data-lang="cryptoMsg">Contact for address</p></div>
-        <div class="crypto-card reveal"><span>₮</span><h4>Tether</h4><p data-lang="cryptoMsg">Contact for address</p></div>
-        <div class="crypto-card reveal paypal-card"><span>🅿️</span><h4>PayPal</h4><p>Coming Soon</p><div class="coming-soon-badge">COMING SOON</div></div>
-      </div>
-      <p class="email-note" data-lang="emailSupport">✉ Email us for payment instructions and support requests.</p>
-    </div>
-  </section>
+<h2>Membership Tiers</h2>
 
-  <!-- CONTACT -->
-  <section class="section" id="contact">
-    <div class="glass section-glass" style="text-align:center;">
-      <div class="section-tag">CONTACT</div>
-      <h2 data-lang="contactTitle">Get In Touch</h2>
-      <p data-lang="contactDesc">Have questions or want to collaborate? Reach out to the community team.</p>
-      <div class="social-links">
-        <a class="social-btn" href="#" data-lang="socialIG">📸 Instagram</a>
-        <a class="social-btn" href="#" data-lang="socialTT">🎵 TikTok</a>
-        <a class="social-btn" href="#" data-lang="socialFB">👤 Facebook</a>
-        <a class="social-btn" href="#" data-lang="socialX">✖ X (Twitter)</a>
-      </div>
-    </div>
-  </section>
+<div class="tiers">
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-logo">🐰 CONEJO MALO</div>
-      <div class="footer-links">
-        <a href="#home"       data-lang="navHome">Home</a>
-        <a href="#community"  data-lang="navCommunity">Community</a>
-        <a href="#membership" data-lang="navMembership">Membership</a>
-        <a href="#events"     data-lang="navEvents">Events</a>
-        <a href="#support"    data-lang="navSupport">Support</a>
-      </div>
-      <p>© 2026 Comunidad Global de Fans de Conejo Malo — Bad Bunny Global Fan Community</p>
-      <p class="footer-disclaimer" data-lang="disclaimer">⚠️ Independent fan community. Not affiliated with Bad Bunny or his management.</p>
-    </div>
-  </footer>
+<div class="tier vip">
 
-  <!-- LOGIN / REGISTER MODAL -->
-  <div class="modal" id="authModal">
-    <div class="modalBox">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div class="modal-logo">🐰</div>
-      <h3 data-lang="modalTitle">Member Login / Register</h3>
-      <p class="modal-sub" data-lang="modalSub">Join the global Bad Bunny fan community</p>
-      <div class="input-group">
-        <label for="email" data-lang="emailLabel">Email</label>
-        <input id="email" type="email" placeholder="your@email.com" autocomplete="email" />
-      </div>
-      <div class="input-group">
-        <label for="password" data-lang="passLabel">Password</label>
-        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
-      </div>
-      <div class="modal-buttons">
-        <button class="button button-primary" onclick="register()" data-lang="registerBtn">Register</button>
-        <button class="button button-outline" onclick="login()" data-lang="loginModalBtn">Login</button>
-      </div>
-      <p class="modal-terms" data-lang="modalTerms">By joining you agree to our community guidelines.</p>
-    </div>
-  </div>
+<h3>VIP ⭐</h3>
+<p>Exclusive fan content</p>
 
-  <script type="module" src="firebase.js"></script>
-  <script type="module" src="auth.js"></script>
-  <script src="language.js"></script>
-  <script src="script.js"></script>
-  <script src="pwa.js"></script>
+</div>
+
+<div class="tier vvip">
+
+<h3>VVIP 💎</h3>
+<p>Premium access</p>
+
+</div>
+
+<div class="tier vvvip">
+
+<h3>VVVIP 👑</h3>
+<p>Ultimate fan privileges</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- LOGIN MODAL -->
+
+<div class="modal" id="loginModal">
+
+<div class="modal-content">
+
+<h3>Member Login</h3>
+
+<input type="email" placeholder="Email">
+
+<input type="password" placeholder="Password">
+
+<button class="btn btn-primary">Login</button>
+
+</div>
+
+</div>
+
+<footer>
+
+© 2026 Conejo Malo Global Community
+
+</footer>
+
+<script>
+
+function openLogin(){
+
+document.getElementById("loginModal").style.display="flex"
+
+}
+
+function scrollCommunity(){
+
+document.getElementById("community").scrollIntoView({behavior:"smooth"})
+
+}
+
+/* LANGUAGE SWITCHER */
+
+function changeLang(lang){
+
+alert("Language switched to: "+lang)
+
+}
+
+/* FIREBASE PLACEHOLDER */
+
+const firebaseConfig={
+
+apiKey: "AIzaSyDpFAL7wX__ee1bmbr25A81IBuWEnpq970",
+authDomain: "conejomalo-global.firebaseapp.com",
+projectId: "conejomalo-global",
+
+}
+
+</script>
 
 </body>
+
 </html>
