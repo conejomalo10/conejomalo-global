@@ -82,13 +82,69 @@
       </div>
     </div>
 
-    <!-- ── NO MEMBERSHIP ── -->
-    <div class="access-denied glass" id="accessDenied" style="display:none">
-      <div class="denied-icon">🔒</div>
-      <h2>Membership Required</h2>
-      <p>Your account is registered but you don't have an active membership yet.</p>
-      <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:24px">Request VIP, VVIP or VVVIP to unlock full access.</p>
-      <button class="button button-primary" onclick="showMembershipModal()">👑 Request Membership</button>
+    <!-- ── NO MEMBERSHIP — registered but no tier yet ── -->
+    <div id="accessDenied" style="display:none">
+
+      <!-- LOCK CARD -->
+      <div class="access-denied glass">
+        <div class="denied-icon">🔒</div>
+        <h2>You're In — Almost!</h2>
+        <p>Your account is registered. Now unlock the full experience by choosing a membership tier.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px;margin-bottom:24px">
+          👇 Scroll down to see what the community is sharing right now — then decide your tier.
+        </p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="button button-primary" onclick="showMembershipModal()">👑 Request Membership</button>
+        </div>
+
+        <!-- TIER MINI PREVIEW -->
+        <div class="tier-teaser-row">
+          <div class="tier-teaser-pill vip" onclick="showMembershipModal()">
+            <span class="tier-teaser-icon">⭐</span>
+            <div>
+              <div class="tier-teaser-name">VIP</div>
+              <div class="tier-teaser-desc">Like · Comment · Post text</div>
+            </div>
+          </div>
+          <div class="tier-teaser-pill vvip" onclick="showMembershipModal()">
+            <span class="tier-teaser-icon">💎</span>
+            <div>
+              <div class="tier-teaser-name">VVIP</div>
+              <div class="tier-teaser-desc">+ Post images · Early events</div>
+            </div>
+          </div>
+          <div class="tier-teaser-pill vvvip" onclick="showMembershipModal()">
+            <span class="tier-teaser-icon">👑</span>
+            <div>
+              <div class="tier-teaser-name">VVVIP</div>
+              <div class="tier-teaser-desc">+ Video · Audio · All access</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREVIEW POSTS HEADING -->
+      <div class="preview-section-header">
+        <div class="preview-section-line"></div>
+        <span class="preview-section-label">🌍 Live From The Community</span>
+        <div class="preview-section-line"></div>
+      </div>
+
+      <!-- PREVIEW FEED -->
+      <div class="feed-loading" id="previewFeedLoading"><div class="spinner"></div><p>Loading community posts...</p></div>
+      <div class="post-feed" id="previewPostFeed"></div>
+
+      <!-- INFINITE LOADER — entices them to join -->
+      <div class="preview-infinite-loader" id="previewInfiniteLoader" style="display:none">
+        <div class="infinite-dots">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="infinite-loader-text">There's so much more inside...</p>
+        <button class="button button-primary" style="margin-top:16px" onclick="showMembershipModal()">
+          👑 Join Now to See Everything
+        </button>
+      </div>
+
     </div>
 
     <!-- ── FULL DASHBOARD ── -->
