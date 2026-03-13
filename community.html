@@ -88,14 +88,15 @@
       <div class="feed-loading" id="previewFeedLoading"><div class="spinner"></div><p>Loading community posts...</p></div>
       <div class="post-feed" id="previewPostFeed"></div>
 
-      <!-- INFINITE LOADER — entices them to upgrade -->
+      <!-- INFINITE LOADER — shows after 5 posts, prompts membership -->
       <div class="preview-infinite-loader" id="previewInfiniteLoader" style="display:none">
         <div class="infinite-dots">
           <span></span><span></span><span></span><span></span><span></span>
         </div>
-        <p class="infinite-loader-text">There's so much more inside...</p>
-        <button class="button button-primary" style="margin-top:16px" onclick="showMembershipModal()">
-          👑 Unlock Full Access
+        <p class="infinite-loader-text">🔒 There's so much more inside...</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.55);margin:6px 0 18px">Upgrade your membership to view all posts, like, comment &amp; post media.</p>
+        <button class="button button-primary" style="margin-top:4px;padding:14px 32px;font-size:15px;font-weight:800;border-radius:999px" onclick="showMembershipModal()">
+          👑 Request Membership to View More
         </button>
       </div>
 
