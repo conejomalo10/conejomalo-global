@@ -21,7 +21,7 @@
   <style>
 
     /* ============================================================
-       BASE
+       BASE — dark background guaranteed before style.css loads
     ============================================================ */
     html, body {
       background: #1a0533 !important;
@@ -30,7 +30,9 @@
       overflow-x: hidden;
     }
 
-    /* FOUT FIX */
+    /* ============================================================
+       FOUT FIX — hide hero text until fonts ready, then fade in
+    ============================================================ */
     .hg-pre-title, .hg-main-title, .hg-artist, .hg-sub {
       opacity: 0;
       transition: opacity 0.40s ease;
@@ -41,28 +43,56 @@
     .fonts-loaded .hg-sub { opacity: 1; }
 
     /* ============================================================
-       FONT SCOPING — strictly hero card elements only.
-       NOTHING below the hero section is touched here.
-       All About → Footer → Modal fonts come from style.css as original.
+       GLOBAL FONT OVERRIDES — every section of the site
     ============================================================ */
-    .hg-pre-title   { font-family: 'Montserrat', sans-serif !important; }
-    .hg-main-title  { font-family: 'Montserrat', sans-serif !important; }
-    .hg-artist      { font-family: 'Montserrat', sans-serif !important; }
-    .hg-sub         { font-family: 'Montserrat', sans-serif !important; }
-    .hg-stat-val    { font-family: 'Orbitron', sans-serif !important; }
-    .hg-love-banner { font-family: 'Montserrat', sans-serif !important; }
-    .hg-btn-primary, .hg-btn-secondary { font-family: 'Montserrat', sans-serif !important; }
-    .hg-stat-label  { font-family: 'Montserrat', sans-serif !important; }
-    .hg-tier-badge  { font-family: 'Poppins', sans-serif !important; }
-    .hg-status-text, .hg-logout-btn { font-family: 'Montserrat', sans-serif !important; }
+    h1, h2, h3, h4, h5, h6,
+    .hg-main-title, .hg-stat-val,
+    .rank-card strong, .tier-badge,
+    .section-tag, .vip-subtitle,
+    .footer-logo, .nav-logo {
+      font-family: 'Bebas Neue', 'Arial Black', sans-serif !important;
+      letter-spacing: 2px;
+    }
+
+    body, p, li, span, label, input, textarea, select,
+    .hg-love-banner, .hg-stat-label,
+    .vip-description, .modal-sub,
+    .button, .tier-btn, .tier-features li,
+    .about-card p, .event-card p,
+    .footer-disclaimer, footer p {
+      font-family: 'Montserrat', sans-serif !important;
+    }
+
+    .hg-pre-title, .hg-tier-badge,
+    .nav-links a, .social-btn,
+    .langSwitch button {
+      font-family: 'Poppins', sans-serif !important;
+    }
+
+    .hg-sub, .hg-love-banner {
+      font-family: 'Lora', serif !important;
+    }
+
+    .hg-artist {
+      font-family: 'Raleway', sans-serif !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+    }
+
+    .hg-stat-val, .hg-glow-text {
+      font-family: 'Orbitron', sans-serif !important;
+    }
 
     /* ============================================================
        HERO SECTION
     ============================================================ */
     .hero-glass-section {
       position: relative;
-      width: 100%; min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
       background: linear-gradient(135deg, #1a0533 0%, #3d0a6b 50%, #1a0533 100%);
       padding: 100px 20px 60px;
@@ -70,91 +100,107 @@
 
     /* Neon radial glows */
     .hero-glass-section::before {
-      content: ''; position: absolute; inset: 0;
+      content: '';
+      position: absolute; inset: 0;
       background:
         radial-gradient(ellipse 65% 50% at 15% 25%, rgba(255,75,241,0.35) 0%, transparent 65%),
         radial-gradient(ellipse 55% 45% at 85% 15%, rgba(0,255,247,0.30) 0%, transparent 60%),
         radial-gradient(ellipse 50% 55% at 50% 85%, rgba(255,234,0,0.20) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 40% at 70% 60%, rgba(100,0,255,0.28) 0%, transparent 55%);
+        radial-gradient(ellipse 40% 40% at 70% 60%, rgba(100,0,255,0.30) 0%, transparent 55%);
       z-index: 0; pointer-events: none;
     }
 
     /* Dot texture */
     .hero-glass-section::after {
-      content: ''; position: absolute; inset: 0;
+      content: '';
+      position: absolute; inset: 0;
       background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
       background-size: 28px 28px;
       z-index: 0; pointer-events: none;
     }
 
-    /* Animated neon streaks */
+    /* ── Animated neon horizontal streaks ── */
     .hg-streak-1 {
-      position: absolute; width: 420px; height: 3px;
-      top: 22%; left: -440px;
+      position: absolute;
+      width: 400px; height: 3px;
+      top: 22%; left: -420px;
       background: linear-gradient(90deg, transparent, #ff4bf1, #00fff7, transparent);
-      z-index: 1; border-radius: 999px; filter: blur(1.5px);
+      z-index: 1; border-radius: 999px;
+      filter: blur(1.5px);
       pointer-events: none;
       animation: streakMove 8s linear infinite;
     }
     .hg-streak-2 {
-      position: absolute; width: 320px; height: 3px;
-      top: 65%; left: -340px;
+      position: absolute;
+      width: 300px; height: 3px;
+      top: 65%; left: -320px;
       background: linear-gradient(90deg, transparent, #ffea00, #ff4bf1, transparent);
-      z-index: 1; border-radius: 999px; filter: blur(1.5px);
+      z-index: 1; border-radius: 999px;
+      filter: blur(1.5px);
       pointer-events: none;
-      animation: streakMove 11s linear infinite 2.5s;
+      animation: streakMove 11s linear infinite 2s;
     }
     @keyframes streakMove {
       0%   { left: -450px; opacity: 0; }
-      8%   { opacity: 1; }
-      92%  { opacity: 1; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
       100% { left: 110vw; opacity: 0; }
     }
 
-    /* Pulsing rings */
+    /* ── Decorative spinning rings ── */
     .hg-ring-1 {
-      position: absolute; width: 260px; height: 260px;
-      top: 35%; left: 62%; border-radius: 50%;
-      border: 1.5px solid rgba(255,75,241,0.28);
-      box-shadow: 0 0 20px rgba(255,75,241,0.12) inset;
+      position: absolute;
+      width: 260px; height: 260px;
+      top: 35%; left: 62%;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,75,241,0.30);
+      box-shadow: 0 0 20px rgba(255,75,241,0.15) inset;
       z-index: 1; pointer-events: none;
       animation: ringPulse 6s ease-in-out infinite;
     }
     .hg-ring-2 {
-      position: absolute; width: 180px; height: 180px;
-      top: 62%; left: 18%; border-radius: 50%;
-      border: 1.5px solid rgba(255,234,0,0.22);
+      position: absolute;
+      width: 180px; height: 180px;
+      top: 62%; left: 18%;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,234,0,0.25);
       z-index: 1; pointer-events: none;
       animation: ringPulse 8s ease-in-out infinite 1.5s;
     }
     @keyframes ringPulse {
-      0%,100% { opacity: 0.35; transform: scale(1); }
-      50%      { opacity: 0.85; transform: scale(1.07); }
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50%       { opacity: 0.9; transform: scale(1.06); }
     }
 
-    /* Bunny watermark */
+    /* ── Bunny watermark ── */
     .hg-bunny-mark {
-      position: absolute; font-size: 280px; opacity: 0.03;
-      top: 50%; left: 50%; transform: translate(-50%,-50%);
-      z-index: 1; user-select: none; filter: blur(2px); pointer-events: none;
+      position: absolute;
+      font-size: 280px; opacity: 0.03;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 1; user-select: none;
+      filter: blur(2px); pointer-events: none;
     }
 
-    /* Bad Bunny photo */
+    /* ── Bad Bunny photo ── */
     .hg-photo-wrap {
-      position: absolute; right: 3%; bottom: 0;
+      position: absolute;
+      right: 3%; bottom: 0;
       z-index: 2; pointer-events: none;
     }
     .hg-photo {
-      height: min(80vh, 580px); width: auto;
-      object-fit: contain; display: block;
+      height: min(80vh, 580px);
+      width: auto; object-fit: contain; display: block;
       filter: drop-shadow(-6px 0 30px rgba(255,75,241,0.45));
       opacity: 0.93;
     }
 
-    /* Neon particles */
+    /* ── Floating neon particles ── */
     .hg-particle {
-      position: absolute; border-radius: 50%;
-      pointer-events: none; z-index: 2;
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
       animation: hgParticleRise linear infinite;
     }
     @keyframes hgParticleRise {
@@ -163,25 +209,30 @@
       100% { transform: translateY(-110vh) translateX(60px) scale(1.1); opacity: 0; }
     }
 
-    /* Floating bunnies */
+    /* ── Floating bunnies 🐰🐇 ── */
     .neon-bunny {
-      position: absolute; font-size: 2rem;
-      user-select: none; pointer-events: none; z-index: 3;
-      filter: drop-shadow(0 0 8px #ff4bf1);
+      position: absolute;
+      font-size: 2rem;
+      user-select: none; pointer-events: none;
+      z-index: 3;
       animation: floatBunny linear infinite;
+      filter: drop-shadow(0 0 8px #ff4bf1);
     }
     @keyframes floatBunny {
       0%   { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-      8%   { opacity: 1; }
-      92%  { opacity: 0.9; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.9; }
       100% { transform: translateY(-15vh) translateX(40px) rotate(20deg); opacity: 0; }
     }
 
-    /* Bunny neon trails */
+    /* ── Bunny neon trails ── */
     .neon-trail {
-      position: absolute; width: 5px; height: 5px;
+      position: absolute;
+      width: 5px; height: 5px;
       background: linear-gradient(45deg, #ff4bf1, #ffea00, #00fff7);
-      border-radius: 50%; filter: blur(3px);
+      border-radius: 50%;
+      opacity: 0;
+      filter: blur(3px);
       pointer-events: none; z-index: 2;
       animation: trailRise linear infinite;
     }
@@ -205,24 +256,29 @@
       padding: 52px 44px 46px;
       text-align: center;
       box-shadow:
-        0 0 30px rgba(255,75,241,0.30),
-        0 0 60px rgba(255,234,0,0.12),
+        0 0 30px rgba(255,75,241,0.35),
+        0 0 60px rgba(255,234,0,0.15),
         0 8px 60px rgba(0,0,0,0.60),
         0 1px 0 rgba(255,255,255,0.18) inset;
     }
+    /* top neon glow line */
     .hg-card::before {
-      content: ''; position: absolute;
+      content: '';
+      position: absolute;
       top: 0; left: 8%; right: 8%; height: 1px;
       background: linear-gradient(to right, transparent, #ff4bf1, #00fff7, transparent);
       border-radius: 999px;
     }
+    /* bottom glow line */
     .hg-card::after {
-      content: ''; position: absolute;
+      content: '';
+      position: absolute;
       bottom: -1px; left: 18%; right: 18%; height: 1px;
       background: linear-gradient(to right, transparent, #ffea00, transparent);
       border-radius: 999px;
     }
 
+    /* ── Floating card animation ── */
     .floating-glass { animation: heroFloat 6s ease-in-out infinite; }
     @keyframes heroFloat {
       0%   { transform: translateY(0px); }
@@ -230,8 +286,13 @@
       100% { transform: translateY(0px); }
     }
 
+    /* ── Card glow text class ── */
+    .hg-glow-text {
+      text-shadow: 0 0 8px #ff4bf1, 0 0 16px #ff4bf1, 0 0 24px #ffea00;
+    }
+
     /* ============================================================
-       HERO TYPOGRAPHY — matched to approved design
+       HERO TYPOGRAPHY
     ============================================================ */
     .hg-pre-title {
       font-family: 'Montserrat', sans-serif !important;
@@ -248,7 +309,6 @@
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-pre-title { opacity: 1; }
-
     .hg-main-title {
       font-family: 'Montserrat', sans-serif !important;
       font-size: clamp(36px, 7.5vw, 72px);
@@ -269,7 +329,6 @@
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-main-title { opacity: 1; }
-
     .hg-divider {
       width: 60px; height: 2px;
       background: linear-gradient(to right, transparent, rgba(255,255,255,0.35), transparent);
@@ -277,7 +336,6 @@
       border-radius: 999px;
       box-shadow: none;
     }
-
     .hg-artist {
       font-family: 'Montserrat', sans-serif !important;
       font-size: clamp(16px, 3vw, 26px);
@@ -295,7 +353,6 @@
       transition: opacity 0.40s ease;
     }
     .fonts-loaded .hg-artist { opacity: 1; }
-
     .hg-sub {
       font-family: 'Montserrat', sans-serif !important;
       font-size: clamp(16px, 3vw, 26px);
@@ -321,27 +378,23 @@
       line-height: 1.55;
     }
 
-    /* Love banner */
+    /* ── Love banner ── */
     .hg-love-banner {
-      font-family: 'Montserrat', sans-serif !important;
       font-size: 13px;
       font-weight: 800;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       color: #ffffff;
       font-style: normal;
-      text-shadow:
-        0 0 8px rgba(255,255,255,0.90),
-        0 0 18px rgba(255,255,255,0.55),
-        0 0 32px rgba(200,220,255,0.35);
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.22);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,75,241,0.30);
       border-radius: 8px;
       padding: 12px 16px;
       margin-bottom: 22px;
       line-height: 1.75;
     }
 
-    /* Stats */
+    /* ── Stats row ── */
     .hg-stats {
       display: flex; justify-content: center;
       border: 1px solid rgba(255,75,241,0.18);
@@ -349,20 +402,25 @@
       background: rgba(255,255,255,0.04);
       margin-bottom: 24px;
     }
-    .hg-stat { flex: 1; padding: 12px 10px; border-right: 1px solid rgba(255,255,255,0.07); }
+    .hg-stat {
+      flex: 1; padding: 12px 10px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
     .hg-stat:last-child { border-right: none; }
     .hg-stat-val {
-      display: block; font-size: 14px; letter-spacing: 1px;
-      color: #ffea00; font-weight: 700;
-      text-shadow: 0 0 8px rgba(255,234,0,0.55);
+      display: block;
+      font-size: 15px; letter-spacing: 1px; color: #ffea00;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(255,234,0,0.60);
     }
     .hg-stat-label {
-      display: block; font-size: 9px; font-weight: 700;
+      display: block;
+      font-size: 9px; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(255,255,255,0.36); margin-top: 4px;
+      color: rgba(255,255,255,0.38); margin-top: 4px;
     }
 
-    /* Buttons */
+    /* ── CTA buttons ── */
     .hg-btn-row {
       display: flex; gap: 10px;
       justify-content: center; flex-wrap: wrap;
@@ -386,14 +444,15 @@
       border: 1px solid rgba(0,255,247,0.45);
       cursor: pointer;
       background: rgba(0,255,247,0.07);
-      backdrop-filter: blur(8px); color: #a8edea;
+      backdrop-filter: blur(8px);
+      color: #a8edea;
       transition: transform 0.25s ease, background 0.25s ease;
     }
     .hg-btn-secondary:hover { transform: scale(1.07); background: rgba(0,255,247,0.16); }
 
-    /* Status & logout */
+    /* ── Status & logout ── */
     .hg-status-text {
-      font-size: 11px; color: rgba(255,255,255,0.30);
+      font-size: 11px; color: rgba(255,255,255,0.32);
       margin-top: 6px; margin-bottom: 0;
     }
     .hg-logout-btn {
@@ -404,7 +463,7 @@
       padding: 7px 20px; border-radius: 999px; cursor: pointer;
     }
 
-    /* Tier badges */
+    /* ── Tier badges ── */
     .hg-tier-row {
       display: flex; justify-content: center;
       gap: 8px; flex-wrap: wrap; margin-top: 18px;
@@ -432,8 +491,8 @@
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
     }
-    .modalBox input, .modalBox label, .modalBox button,
-    .modalBox h3, .modalBox p { position: relative; z-index: 1; }
+    .modalBox input, .modalBox label,
+    .modalBox button, .modalBox h3, .modalBox p { position: relative; z-index: 1; }
     .input-group { position: relative; z-index: 1; }
     .input-group input {
       position: relative; z-index: 2;
@@ -465,6 +524,7 @@
 
 <body>
 
+  <!-- Font load detector -->
   <script>
     document.fonts.ready.then(function () {
       document.documentElement.classList.add('fonts-loaded');
@@ -474,12 +534,14 @@
     }, 1200);
   </script>
 
+  <!-- BACKGROUND ORBS -->
   <div class="bg-orbs">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
   </div>
 
+  <!-- LANGUAGE SWITCH -->
   <div class="langSwitch">
     <button onclick="setLanguage('en')">🇺🇸 EN</button>
     <button onclick="setLanguage('es')">🇵🇷 ES</button>
@@ -495,8 +557,11 @@
     <button onclick="setLanguage('it')">🇮🇹 IT</button>
   </div>
 
+  <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="nav-logo"><span class="rabbit-emblem">🐰</span> CONEJO MALO</div>
+    <div class="nav-logo">
+      <span class="rabbit-emblem">🐰</span> CONEJO MALO
+    </div>
     <ul class="nav-links">
       <li><a href="#home"       data-lang="navHome">HOME</a></li>
       <li><a href="#community"  data-lang="navCommunity">COMMUNITY</a></li>
@@ -509,32 +574,35 @@
     <button class="hamburger" onclick="toggleMenu()">☰</button>
   </nav>
 
+  <!-- HERO -->
   <section class="hero-glass-section" id="home">
 
+    <!-- Animated streaks & rings -->
     <div class="hg-streak-1"></div>
     <div class="hg-streak-2"></div>
     <div class="hg-ring-1"></div>
     <div class="hg-ring-2"></div>
     <div class="hg-bunny-mark">🐰</div>
 
-    <!-- Floating bunnies + trails -->
+    <!-- Floating bunnies with neon trails -->
     <div class="neon-bunny" style="left:12%; animation-duration:16s; animation-delay:0s;">🐰</div>
-    <div class="neon-bunny" style="left:74%; animation-duration:19s; animation-delay:5s;">🐇</div>
-    <div class="neon-trail" style="left:13%; animation-duration:16s; animation-delay:0.4s;"></div>
-    <div class="neon-trail" style="left:75%; animation-duration:19s; animation-delay:5.4s;"></div>
+    <div class="neon-bunny" style="left:72%; animation-duration:19s; animation-delay:4s;">🐇</div>
+    <div class="neon-trail" style="left:13%; animation-duration:16s; animation-delay:0.3s;"></div>
+    <div class="neon-trail" style="left:73%; animation-duration:19s; animation-delay:4.3s;"></div>
 
+    <!-- Bad Bunny photo -->
     <div class="hg-photo-wrap">
       <img src="images/Compress_20260309_175859_9892.jpg" class="hg-photo" alt="Bad Bunny" />
     </div>
 
+    <!-- GLASS CARD -->
     <div class="hg-card floating-glass">
 
-      <span class="hg-pre-title">Communidad<br>Global de</span>
-      <span class="hg-main-title">Conejo Malo</span>
+      <span class="hg-pre-title">🌍 Comunidad Official de Fans de</span>
+      <span class="hg-main-title">CONEJO MALO</span>
       <div class="hg-divider"></div>
-      <div class="hg-artist-sub-row">
-        <span class="hg-artist">Bad Bunny </span><span class="hg-sub">Global Fans<br>Community</span>
-      </div>
+      <span class="hg-artist">BAD BUNNY</span>
+      <span class="hg-sub">Global Fans<br>Community</span>
 
       <div class="hg-love-banner">
         ✊ The only thing more powerful than hate is love — No Racism!
@@ -574,24 +642,43 @@
     </div>
   </section>
 
+  <!-- COMMUNITY -->
   <section class="section" id="community">
     <div class="glass section-glass">
       <div class="section-tag" data-lang="aboutTag">ABOUT US</div>
       <h2 data-lang="aboutTitle">About the Community</h2>
       <p data-lang="aboutText">Comunidad Global de Fans de Conejo Malo is a global fan community created to celebrate the music, culture, and worldwide impact of Bad Bunny. We bring together fans from every corner of the planet.</p>
       <div class="about-grid">
-        <div class="about-card reveal"><span class="about-icon">🎧</span><h4 data-lang="aboutF1">Exclusive Music</h4><p data-lang="aboutF1D">Access exclusive content, previews and curated playlists.</p></div>
-        <div class="about-card reveal"><span class="about-icon">🌍</span><h4 data-lang="aboutF2">Global Network</h4><p data-lang="aboutF2D">Connect with fans from USA, Spain, Mexico, Brazil, Japan and beyond.</p></div>
-        <div class="about-card reveal"><span class="about-icon">🏆</span><h4 data-lang="aboutF3">Fan Rankings</h4><p data-lang="aboutF3D">Earn badges and climb the ranks from New Fan to Legend Fan.</p></div>
-        <div class="about-card reveal"><span class="about-icon">🎫</span><h4 data-lang="aboutF4">Events Access</h4><p data-lang="aboutF4D">Early access to concert announcements and listening parties.</p></div>
+        <div class="about-card reveal">
+          <span class="about-icon">🎧</span>
+          <h4 data-lang="aboutF1">Exclusive Music</h4>
+          <p data-lang="aboutF1D">Access exclusive content, previews and curated playlists.</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">🌍</span>
+          <h4 data-lang="aboutF2">Global Network</h4>
+          <p data-lang="aboutF2D">Connect with fans from USA, Spain, Mexico, Brazil, Japan and beyond.</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">🏆</span>
+          <h4 data-lang="aboutF3">Fan Rankings</h4>
+          <p data-lang="aboutF3D">Earn badges and climb the ranks from New Fan to Legend Fan.</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-icon">🎫</span>
+          <h4 data-lang="aboutF4">Events Access</h4>
+          <p data-lang="aboutF4D">Early access to concert announcements and listening parties.</p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- DISCLAIMER -->
   <div class="disclaimer-bar">
     <p data-lang="disclaimer">⚠️ This is an independent fan community. Not officially affiliated with Bad Bunny or his management.</p>
   </div>
 
+  <!-- MEMBERSHIP -->
   <section class="vip-section" id="membership">
     <div class="section-tag" data-lang="memberTag">MEMBERSHIP</div>
     <h2 data-lang="memberTitle">Fan Membership Platform</h2>
@@ -599,38 +686,54 @@
     <p class="vip-description" data-lang="memberDesc">Only accessible after login. This is the heart of our global fan community.</p>
     <div class="vip-levels">
       <div class="vip-card member-tier reveal">
-        <div class="tier-badge">FREE</div><h4>🌟 Member</h4>
+        <div class="tier-badge">FREE</div>
+        <h4>🌟 Member</h4>
         <p class="tier-price" data-lang="tierFree">Free</p>
         <ul class="tier-features">
-          <li>✅ Basic community access</li><li>✅ Public posts &amp; feed</li>
-          <li>✅ Fan profile</li><li>❌ Exclusive content</li><li>❌ Private events</li>
+          <li>✅ Basic community access</li>
+          <li>✅ Public posts &amp; feed</li>
+          <li>✅ Fan profile</li>
+          <li>❌ Exclusive content</li>
+          <li>❌ Private events</li>
         </ul>
         <button class="button tier-btn" onclick="openModal()">Join Free</button>
       </div>
       <div class="vip-card vip-tier reveal">
-        <div class="tier-badge popular-badge">POPULAR</div><h4>⭐ VIP</h4>
+        <div class="tier-badge popular-badge">POPULAR</div>
+        <h4>⭐ VIP</h4>
         <p class="tier-price">Premium</p>
         <ul class="tier-features">
-          <li>✅ Everything in Member</li><li>✅ Exclusive posts</li>
-          <li>✅ Special updates</li><li>✅ VIP badge</li><li>❌ Private events</li>
+          <li>✅ Everything in Member</li>
+          <li>✅ Exclusive posts</li>
+          <li>✅ Special updates</li>
+          <li>✅ VIP badge</li>
+          <li>❌ Private events</li>
         </ul>
         <button class="button tier-btn" onclick="openModal()">Get VIP</button>
       </div>
       <div class="vip-card vvip-tier reveal">
-        <div class="tier-badge">ELITE</div><h4>⭐⭐ VVIP</h4>
+        <div class="tier-badge">ELITE</div>
+        <h4>⭐⭐ VVIP</h4>
         <p class="tier-price">Elite</p>
         <ul class="tier-features">
-          <li>✅ Everything in VIP</li><li>✅ Premium media</li>
-          <li>✅ Priority announcements</li><li>✅ Early content access</li><li>❌ Private events</li>
+          <li>✅ Everything in VIP</li>
+          <li>✅ Premium media</li>
+          <li>✅ Priority announcements</li>
+          <li>✅ Early content access</li>
+          <li>❌ Private events</li>
         </ul>
         <button class="button tier-btn" onclick="openModal()">Get VVIP</button>
       </div>
       <div class="vip-card vvvip-tier reveal">
-        <div class="tier-badge legend-badge">LEGEND</div><h4>⭐⭐⭐ VVVIP</h4>
+        <div class="tier-badge legend-badge">LEGEND</div>
+        <h4>⭐⭐⭐ VVVIP</h4>
         <p class="tier-price">Legend</p>
         <ul class="tier-features">
-          <li>✅ Everything in VVIP</li><li>✅ Private fan events</li>
-          <li>✅ Early content access</li><li>✅ Legend badge</li><li>✅ Community role</li>
+          <li>✅ Everything in VVIP</li>
+          <li>✅ Private fan events</li>
+          <li>✅ Early content access</li>
+          <li>✅ Legend badge</li>
+          <li>✅ Community role</li>
         </ul>
         <button class="button tier-btn" onclick="openModal()">Get VVVIP</button>
       </div>
@@ -638,14 +741,19 @@
     <div class="vip-features">
       <h3 data-lang="allMembersGet">All Members Get</h3>
       <ul>
-        <li>🎧 Exclusive music content</li><li>🎬 Private community videos</li>
-        <li>💬 Fan community discussions</li><li>🎫 Event announcements</li>
-        <li>🏆 Fan ranking and badges</li><li>🎁 Special giveaways</li>
-        <li>🌍 Global fan map access</li><li>📰 News &amp; album updates</li>
+        <li>🎧 Exclusive music content</li>
+        <li>🎬 Private community videos</li>
+        <li>💬 Fan community discussions</li>
+        <li>🎫 Event announcements</li>
+        <li>🏆 Fan ranking and badges</li>
+        <li>🎁 Special giveaways</li>
+        <li>🌍 Global fan map access</li>
+        <li>📰 News &amp; album updates</li>
       </ul>
     </div>
   </section>
 
+  <!-- FAN RANKS -->
   <section class="section" id="ranking">
     <div class="glass section-glass">
       <div class="section-tag">FAN RANKS</div>
@@ -660,35 +768,56 @@
     </div>
   </section>
 
+  <!-- GLOBAL FAN MAP -->
   <section class="section" id="map">
     <div class="glass section-glass">
       <div class="section-tag">WORLDWIDE</div>
       <h2 data-lang="mapTitle">Global Fan Map</h2>
       <p data-lang="mapDesc">Our community spans every continent. Fans united by music.</p>
       <div class="fan-map">
-        <div class="map-region reveal">🇺🇸 USA</div><div class="map-region reveal">🇪🇸 Spain</div>
-        <div class="map-region reveal">🇲🇽 Mexico</div><div class="map-region reveal">🇧🇷 Brazil</div>
-        <div class="map-region reveal">🇨🇦 Canada</div><div class="map-region reveal">🇩🇪 Germany</div>
-        <div class="map-region reveal">🇳🇱 Netherlands</div><div class="map-region reveal">🇯🇵 Japan</div>
-        <div class="map-region reveal">🇸🇦 Saudi Arabia</div><div class="map-region reveal">🇮🇩 Indonesia</div>
-        <div class="map-region reveal">🇫🇷 France</div><div class="map-region reveal">🇬🇧 UK</div>
+        <div class="map-region reveal">🇺🇸 USA</div>
+        <div class="map-region reveal">🇪🇸 Spain</div>
+        <div class="map-region reveal">🇲🇽 Mexico</div>
+        <div class="map-region reveal">🇧🇷 Brazil</div>
+        <div class="map-region reveal">🇨🇦 Canada</div>
+        <div class="map-region reveal">🇩🇪 Germany</div>
+        <div class="map-region reveal">🇳🇱 Netherlands</div>
+        <div class="map-region reveal">🇯🇵 Japan</div>
+        <div class="map-region reveal">🇸🇦 Saudi Arabia</div>
+        <div class="map-region reveal">🇮🇩 Indonesia</div>
+        <div class="map-region reveal">🇫🇷 France</div>
+        <div class="map-region reveal">🇬🇧 UK</div>
       </div>
     </div>
   </section>
 
+  <!-- EVENTS -->
   <section class="section" id="events">
     <div class="glass section-glass">
       <div class="section-tag">EVENTS</div>
       <h2 data-lang="eventsTitle">Fan Events</h2>
       <p data-lang="eventsDesc">Stay connected with listening parties, fan competitions, and concert discussions.</p>
       <div class="events-grid">
-        <div class="event-card reveal"><span class="event-icon">🎵</span><h4 data-lang="event1">Listening Parties</h4><p data-lang="event1D">Live album listening sessions with the community.</p></div>
-        <div class="event-card reveal"><span class="event-icon">🏆</span><h4 data-lang="event2">Fan Competitions</h4><p data-lang="event2D">Art contests, lyric challenges, and fan polls.</p></div>
-        <div class="event-card reveal"><span class="event-icon">🎤</span><h4 data-lang="event3">Concert Discussions</h4><p data-lang="event3D">Live reaction threads during Bad Bunny concerts.</p></div>
+        <div class="event-card reveal">
+          <span class="event-icon">🎵</span>
+          <h4 data-lang="event1">Listening Parties</h4>
+          <p data-lang="event1D">Live album listening sessions with the community.</p>
+        </div>
+        <div class="event-card reveal">
+          <span class="event-icon">🏆</span>
+          <h4 data-lang="event2">Fan Competitions</h4>
+          <p data-lang="event2D">Art contests, lyric challenges, and fan polls.</p>
+        </div>
+        <div class="event-card reveal">
+          <span class="event-icon">🎤</span>
+          <h4 data-lang="event3">Concert Discussions</h4>
+          <p data-lang="event3D">Live reaction threads during Bad Bunny concerts.</p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- SUPPORT -->
   <section class="section" id="support">
     <div class="glass section-glass">
       <div class="section-tag">SUPPORT</div>
@@ -704,6 +833,7 @@
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section class="section" id="contact">
     <div class="glass section-glass" style="text-align:center;">
       <div class="section-tag">CONTACT</div>
@@ -718,21 +848,23 @@
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
       <div class="footer-logo">🐰 CONEJO MALO</div>
       <div class="footer-links">
-        <a href="#home" data-lang="navHome">Home</a>
-        <a href="#community" data-lang="navCommunity">Community</a>
+        <a href="#home"       data-lang="navHome">Home</a>
+        <a href="#community"  data-lang="navCommunity">Community</a>
         <a href="#membership" data-lang="navMembership">Membership</a>
-        <a href="#events" data-lang="navEvents">Events</a>
-        <a href="#support" data-lang="navSupport">Support</a>
+        <a href="#events"     data-lang="navEvents">Events</a>
+        <a href="#support"    data-lang="navSupport">Support</a>
       </div>
       <p>© 2026 Comunidad Global de Fans de Conejo Malo — Bad Bunny Global Fan Community</p>
       <p class="footer-disclaimer" data-lang="disclaimer">⚠️ Independent fan community. Not affiliated with Bad Bunny or his management.</p>
     </div>
   </footer>
 
+  <!-- LOGIN / REGISTER MODAL -->
   <div class="modal" id="authModal">
     <div class="modalBox">
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -755,11 +887,14 @@
     </div>
   </div>
 
+  <!-- SCRIPTS -->
   <script>
-    // Neon coloured particles + auto language detection
+    // ── Neon particles + bunnies spawner ──
     (function spawnHeroElements() {
       const hero = document.querySelector('.hero-glass-section');
       if (!hero) return;
+
+      // 60 neon colour particles
       const colours = ['#ff4bf1','#00fff7','#ffea00','#ff6b6b','#a8edea','#ffffff'];
       for (let i = 0; i < 60; i++) {
         const p = document.createElement('div');
@@ -772,7 +907,7 @@
           'left:'   + Math.random() * 100 + '%',
           'top:'    + (55 + Math.random() * 45) + '%',
           'background:' + col,
-          'box-shadow:0 0 6px ' + col,
+          'box-shadow: 0 0 6px ' + col,
           'animation-duration:' + (11 + Math.random() * 14) + 's',
           'animation-delay:'    + (Math.random() * 12) + 's',
         ].join(';');
@@ -780,6 +915,7 @@
       }
     })();
 
+    // ── Auto language detection ──
     window.addEventListener('load', function () {
       if (typeof setLanguage === 'function' && !localStorage.getItem('cm_lang')) {
         const lang = (navigator.language || 'en').slice(0,2).toLowerCase();
