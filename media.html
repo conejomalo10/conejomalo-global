@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Media — Comunidad Global de Fans de Conejo Malo" />
+  <title>Media — Conejo Malo Global</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0533" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Bebas+Neue&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #1a0533;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── BG ORBS ── */
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.25; }
+    .orb-1 { width: 500px; height: 500px; background: #7b2fff; top: -100px; left: -100px; animation: orbFloat 18s ease-in-out infinite; }
+    .orb-2 { width: 400px; height: 400px; background: #ff0066; bottom: 10%; right: -80px; animation: orbFloat 22s ease-in-out infinite reverse; }
+    .orb-3 { width: 300px; height: 300px; background: #00d4ff; top: 40%; left: 30%; animation: orbFloat 14s ease-in-out infinite 3s; }
+    @keyframes orbFloat { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-40px) scale(1.08);} }
+
+    /* ── NAVBAR (matches site) ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+      background: rgba(10,4,30,0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+    }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .nav-logo img { width: 36px; height: 36px; border-radius: 50%; }
+    .rabbit-emblem { font-size: 26px; }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.70); text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; padding: 6px 10px; border-radius: 8px; transition: all 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: #ffd700; background: rgba(255,215,0,0.10); }
+    .nav-login-btn {
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800;
+      letter-spacing: 1.5px; padding: 8px 20px; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav-login-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,0,102,0.5); }
+    .hamburger { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+    @media(max-width:768px){
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10,4,30,0.98); padding: 16px; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    }
+
+    /* ── MAIN WRAPPER ── */
+    .media-main {
+      position: relative; z-index: 1;
+      padding: 84px 16px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 32px 20px 20px;
+    }
+    .page-header .tag {
+      display: inline-block;
+      background: rgba(255,75,241,0.15);
+      border: 1px solid rgba(255,75,241,0.40);
+      border-radius: 999px;
+      padding: 5px 18px;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: #ff4bf1; margin-bottom: 14px;
+    }
+    .page-header h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(36px, 8vw, 72px);
+      letter-spacing: 4px; color: #fff;
+      text-shadow: 0 0 40px rgba(255,75,241,0.3);
+      margin-bottom: 10px;
+    }
+    .page-header p { font-size: 14px; color: rgba(255,255,255,0.55); }
+
+    /* ── SECTION TABS ── */
+    .media-tabs {
+      display: flex; gap: 8px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 36px;
+    }
+    .media-tab {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
+      color: rgba(255,255,255,0.70);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px; font-weight: 700;
+      padding: 10px 24px; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .media-tab:hover, .media-tab.active {
+      background: rgba(255,75,241,0.20);
+      border-color: rgba(255,75,241,0.60);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(255,75,241,0.25);
+    }
+
+    /* ── SECTION PANELS ── */
+    .media-section { display: none; animation: fadeInUp 0.4s ease; }
+    .media-section.active { display: block; }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+
+    /* ── GLASS CARD ── */
+    .glass {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+    }
+
+    /* ════════════════════════════════════
+       TOUR ANNOUNCEMENTS
+    ════════════════════════════════════ */
+    .tour-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 28px; letter-spacing: 3px; color: #fff;
+      text-shadow: 0 0 20px rgba(255,75,241,0.3);
+    }
+    .add-btn {
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 800; letter-spacing: 1px;
+      padding: 10px 22px; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: none; /* shown only to admin */
+    }
+    .add-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,0,102,0.5); }
+    .add-btn.visible { display: inline-block; }
+
+    /* Tour card */
+    .tour-list { display: flex; flex-direction: column; gap: 14px; }
+    .tour-card {
+      display: flex; align-items: center; gap: 18px;
+      padding: 18px 22px;
+      background: rgba(10,4,30,0.85);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .tour-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #ff4bf1, #ff0066);
+      border-radius: 4px 0 0 4px;
+    }
+    .tour-card:hover { border-color: rgba(255,75,241,0.35); transform: translateX(4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .tour-date-box {
+      min-width: 60px; text-align: center;
+      background: rgba(255,75,241,0.15);
+      border: 1px solid rgba(255,75,241,0.30);
+      border-radius: 12px; padding: 8px 12px;
+    }
+    .tour-day { font-family: 'Bebas Neue', cursive; font-size: 28px; color: #ff4bf1; line-height: 1; }
+    .tour-month { font-size: 10px; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.55); text-transform: uppercase; }
+    .tour-info { flex: 1; }
+    .tour-city { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .tour-venue { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+    .tour-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tour-badge {
+      font-size: 10px; font-weight: 700; padding: 3px 10px;
+      border-radius: 999px; letter-spacing: 1px;
+    }
+    .tour-badge.upcoming { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.35); color: #00d4ff; }
+    .tour-badge.soldout  { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.35); color: #ff5050; }
+    .tour-badge.new      { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.40); color: #ffd700; }
+    .tour-actions { display: flex; gap: 8px; }
+    .tour-ticket-btn {
+      background: linear-gradient(135deg, #ff4bf1, #ff0066);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800;
+      padding: 8px 16px; cursor: pointer; transition: all 0.2s; text-decoration: none;
+      display: inline-block;
+    }
+    .tour-ticket-btn:hover { transform: scale(1.05); }
+    .tour-delete-btn {
+      background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.30);
+      border-radius: 999px; color: #ff5050;
+      font-size: 11px; font-weight: 700; padding: 8px 14px; cursor: pointer;
+      font-family: 'Montserrat', sans-serif; transition: all 0.2s;
+      display: none;
+    }
+    .tour-delete-btn.visible { display: inline-block; }
+    .tour-delete-btn:hover { background: rgba(255,80,80,0.30); }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center; padding: 52px 24px;
+      color: rgba(255,255,255,0.35);
+    }
+    .empty-state .empty-icon { font-size: 52px; margin-bottom: 14px; }
+    .empty-state h3 { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 2px; margin-bottom: 8px; color: rgba(255,255,255,0.5); }
+    .empty-state p { font-size: 13px; }
+
+    /* Add Tour Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.80);
+      backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #120824;
+      border: 1px solid rgba(255,75,241,0.30);
+      border-radius: 24px;
+      padding: 32px 28px;
+      width: 100%; max-width: 480px;
+      position: relative;
+      animation: fadeInUp 0.3s ease;
+    }
+    .modal-box h3 { font-family: 'Bebas Neue', cursive; font-size: 24px; letter-spacing: 3px; color: #fff; margin-bottom: 22px; }
+    .modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: none; color: rgba(255,255,255,0.5);
+      font-size: 22px; cursor: pointer; transition: color 0.2s;
+    }
+    .modal-close:hover { color: #fff; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 7px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
+      padding: 12px 14px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: rgba(255,75,241,0.5);
+    }
+    .form-group select option { background: #120824; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .submit-btn {
+      width: 100%; background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800;
+      padding: 14px; cursor: pointer; margin-top: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .submit-btn:hover { transform: scale(1.02); box-shadow: 0 6px 24px rgba(255,0,102,0.5); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ════════════════════════════════════
+       PHOTO GALLERY
+    ════════════════════════════════════ */
+    .gallery-filters {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px;
+    }
+    .gallery-filter {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px; color: rgba(255,255,255,0.65);
+      font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700;
+      padding: 7px 16px; cursor: pointer; transition: all 0.3s;
+    }
+    .gallery-filter.active, .gallery-filter:hover {
+      background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.50); color: #ffd700;
+    }
+    .gallery-upload-area {
+      border: 2px dashed rgba(255,75,241,0.35);
+      border-radius: 16px; padding: 28px 20px; text-align: center;
+      cursor: pointer; transition: all 0.3s; margin-bottom: 22px;
+      display: none;
+    }
+    .gallery-upload-area.visible { display: block; }
+    .gallery-upload-area:hover { border-color: rgba(255,75,241,0.7); background: rgba(255,75,241,0.05); }
+    .gallery-upload-area .upload-icon { font-size: 36px; margin-bottom: 10px; }
+    .gallery-upload-area p { font-size: 13px; color: rgba(255,255,255,0.55); }
+    .gallery-upload-area input[type="file"] { display: none; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .gallery-item {
+      position: relative; border-radius: 14px; overflow: hidden;
+      aspect-ratio: 1; cursor: pointer;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      transition: all 0.3s;
+    }
+    .gallery-item:hover { transform: scale(1.03); border-color: rgba(255,75,241,0.40); box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-item .item-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; align-items: flex-end; padding: 10px;
+    }
+    .gallery-item:hover .item-overlay { opacity: 1; }
+    .gallery-item .item-label { font-size: 11px; font-weight: 700; color: #fff; }
+    .gallery-item .item-delete {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(255,80,80,0.85); border: none; border-radius: 50%;
+      width: 26px; height: 26px; color: #fff; font-size: 12px;
+      cursor: pointer; display: none; align-items: center; justify-content: center;
+    }
+    .gallery-item .item-delete.visible { display: flex; }
+    .upload-progress {
+      display: none; margin: 12px 0;
+      background: rgba(255,255,255,0.05); border-radius: 999px; height: 6px; overflow: hidden;
+    }
+    .upload-progress.show { display: block; }
+    .upload-progress-bar {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(to right, #ff4bf1, #ff0066);
+      transition: width 0.3s ease; width: 0%;
+    }
+
+    /* ════════════════════════════════════
+       MUSIC VIDEOS / YOUTUBE
+    ════════════════════════════════════ */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    .video-card {
+      background: rgba(10,4,30,0.85);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px; overflow: hidden;
+      transition: all 0.3s;
+    }
+    .video-card:hover { border-color: rgba(255,75,241,0.35); box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: translateY(-3px); }
+    .video-embed {
+      position: relative; width: 100%; padding-top: 56.25%;
+      background: #000; overflow: hidden;
+    }
+    .video-embed iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      border: none;
+    }
+    .video-info { padding: 14px 16px; }
+    .video-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.4; }
+    .video-meta { font-size: 11px; color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 8px; }
+    .video-category {
+      font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 999px;
+      background: rgba(255,75,241,0.15); border: 1px solid rgba(255,75,241,0.35); color: #ff4bf1;
+    }
+    .video-card-actions { padding: 0 16px 14px; display: flex; justify-content: flex-end; }
+    .video-delete-btn {
+      background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.30);
+      border-radius: 999px; color: #ff5050; font-family: 'Montserrat', sans-serif;
+      font-size: 11px; font-weight: 700; padding: 6px 14px; cursor: pointer;
+      transition: all 0.2s; display: none;
+    }
+    .video-delete-btn.visible { display: inline-block; }
+    .video-delete-btn:hover { background: rgba(255,80,80,0.30); }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.95);
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 90vh; object-fit: contain; border-radius: 12px; }
+    .lightbox-close {
+      position: fixed; top: 20px; right: 24px;
+      background: rgba(255,255,255,0.15); border: none; border-radius: 50%;
+      width: 42px; height: 42px; color: #fff; font-size: 20px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.30); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(10,4,30,0.98); border: 1px solid rgba(255,215,0,0.40);
+      border-radius: 999px; padding: 12px 28px;
+      font-size: 14px; font-weight: 700; color: #fff;
+      z-index: 9999; opacity: 0; transition: all 0.4s ease;
+      pointer-events: none; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── LOADING SPINNER ── */
+    .spinner-wrap { text-align: center; padding: 40px; color: rgba(255,255,255,0.45); }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ff4bf1; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:600px){
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .video-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .tour-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BG ORBS -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="rabbit-emblem">🐰</span> CONEJO MALO
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="community.html">COMMUNITY</a></li>
+      <li><a href="media.html" class="active">MEDIA</a></li>
+      <li><a href="index.html#membership">MEMBERSHIP</a></li>
+      <li><a href="index.html#events">EVENTS</a></li>
+      <li><a href="index.html#support">SUPPORT</a></li>
+    </ul>
+    <button class="nav-login-btn" id="navLogoutBtn" onclick="handleLogout()" style="display:none">LOGOUT</button>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="media-main">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="tag">🎵 Phase 4</div>
+      <h1>MEDIA HUB</h1>
+      <p>Tour announcements, photo gallery &amp; music videos — Comunidad Global de Fans de Conejo Malo</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="media-tabs">
+      <button class="media-tab active" onclick="switchTab('tour', this)">🗓️ Tour Dates</button>
+      <button class="media-tab" onclick="switchTab('gallery', this)">📸 Photo Gallery</button>
+      <button class="media-tab" onclick="switchTab('videos', this)">🎬 Music Videos</button>
+    </div>
+
+    <!-- ══════════════════════════════
+         TAB 1 — TOUR DATES
+    ══════════════════════════════ -->
+    <div id="tab-tour" class="media-section active">
+      <div class="tour-header">
+        <div class="section-title">🗓️ Tour & Events</div>
+        <button class="add-btn" id="addTourBtn" onclick="openModal('tourModal')">+ Add Date</button>
+      </div>
+      <div id="tourLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading tour dates...</p></div>
+      <div class="tour-list" id="tourList"></div>
+      <div class="empty-state" id="tourEmpty" style="display:none">
+        <div class="empty-icon">🎤</div>
+        <h3>No Tour Dates Yet</h3>
+        <p>Check back soon for upcoming shows!</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         TAB 2 — PHOTO GALLERY
+    ══════════════════════════════ -->
+    <div id="tab-gallery" class="media-section">
+      <div class="tour-header">
+        <div class="section-title">📸 Photo Gallery</div>
+        <button class="add-btn" id="addPhotoBtn" onclick="triggerPhotoUpload()">+ Upload Photos</button>
+      </div>
+      <div class="gallery-filters">
+        <button class="gallery-filter active" onclick="filterGallery('all', this)">All</button>
+        <button class="gallery-filter" onclick="filterGallery('concert', this)">🎤 Concert</button>
+        <button class="gallery-filter" onclick="filterGallery('fanart', this)">🎨 Fan Art</button>
+        <button class="gallery-filter" onclick="filterGallery('community', this)">🌍 Community</button>
+      </div>
+
+      <!-- Upload area (admin only) -->
+      <div class="gallery-upload-area" id="galleryUploadArea" onclick="triggerPhotoUpload()">
+        <input type="file" id="photoFileInput" accept="image/*" multiple onchange="uploadGalleryPhotos(this.files)" />
+        <div class="upload-icon">🖼️</div>
+        <p>Click to upload photos — JPG, PNG, WEBP supported</p>
+      </div>
+      <div class="upload-progress" id="galleryUploadProgress">
+        <div class="upload-progress-bar" id="galleryProgressBar"></div>
+      </div>
+
+      <div id="galleryLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading gallery...</p></div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+      <div class="empty-state" id="galleryEmpty" style="display:none">
+        <div class="empty-icon">📷</div>
+        <h3>No Photos Yet</h3>
+        <p>Admin will upload concert &amp; fan art photos here.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         TAB 3 — MUSIC VIDEOS
+    ══════════════════════════════ -->
+    <div id="tab-videos" class="media-section">
+      <div class="tour-header">
+        <div class="section-title">🎬 Music Videos</div>
+        <button class="add-btn" id="addVideoBtn" onclick="openModal('videoModal')">+ Add Video</button>
+      </div>
+      <div id="videoLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading videos...</p></div>
+      <div class="video-grid" id="videoGrid"></div>
+      <div class="empty-state" id="videoEmpty" style="display:none">
+        <div class="empty-icon">🎬</div>
+        <h3>No Videos Yet</h3>
+        <p>Music videos &amp; performances will appear here.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════════════════════════
+       LIGHTBOX
+  ══════════════════════════════ -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightboxImg" src="" alt="Gallery photo" />
+  </div>
+
+  <!-- ══════════════════════════════
+       ADD TOUR DATE MODAL
+  ══════════════════════════════ -->
+  <div class="modal-overlay" id="tourModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('tourModal')">✕</button>
+      <h3>📅 Add Tour Date</h3>
+      <div class="form-group">
+        <label>City & Country</label>
+        <input type="text" id="tourCity" placeholder="e.g. New York, USA" />
+      </div>
+      <div class="form-group">
+        <label>Venue</label>
+        <input type="text" id="tourVenue" placeholder="e.g. Madison Square Garden" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="tourDate" />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="tourStatus">
+            <option value="upcoming">Upcoming</option>
+            <option value="new">🆕 Just Announced</option>
+            <option value="soldout">Sold Out</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Ticket Link (optional)</label>
+        <input type="url" id="tourTicketUrl" placeholder="https://tickets.example.com" />
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="tourCategory">
+          <option value="tour">World Tour</option>
+          <option value="festival">Festival</option>
+          <option value="special">Special Event</option>
+          <option value="listening">Listening Party</option>
+        </select>
+      </div>
+      <button class="submit-btn" id="tourSubmitBtn" onclick="saveTourDate()">📅 Save Tour Date</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       ADD VIDEO MODAL
+  ══════════════════════════════ -->
+  <div class="modal-overlay" id="videoModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('videoModal')">✕</button>
+      <h3>🎬 Add Music Video</h3>
+      <div class="form-group">
+        <label>YouTube Video URL</label>
+        <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." />
+        <p style="font-size:11px;color:rgba(255,255,255,0.40);margin-top:6px">Paste any YouTube link — we extract the video ID automatically.</p>
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="videoTitle" placeholder="e.g. Un Verano Sin Ti — Official Video" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="videoCategory">
+            <option value="musicvideo">🎵 Music Video</option>
+            <option value="performance">🎤 Performance</option>
+            <option value="interview">🎙️ Interview</option>
+            <option value="bts">🎬 Behind The Scenes</option>
+            <option value="fan">💜 Fan Made</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Year</label>
+          <input type="number" id="videoYear" placeholder="2025" min="2000" max="2030" />
+        </div>
+      </div>
+      <button class="submit-btn" id="videoSubmitBtn" onclick="saveVideo()">🎬 Save Video</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- FIREBASE + AUTH -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore, collection, addDoc, getDocs, deleteDoc,
+      doc, query, orderBy, onSnapshot, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const ADMIN_EMAILS     = ["official.deconejomalo@gmail.com"];
+    const SUB_ADMIN_EMAILS = [];
+    const CLOUDINARY_URL   = "https://api.cloudinary.com/v1_1/dhazrf2xr/auto/upload";
+    const CLOUDINARY_PRESET = "conejomalo_media";
+
+    let isAdmin    = false;
+    let isSubAdmin = false;
+    let currentUser = null;
+    let allGalleryItems = [];
+    let currentGalleryFilter = 'all';
+
+    // ── AUTH ──
+    onAuthStateChanged(auth, user => {
+      const logoutBtn = document.getElementById('navLogoutBtn');
+      if (user) {
+        currentUser = user;
+        isAdmin    = ADMIN_EMAILS.includes(user.email);
+        isSubAdmin = SUB_ADMIN_EMAILS.includes(user.email);
+        if (logoutBtn) logoutBtn.style.display = 'inline-block';
+        if (isAdmin || isSubAdmin) {
+          document.querySelectorAll('.add-btn').forEach(b => b.classList.add('visible'));
+          document.getElementById('galleryUploadArea')?.classList.add('visible');
+          document.querySelectorAll('.tour-delete-btn').forEach(b => b.classList.add('visible'));
+          document.querySelectorAll('.video-delete-btn').forEach(b => b.classList.add('visible'));
+          document.querySelectorAll('.item-delete').forEach(b => b.classList.add('visible'));
+        }
+      } else {
+        currentUser = null;
+        if (logoutBtn) logoutBtn.style.display = 'none';
+      }
+      loadTourDates();
+      loadGallery();
+      loadVideos();
+    });
+
+    window.handleLogout = async function() {
+      await signOut(auth);
+      window.location.href = 'index.html';
+    };
+
+    // ══════════════════════════
+    // TOUR DATES
+    // ══════════════════════════
+    function loadTourDates() {
+      const list    = document.getElementById('tourList');
+      const loading = document.getElementById('tourLoading');
+      const empty   = document.getElementById('tourEmpty');
+      const q = query(collection(db, 'tourDates'), orderBy('date', 'asc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => {
+          const data = d.data();
+          list.appendChild(buildTourCard(d.id, data));
+        });
+        if (isAdmin || isSubAdmin) {
+          document.querySelectorAll('.tour-delete-btn').forEach(b => b.classList.add('visible'));
+        }
+      });
+    }
+
+    function buildTourCard(id, data) {
+      const div = document.createElement('div');
+      div.className = 'tour-card';
+      const dateObj = data.date?.toDate ? data.date.toDate() : new Date(data.date);
+      const day   = dateObj.getDate ? dateObj.getDate() : '—';
+      const month = dateObj.toLocaleString ? dateObj.toLocaleString('en', { month: 'short' }).toUpperCase() : '';
+      const badgeClass = data.status === 'soldout' ? 'soldout' : data.status === 'new' ? 'new' : 'upcoming';
+      const badgeLabel = data.status === 'soldout' ? '🔴 Sold Out' : data.status === 'new' ? '🆕 Just Announced' : '🟢 Upcoming';
+      const catLabel = { tour: '🌍 World Tour', festival: '🎪 Festival', special: '⭐ Special Event', listening: '🎧 Listening Party' }[data.category] || '🎤 Event';
+      div.innerHTML = `
+        <div class="tour-date-box">
+          <div class="tour-day">${day}</div>
+          <div class="tour-month">${month}</div>
+        </div>
+        <div class="tour-info">
+          <div class="tour-city">${escHtml(data.city || '')}</div>
+          <div class="tour-venue">${escHtml(data.venue || '')}</div>
+          <div class="tour-badges">
+            <span class="tour-badge ${badgeClass}">${badgeLabel}</span>
+            <span class="tour-badge upcoming">${catLabel}</span>
+          </div>
+        </div>
+        <div class="tour-actions">
+          ${data.ticketUrl ? `<a class="tour-ticket-btn" href="${data.ticketUrl}" target="_blank" rel="noopener">🎟️ Tickets</a>` : ''}
+          <button class="tour-delete-btn" onclick="deleteTourDate('${id}')">🗑️ Delete</button>
+        </div>`;
+      return div;
+    }
+
+    window.saveTourDate = async function() {
+      if (!isAdmin && !isSubAdmin) return;
+      const city   = document.getElementById('tourCity').value.trim();
+      const venue  = document.getElementById('tourVenue').value.trim();
+      const date   = document.getElementById('tourDate').value;
+      const status = document.getElementById('tourStatus').value;
+      const ticket = document.getElementById('tourTicketUrl').value.trim();
+      const cat    = document.getElementById('tourCategory').value;
+      if (!city || !date) { showToast('⚠️ City and date are required!'); return; }
+      const btn = document.getElementById('tourSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Saving...';
+      try {
+        await addDoc(collection(db, 'tourDates'), {
+          city, venue, date: new Date(date), status, ticketUrl: ticket, category: cat,
+          createdBy: currentUser.email, createdAt: serverTimestamp()
+        });
+        showToast('✅ Tour date added!');
+        closeModal('tourModal');
+        ['tourCity','tourVenue','tourDate','tourTicketUrl'].forEach(id => document.getElementById(id).value = '');
+      } catch(e) { showToast('❌ Error: ' + e.message); }
+      finally { btn.disabled = false; btn.textContent = '📅 Save Tour Date'; }
+    };
+
+    window.deleteTourDate = async function(id) {
+      if (!isAdmin && !isSubAdmin) return;
+      if (!confirm('Delete this tour date?')) return;
+      try { await deleteDoc(doc(db, 'tourDates', id)); showToast('🗑️ Deleted!'); }
+      catch(e) { showToast('❌ ' + e.message); }
+    };
+
+    // ══════════════════════════
+    // PHOTO GALLERY
+    // ══════════════════════════
+    function loadGallery() {
+      const grid    = document.getElementById('galleryGrid');
+      const loading = document.getElementById('galleryLoading');
+      const empty   = document.getElementById('galleryEmpty');
+      const q = query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        loading.style.display = 'none';
+        allGalleryItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderGallery();
+        if (isAdmin || isSubAdmin) {
+          document.querySelectorAll('.item-delete').forEach(b => b.classList.add('visible'));
+        }
+      });
+    }
+
+    function renderGallery() {
+      const grid  = document.getElementById('galleryGrid');
+      const empty = document.getElementById('galleryEmpty');
+      const items = currentGalleryFilter === 'all'
+        ? allGalleryItems
+        : allGalleryItems.filter(i => i.category === currentGalleryFilter);
+      grid.innerHTML = '';
+      if (items.length === 0) { empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.innerHTML = `
+          <img src="${item.url}" alt="${escHtml(item.caption || 'Photo')}" loading="lazy" onclick="openLightbox('${item.url}')" />
+          <div class="item-overlay"><span class="item-label">${escHtml(item.caption || '')}</span></div>
+          <button class="item-delete ${(isAdmin||isSubAdmin)?'visible':''}" onclick="deleteGalleryItem(event,'${item.id}','${item.url}')">✕</button>`;
+        grid.appendChild(div);
+      });
+    }
+
+    window.filterGallery = function(cat, btn) {
+      currentGalleryFilter = cat;
+      document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGallery();
+    };
+
+    window.triggerPhotoUpload = function() {
+      if (!isAdmin && !isSubAdmin) return;
+      document.getElementById('photoFileInput').click();
+    };
+
+    window.uploadGalleryPhotos = async function(files) {
+      if (!files?.length) return;
+      const progress  = document.getElementById('galleryUploadProgress');
+      const bar       = document.getElementById('galleryProgressBar');
+      const catFilter = currentGalleryFilter === 'all' ? 'concert' : currentGalleryFilter;
+      progress.classList.add('show');
+      let done = 0;
+      for (const file of files) {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('upload_preset', CLOUDINARY_PRESET);
+        fd.append('folder', 'conejomalo_gallery');
+        try {
+          const res  = await fetch(CLOUDINARY_URL, { method: 'POST', body: fd });
+          const data = await res.json();
+          await addDoc(collection(db, 'gallery'), {
+            url: data.secure_url, category: catFilter,
+            caption: file.name.replace(/\.[^.]+$/, ''),
+            uploadedBy: currentUser.email, createdAt: serverTimestamp()
+          });
+        } catch(e) { showToast('❌ Upload failed: ' + e.message); }
+        done++;
+        bar.style.width = Math.round((done / files.length) * 100) + '%';
+      }
+      showToast(`✅ ${done} photo${done>1?'s':''} uploaded!`);
+      setTimeout(() => { progress.classList.remove('show'); bar.style.width = '0%'; }, 1500);
+    };
+
+    window.deleteGalleryItem = async function(e, id, url) {
+      e.stopPropagation();
+      if (!isAdmin && !isSubAdmin) return;
+      if (!confirm('Delete this photo?')) return;
+      try { await deleteDoc(doc(db, 'gallery', id)); showToast('🗑️ Photo deleted!'); }
+      catch(err) { showToast('❌ ' + err.message); }
+    };
+
+    // ══════════════════════════
+    // MUSIC VIDEOS
+    // ══════════════════════════
+    function loadVideos() {
+      const grid    = document.getElementById('videoGrid');
+      const loading = document.getElementById('videoLoading');
+      const empty   = document.getElementById('videoEmpty');
+      const q = query(collection(db, 'mediaVideos'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        loading.style.display = 'none';
+        grid.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => grid.appendChild(buildVideoCard(d.id, d.data())));
+        if (isAdmin || isSubAdmin) {
+          document.querySelectorAll('.video-delete-btn').forEach(b => b.classList.add('visible'));
+        }
+      });
+    }
+
+    function extractYouTubeId(url) {
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/,
+        /youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/
+      ];
+      for (const p of patterns) { const m = url.match(p); if (m) return m[1]; }
+      return null;
+    }
+
+    function buildVideoCard(id, data) {
+      const div = document.createElement('div');
+      div.className = 'video-card';
+      const catLabels = { musicvideo:'🎵 Music Video', performance:'🎤 Performance', interview:'🎙️ Interview', bts:'🎬 Behind The Scenes', fan:'💜 Fan Made' };
+      div.innerHTML = `
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/${escHtml(data.youtubeId)}?rel=0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">${escHtml(data.title)}</div>
+          <div class="video-meta">
+            <span class="video-category">${catLabels[data.category] || '🎬 Video'}</span>
+            <span>${data.year || ''}</span>
+          </div>
+        </div>
+        <div class="video-card-actions">
+          <button class="video-delete-btn ${(isAdmin||isSubAdmin)?'visible':''}" onclick="deleteVideo('${id}')">🗑️ Delete</button>
+        </div>`;
+      return div;
+    }
+
+    window.saveVideo = async function() {
+      if (!isAdmin && !isSubAdmin) return;
+      const url   = document.getElementById('videoUrl').value.trim();
+      const title = document.getElementById('videoTitle').value.trim();
+      const cat   = document.getElementById('videoCategory').value;
+      const year  = document.getElementById('videoYear').value;
+      if (!url || !title) { showToast('⚠️ URL and title are required!'); return; }
+      const ytId = extractYouTubeId(url);
+      if (!ytId) { showToast('⚠️ Invalid YouTube URL. Please check and try again.'); return; }
+      const btn = document.getElementById('videoSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Saving...';
+      try {
+        await addDoc(collection(db, 'mediaVideos'), {
+          youtubeId: ytId, title, category: cat, year: year || '',
+          addedBy: currentUser.email, createdAt: serverTimestamp()
+        });
+        showToast('✅ Video added!');
+        closeModal('videoModal');
+        ['videoUrl','videoTitle','videoYear'].forEach(id => document.getElementById(id).value = '');
+      } catch(e) { showToast('❌ ' + e.message); }
+      finally { btn.disabled = false; btn.textContent = '🎬 Save Video'; }
+    };
+
+    window.deleteVideo = async function(id) {
+      if (!isAdmin && !isSubAdmin) return;
+      if (!confirm('Delete this video?')) return;
+      try { await deleteDoc(doc(db, 'mediaVideos', id)); showToast('🗑️ Video deleted!'); }
+      catch(e) { showToast('❌ ' + e.message); }
+    };
+
+    // ══════════════════════════
+    // LIGHTBOX
+    // ══════════════════════════
+    window.openLightbox = function(url) {
+      document.getElementById('lightboxImg').src = url;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    window.closeLightbox = function() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.getElementById('lightboxImg').src = '';
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // ══════════════════════════
+    // MODALS
+    // ══════════════════════════
+    window.openModal  = id => document.getElementById(id).classList.add('open');
+    window.closeModal = id => document.getElementById(id).classList.remove('open');
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+    });
+
+    // ══════════════════════════
+    // TABS
+    // ══════════════════════════
+    window.switchTab = function(tab, btn) {
+      document.querySelectorAll('.media-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.media-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      btn.classList.add('active');
+    };
+
+    // ══════════════════════════
+    // HELPERS
+    // ══════════════════════════
+    window.showToast = function(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    };
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+
+</body>
+</html>
