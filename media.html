@@ -660,12 +660,10 @@
         if (isAdmin || isSubAdmin) {
           document.querySelectorAll('.add-btn').forEach(b => b.classList.add('visible'));
           document.getElementById('galleryUploadArea')?.classList.add('visible');
-          document.querySelectorAll('.tour-delete-btn').forEach(b => b.classList.add('visible'));
-          document.querySelectorAll('.video-delete-btn').forEach(b => b.classList.add('visible'));
-          document.querySelectorAll('.item-delete').forEach(b => b.classList.add('visible'));
         }
       } else {
         currentUser = null;
+        isAdmin = false; isSubAdmin = false;
         if (logoutBtn) logoutBtn.style.display = 'none';
       }
       loadTourDates();
@@ -725,7 +723,7 @@
         </div>
         <div class="tour-actions">
           ${data.ticketUrl ? `<a class="tour-ticket-btn" href="${data.ticketUrl}" target="_blank" rel="noopener">🎟️ Tickets</a>` : ''}
-          <button class="tour-delete-btn" onclick="deleteTourDate('${id}')">🗑️ Delete</button>
+          <button class="tour-delete-btn ${(isAdmin||isSubAdmin)?'visible':''}" onclick="deleteTourDate('${id}')">🗑️ Delete</button>
         </div>`;
       return div;
     }
