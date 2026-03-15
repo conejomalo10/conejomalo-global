@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Events — Comunidad Global de Fans de Conejo Malo" />
+  <title>Events — Conejo Malo Global</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0533" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Bebas+Neue&family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #1a0533;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── BG ORBS ── */
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.22; }
+    .orb-1 { width: 500px; height: 500px; background: #7b2fff; top: -100px; left: -100px; animation: orbFloat 18s ease-in-out infinite; }
+    .orb-2 { width: 400px; height: 400px; background: #ff0066; bottom: 10%; right: -80px; animation: orbFloat 22s ease-in-out infinite reverse; }
+    .orb-3 { width: 300px; height: 300px; background: #00d4ff; top: 40%; left: 30%; animation: orbFloat 14s ease-in-out infinite 3s; }
+    @keyframes orbFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-40px);} }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+      background: rgba(10,4,30,0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+    }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .rabbit-emblem { font-size: 26px; }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.70); text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; padding: 6px 10px; border-radius: 8px; transition: all 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: #ffd700; background: rgba(255,215,0,0.10); }
+    .nav-login-btn {
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800;
+      letter-spacing: 1.5px; padding: 8px 20px; cursor: pointer; transition: all 0.2s;
+    }
+    .nav-login-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,0,102,0.5); }
+    .hamburger { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+    @media(max-width:768px){
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10,4,30,0.98); padding: 16px; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    }
+
+    /* ── MAIN ── */
+    .events-main {
+      position: relative; z-index: 1;
+      padding: 84px 16px 60px;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header { text-align: center; margin-bottom: 36px; padding: 28px 20px 16px; }
+    .page-header .tag {
+      display: inline-block;
+      background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.40);
+      border-radius: 999px; padding: 5px 18px;
+      font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+      color: #ffd700; margin-bottom: 14px;
+    }
+    .page-header h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(36px, 8vw, 72px); letter-spacing: 4px; color: #fff;
+      text-shadow: 0 0 40px rgba(255,215,0,0.25); margin-bottom: 10px;
+    }
+    .page-header p { font-size: 14px; color: rgba(255,255,255,0.55); }
+
+    /* ── TABS ── */
+    .events-tabs {
+      display: flex; gap: 8px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .events-tab {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px; color: rgba(255,255,255,0.70);
+      font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700;
+      padding: 10px 22px; cursor: pointer; transition: all 0.3s;
+    }
+    .events-tab:hover, .events-tab.active {
+      background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.55);
+      color: #ffd700; box-shadow: 0 0 16px rgba(255,215,0,0.15);
+    }
+
+    /* ── SECTIONS ── */
+    .events-section { display: none; animation: fadeInUp 0.4s ease; }
+    .events-section.active { display: block; }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+
+    /* ── GLASS ── */
+    .glass {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px; backdrop-filter: blur(16px);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; margin-bottom: 22px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 28px; letter-spacing: 3px; color: #fff;
+    }
+    .add-btn {
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800;
+      letter-spacing: 1px; padding: 10px 22px; cursor: pointer;
+      transition: all 0.2s; display: none;
+    }
+    .add-btn.visible { display: inline-block; }
+    .add-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,0,102,0.5); }
+
+    /* ════════════════════════════
+       EVENT CARDS
+    ════════════════════════════ */
+    .events-grid { display: flex; flex-direction: column; gap: 14px; }
+
+    .event-card {
+      background: rgba(10,4,30,0.88);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px; padding: 20px 22px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .event-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      border-radius: 4px 0 0 4px;
+    }
+    .event-card.listening::before  { background: linear-gradient(to bottom, #00d4ff, #7b2fff); }
+    .event-card.competition::before { background: linear-gradient(to bottom, #ffd700, #ff6600); }
+    .event-card.discussion::before  { background: linear-gradient(to bottom, #ff4bf1, #ff0066); }
+    .event-card.announcement::before { background: linear-gradient(to bottom, #00ff88, #00d4ff); }
+    .event-card:hover { transform: translateX(4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.20); }
+
+    .event-card-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 14px; margin-bottom: 12px;
+    }
+    .event-card-left { flex: 1; }
+    .event-type-badge {
+      display: inline-block; font-size: 10px; font-weight: 800;
+      letter-spacing: 1.5px; padding: 3px 10px; border-radius: 999px;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .event-type-badge.listening   { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.40); color: #00d4ff; }
+    .event-type-badge.competition { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.40); color: #ffd700; }
+    .event-type-badge.discussion  { background: rgba(255,75,241,0.15); border: 1px solid rgba(255,75,241,0.40); color: #ff4bf1; }
+    .event-type-badge.announcement{ background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.40); color: #00ff88; }
+
+    .event-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px; line-height: 1.4; }
+    .event-desc  { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; margin-bottom: 10px; }
+
+    .event-meta {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 600;
+    }
+    .event-meta span { display: flex; align-items: center; gap: 4px; }
+
+    .event-card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+    .event-status {
+      font-size: 10px; font-weight: 800; letter-spacing: 1px;
+      padding: 4px 12px; border-radius: 999px; text-transform: uppercase;
+    }
+    .event-status.live    { background: rgba(255,0,0,0.20); border: 1px solid rgba(255,0,0,0.50); color: #ff4444; animation: pulse 1.5s ease-in-out infinite; }
+    .event-status.upcoming{ background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.40); color: #00d4ff; }
+    .event-status.ended   { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.40); }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.55;} }
+
+    .event-join-btn {
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800;
+      padding: 8px 16px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .event-join-btn:hover { transform: scale(1.06); box-shadow: 0 4px 16px rgba(255,0,102,0.5); }
+    .event-join-btn.joined { background: rgba(0,255,136,0.20); border: 1px solid rgba(0,255,136,0.50); color: #00ff88; }
+    .event-join-btn.ended  { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.40); cursor: default; }
+
+    .event-reactions {
+      display: flex; gap: 8px; margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.07); flex-wrap: wrap;
+    }
+    .reaction-btn {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 13px; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; gap: 5px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; color: rgba(255,255,255,0.75);
+    }
+    .reaction-btn:hover { background: rgba(255,75,241,0.15); border-color: rgba(255,75,241,0.40); transform: scale(1.08); }
+    .reaction-btn.reacted { background: rgba(255,75,241,0.20); border-color: rgba(255,75,241,0.55); color: #ff4bf1; }
+    .reaction-count { font-size: 12px; }
+
+    .event-delete-btn {
+      background: rgba(255,80,80,0.12); border: 1px solid rgba(255,80,80,0.30);
+      border-radius: 999px; color: #ff5050; font-family: 'Montserrat', sans-serif;
+      font-size: 11px; font-weight: 700; padding: 6px 14px; cursor: pointer;
+      transition: all 0.2s; display: none; margin-top: 8px;
+    }
+    .event-delete-btn.visible { display: inline-block; }
+    .event-delete-btn:hover { background: rgba(255,80,80,0.25); }
+
+    /* ── DISCUSSIONS (comments) ── */
+    .discussion-thread {
+      margin-top: 14px; padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: none;
+    }
+    .discussion-thread.open { display: block; }
+    .thread-comment {
+      display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;
+    }
+    .thread-avatar {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #ff0066, #7b2fff);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: #fff;
+    }
+    .thread-bubble { flex: 1; }
+    .thread-author { font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .thread-text   { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+    .thread-time   { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+    .thread-input-row {
+      display: flex; gap: 8px; margin-top: 10px;
+    }
+    .thread-input {
+      flex: 1; background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+      padding: 9px 16px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 13px;
+      transition: border-color 0.3s;
+    }
+    .thread-input:focus { outline: none; border-color: rgba(255,75,241,0.55); }
+    .thread-send-btn {
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      padding: 9px 18px; cursor: pointer; font-size: 14px; transition: all 0.2s;
+    }
+    .thread-send-btn:hover { transform: scale(1.06); }
+
+    /* ── SPECIAL ANNOUNCEMENTS ── */
+    .announcement-card {
+      background: rgba(10,4,30,0.88);
+      border: 1px solid rgba(0,255,136,0.20);
+      border-radius: 18px; padding: 22px;
+      transition: all 0.3s; margin-bottom: 14px;
+      position: relative; overflow: hidden;
+    }
+    .announcement-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to right, transparent, #00ff88, #00d4ff, transparent);
+    }
+    .announcement-card:hover { border-color: rgba(0,255,136,0.40); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .announcement-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+    .announcement-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .announcement-body  { font-size: 14px; color: rgba(255,255,255,0.70); line-height: 1.75; margin-bottom: 12px; }
+    .announcement-time  { font-size: 11px; color: rgba(255,255,255,0.35); }
+    .announcement-pin-badge {
+      display: inline-block; font-size: 10px; font-weight: 800;
+      background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.40);
+      border-radius: 999px; padding: 2px 10px; color: #ffd700;
+      letter-spacing: 1px; margin-bottom: 10px;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 52px 24px; color: rgba(255,255,255,0.35); }
+    .empty-state .empty-icon { font-size: 52px; margin-bottom: 14px; }
+    .empty-state h3 { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 2px; margin-bottom: 8px; color: rgba(255,255,255,0.5); }
+    .empty-state p  { font-size: 13px; }
+
+    /* ── SPINNER ── */
+    .spinner-wrap { text-align: center; padding: 40px; color: rgba(255,255,255,0.40); }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ffd700; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.82); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #120824; border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 24px; padding: 32px 28px; width: 100%; max-width: 500px;
+      position: relative; animation: fadeInUp 0.3s ease;
+    }
+    .modal-box h3 { font-family: 'Bebas Neue', cursive; font-size: 24px; letter-spacing: 3px; color: #fff; margin-bottom: 22px; }
+    .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; transition: color 0.2s; }
+    .modal-close:hover { color: #fff; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 7px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px; padding: 12px 14px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 14px; transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: rgba(255,215,0,0.5); }
+    .form-group select option { background: #120824; }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .submit-btn {
+      width: 100%; background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800;
+      padding: 14px; cursor: pointer; margin-top: 8px; transition: all 0.2s;
+    }
+    .submit-btn:hover { transform: scale(1.02); box-shadow: 0 6px 24px rgba(255,0,102,0.5); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(10,4,30,0.98); border: 1px solid rgba(255,215,0,0.40);
+      border-radius: 999px; padding: 12px 28px;
+      font-size: 14px; font-weight: 700; color: #fff;
+      z-index: 9999; opacity: 0; transition: all 0.4s ease;
+      pointer-events: none; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:600px){
+      .event-card-top { flex-direction: column; }
+      .event-card-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo"><span class="rabbit-emblem">🐰</span> CONEJO MALO</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="community.html">COMMUNITY</a></li>
+      <li><a href="media.html">MEDIA</a></li>
+      <li><a href="events.html" class="active">EVENTS</a></li>
+      <li><a href="index.html#membership">MEMBERSHIP</a></li>
+      <li><a href="index.html#support">SUPPORT</a></li>
+    </ul>
+    <button class="nav-login-btn" id="navLogoutBtn" onclick="handleLogout()" style="display:none">LOGOUT</button>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="events-main">
+
+    <div class="page-header">
+      <div class="tag">🎉 Phase 6</div>
+      <h1>FAN EVENTS</h1>
+      <p>Listening parties, competitions, concert discussions &amp; special announcements — Comunidad Global de Fans de Conejo Malo</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="events-tabs">
+      <button class="events-tab active" onclick="switchTab('listening', this)">🎵 Listening Parties</button>
+      <button class="events-tab" onclick="switchTab('competition', this)">🏆 Fan Competitions</button>
+      <button class="events-tab" onclick="switchTab('discussion', this)">🎤 Concert Discussions</button>
+      <button class="events-tab" onclick="switchTab('announcement', this)">📢 Announcements</button>
+    </div>
+
+    <!-- ── TAB 1: LISTENING PARTIES ── -->
+    <div id="tab-listening" class="events-section active">
+      <div class="section-header">
+        <div class="section-title">🎵 Listening Parties</div>
+        <button class="add-btn" id="addListeningBtn" onclick="openEventModal('listening')">+ Create Party</button>
+      </div>
+      <div id="listeningLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+      <div class="events-grid" id="listeningGrid"></div>
+      <div class="empty-state" id="listeningEmpty" style="display:none">
+        <div class="empty-icon">🎵</div>
+        <h3>No Listening Parties Yet</h3>
+        <p>Admin will schedule live album listening sessions here.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB 2: FAN COMPETITIONS ── -->
+    <div id="tab-competition" class="events-section">
+      <div class="section-header">
+        <div class="section-title">🏆 Fan Competitions</div>
+        <button class="add-btn" id="addCompetitionBtn" onclick="openEventModal('competition')">+ Create Competition</button>
+      </div>
+      <div id="competitionLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+      <div class="events-grid" id="competitionGrid"></div>
+      <div class="empty-state" id="competitionEmpty" style="display:none">
+        <div class="empty-icon">🏆</div>
+        <h3>No Competitions Yet</h3>
+        <p>Art contests, lyric challenges and fan polls coming soon.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB 3: CONCERT DISCUSSIONS ── -->
+    <div id="tab-discussion" class="events-section">
+      <div class="section-header">
+        <div class="section-title">🎤 Concert Discussions</div>
+        <button class="add-btn" id="addDiscussionBtn" onclick="openEventModal('discussion')">+ Start Discussion</button>
+      </div>
+      <div id="discussionLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+      <div class="events-grid" id="discussionGrid"></div>
+      <div class="empty-state" id="discussionEmpty" style="display:none">
+        <div class="empty-icon">🎤</div>
+        <h3>No Concert Discussions Yet</h3>
+        <p>Live reaction threads during Bad Bunny concerts will appear here.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB 4: SPECIAL ANNOUNCEMENTS ── -->
+    <div id="tab-announcement" class="events-section">
+      <div class="section-header">
+        <div class="section-title">📢 Special Announcements</div>
+        <button class="add-btn" id="addAnnouncementBtn" onclick="openEventModal('announcement')">+ Post Announcement</button>
+      </div>
+      <div id="announcementLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+      <div id="announcementGrid"></div>
+      <div class="empty-state" id="announcementEmpty" style="display:none">
+        <div class="empty-icon">📢</div>
+        <h3>No Announcements Yet</h3>
+        <p>Special fan content, wallpapers and community news will appear here.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ADD EVENT MODAL -->
+  <div class="modal-overlay" id="eventModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeEventModal()">✕</button>
+      <h3 id="eventModalTitle">🎉 Create Event</h3>
+      <input type="hidden" id="eventType" value="listening" />
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="eventTitle" placeholder="e.g. Un Verano Sin Ti — Live Listening Party" />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="eventDesc" placeholder="Tell fans what this event is about..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date & Time</label>
+          <input type="datetime-local" id="eventDateTime" />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="eventStatus">
+            <option value="upcoming">🟢 Upcoming</option>
+            <option value="live">🔴 Live Now</option>
+            <option value="ended">⚫ Ended</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Link (optional — YouTube, Spotify, etc.)</label>
+        <input type="url" id="eventLink" placeholder="https://..." />
+      </div>
+      <div class="form-group" id="iconGroup">
+        <label>Icon / Emoji</label>
+        <input type="text" id="eventIcon" placeholder="🎵" maxlength="4" />
+      </div>
+      <button class="submit-btn" id="eventSubmitBtn" onclick="saveEvent()">🎉 Save Event</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- FIREBASE -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore, collection, addDoc, deleteDoc, doc,
+      query, orderBy, onSnapshot, updateDoc,
+      arrayUnion, arrayRemove, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const ADMIN_EMAILS     = ["official.deconejomalo@gmail.com"];
+    const SUB_ADMIN_EMAILS = [];
+
+    let currentUser = null;
+    let isAdmin     = false;
+    let isSubAdmin  = false;
+
+    const TYPE_CONFIG = {
+      listening:    { label:'🎵 Listening Party',    col:'listening' },
+      competition:  { label:'🏆 Competition',         col:'competition' },
+      discussion:   { label:'🎤 Concert Discussion',  col:'discussion' },
+      announcement: { label:'📢 Announcement',        col:'announcement' },
+    };
+
+    // ── AUTH ──
+    onAuthStateChanged(auth, user => {
+      const lb = document.getElementById('navLogoutBtn');
+      if (user) {
+        currentUser = user;
+        isAdmin    = ADMIN_EMAILS.includes(user.email);
+        isSubAdmin = SUB_ADMIN_EMAILS.includes(user.email);
+        if (lb) lb.style.display = 'inline-block';
+        if (isAdmin || isSubAdmin) {
+          document.querySelectorAll('.add-btn').forEach(b => b.classList.add('visible'));
+        }
+      } else {
+        currentUser = null; isAdmin = false; isSubAdmin = false;
+        if (lb) lb.style.display = 'none';
+      }
+      loadAll();
+    });
+
+    window.handleLogout = async () => { await signOut(auth); window.location.href = 'index.html'; };
+
+    // ── LOAD ALL TABS ──
+    function loadAll() {
+      loadEvents('listening');
+      loadEvents('competition');
+      loadEvents('discussion');
+      loadAnnouncements();
+    }
+
+    // ── LOAD EVENTS (listening / competition / discussion) ──
+    function loadEvents(type) {
+      const grid    = document.getElementById(type + 'Grid');
+      const loading = document.getElementById(type + 'Loading');
+      const empty   = document.getElementById(type + 'Empty');
+      const q = query(collection(db, 'events_' + type), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        grid.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => grid.appendChild(buildEventCard(d.id, d.data(), type)));
+      });
+    }
+
+    // ── LOAD ANNOUNCEMENTS ──
+    function loadAnnouncements() {
+      const grid    = document.getElementById('announcementGrid');
+      const loading = document.getElementById('announcementLoading');
+      const empty   = document.getElementById('announcementEmpty');
+      const q = query(collection(db, 'events_announcement'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        grid.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => {
+          const data = d.data();
+          const card = document.createElement('div');
+          card.className = 'announcement-card';
+          card.innerHTML = `
+            ${data.pinned ? '<span class="announcement-pin-badge">📌 PINNED</span>' : ''}
+            <span class="announcement-icon">${data.icon || '📢'}</span>
+            <div class="announcement-title">${esc(data.title)}</div>
+            <div class="announcement-body">${esc(data.desc)}</div>
+            ${data.link ? `<a href="${data.link}" target="_blank" rel="noopener" style="color:#00d4ff;font-size:13px;font-weight:700">🔗 ${esc(data.link)}</a>` : ''}
+            <div class="announcement-time" style="margin-top:10px">📅 ${formatDate(data.eventDate)} · Posted by Admin</div>
+            ${(isAdmin||isSubAdmin) ? `<button class="event-delete-btn visible" style="margin-top:12px" onclick="deleteEvent('${d.id}','announcement')">🗑️ Delete</button>` : ''}`;
+          grid.appendChild(card);
+        });
+      });
+    }
+
+    // ── BUILD EVENT CARD ──
+    function buildEventCard(id, data, type) {
+      const card = document.createElement('div');
+      card.className = `event-card ${type}`;
+      const cfg    = TYPE_CONFIG[type];
+      const reacts = data.reactions || {};
+      const joined = data.joinedBy  || [];
+      const hasJoined  = currentUser && joined.includes(currentUser.uid);
+      const comments   = data.comments || [];
+      const statusText = { live:'🔴 LIVE NOW', upcoming:'🟢 Upcoming', ended:'⚫ Ended' }[data.status] || '🟢 Upcoming';
+
+      const reactEmojis = ['🔥','❤️','🐰','🎵','👑'];
+      const reactHTML = reactEmojis.map(e => {
+        const count   = (reacts[e] || []).length;
+        const hasReact = currentUser && (reacts[e]||[]).includes(currentUser.uid);
+        return `<button class="reaction-btn ${hasReact?'reacted':''}" onclick="toggleReaction('${id}','${type}','${e}')">
+          ${e} <span class="reaction-count">${count||''}</span>
+        </button>`;
+      }).join('');
+
+      const commentsHTML = comments.map(c => `
+        <div class="thread-comment">
+          <div class="thread-avatar">${(c.authorName||'F')[0].toUpperCase()}</div>
+          <div class="thread-bubble">
+            <div class="thread-author">${esc(c.authorName||'Fan')}</div>
+            <div class="thread-text">${esc(c.text)}</div>
+            <div class="thread-time">${timeAgo(c.createdAt)}</div>
+          </div>
+        </div>`).join('');
+
+      card.innerHTML = `
+        <div class="event-card-top">
+          <div class="event-card-left">
+            <span class="event-type-badge ${type}">${cfg.label}</span>
+            <div class="event-title">${esc(data.title)}</div>
+            <div class="event-desc">${esc(data.desc)}</div>
+            <div class="event-meta">
+              <span>📅 ${formatDate(data.eventDate)}</span>
+              <span>👥 ${joined.length} joined</span>
+              <span>💬 ${comments.length} comments</span>
+              ${data.link ? `<a href="${data.link}" target="_blank" rel="noopener" style="color:#00d4ff;text-decoration:none;font-weight:700">🔗 Join Link</a>` : ''}
+            </div>
+          </div>
+          <div class="event-card-right">
+            <span class="event-status ${data.status||'upcoming'}">${statusText}</span>
+            <button class="event-join-btn ${hasJoined?'joined':''} ${data.status==='ended'?'ended':''}"
+              onclick="${data.status!=='ended' ? `toggleJoin('${id}','${type}')` : ''}">
+              ${data.status==='ended' ? 'Ended' : hasJoined ? '✅ Joined' : '+ Join'}
+            </button>
+          </div>
+        </div>
+        <div class="event-reactions">${reactHTML}</div>
+        <div style="margin-top:10px">
+          <button onclick="toggleThread('thread-${id}')" style="background:none;border:none;color:rgba(255,255,255,0.50);font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;cursor:pointer;padding:4px 0">
+            💬 Discussion (${comments.length})
+          </button>
+        </div>
+        <div class="discussion-thread" id="thread-${id}">
+          <div id="comments-${id}">${commentsHTML}</div>
+          ${currentUser ? `
+            <div class="thread-input-row">
+              <input type="text" class="thread-input" id="commentInput-${id}" placeholder="Share your thoughts..." onkeydown="if(event.key==='Enter')addEventComment('${id}','${type}')">
+              <button class="thread-send-btn" onclick="addEventComment('${id}','${type}')">➤</button>
+            </div>` : `<p style="font-size:12px;color:rgba(255,255,255,0.40);margin-top:8px">Login to join the discussion</p>`}
+        </div>
+        ${(isAdmin||isSubAdmin) ? `<button class="event-delete-btn visible" onclick="deleteEvent('${id}','${type}')">🗑️ Delete</button>` : ''}`;
+      return card;
+    }
+
+    // ── JOIN / LEAVE ──
+    window.toggleJoin = async (id, type) => {
+      if (!currentUser) { showToast('⚠️ Login to join events!'); return; }
+      const ref  = doc(db, 'events_' + type, id);
+      const joined = (await (async()=>{ const {getDoc} = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"); return getDoc(ref); })()).data()?.joinedBy || [];
+      const hasJoined = joined.includes(currentUser.uid);
+      await updateDoc(ref, { joinedBy: hasJoined ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid) });
+      showToast(hasJoined ? '👋 Left event' : '✅ Joined!');
+    };
+
+    // ── REACTIONS ──
+    window.toggleReaction = async (id, type, emoji) => {
+      if (!currentUser) { showToast('⚠️ Login to react!'); return; }
+      const ref = doc(db, 'events_' + type, id);
+      const field = `reactions.${emoji}`;
+      const {getDoc} = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+      const snap = await getDoc(ref);
+      const arr = (snap.data()?.reactions?.[emoji]) || [];
+      await updateDoc(ref, { [field]: arr.includes(currentUser.uid) ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid) });
+    };
+
+    // ── COMMENTS ──
+    window.addEventComment = async (id, type) => {
+      if (!currentUser) { showToast('⚠️ Login to comment!'); return; }
+      const input = document.getElementById('commentInput-' + id);
+      const text  = input?.value?.trim();
+      if (!text) return;
+      await updateDoc(doc(db, 'events_' + type, id), {
+        comments: arrayUnion({
+          authorId: currentUser.uid,
+          authorName: currentUser.displayName || currentUser.email.split('@')[0],
+          text, createdAt: Date.now()
+        })
+      });
+      if (input) input.value = '';
+    };
+
+    window.toggleThread = id => document.getElementById(id)?.classList.toggle('open');
+
+    // ── DELETE ──
+    window.deleteEvent = async (id, type) => {
+      if (!isAdmin && !isSubAdmin) return;
+      if (!confirm('Delete this event?')) return;
+      await deleteDoc(doc(db, 'events_' + type, id));
+      showToast('🗑️ Deleted!');
+    };
+
+    // ── SAVE EVENT ──
+    window.saveEvent = async () => {
+      if (!isAdmin && !isSubAdmin) return;
+      const type  = document.getElementById('eventType').value;
+      const title = document.getElementById('eventTitle').value.trim();
+      const desc  = document.getElementById('eventDesc').value.trim();
+      const dt    = document.getElementById('eventDateTime').value;
+      const status= document.getElementById('eventStatus').value;
+      const link  = document.getElementById('eventLink').value.trim();
+      const icon  = document.getElementById('eventIcon').value.trim();
+      if (!title || !desc) { showToast('⚠️ Title and description required!'); return; }
+      const btn = document.getElementById('eventSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Saving...';
+      try {
+        await addDoc(collection(db, 'events_' + type), {
+          title, desc, status, link, icon: icon || '🎉',
+          eventDate: dt ? new Date(dt) : null,
+          joinedBy: [], reactions: {}, comments: [],
+          createdBy: currentUser.email,
+          pinned: false, createdAt: serverTimestamp()
+        });
+        showToast('✅ Event created!');
+        closeEventModal();
+        ['eventTitle','eventDesc','eventDateTime','eventLink','eventIcon'].forEach(i => { const el=document.getElementById(i); if(el) el.value=''; });
+      } catch(e) { showToast('❌ ' + e.message); }
+      finally { btn.disabled = false; btn.textContent = '🎉 Save Event'; }
+    };
+
+    // ── MODAL ──
+    const titles = { listening:'🎵 Create Listening Party', competition:'🏆 Create Competition', discussion:'🎤 Start Concert Discussion', announcement:'📢 Post Announcement' };
+    window.openEventModal = type => {
+      document.getElementById('eventType').value = type;
+      document.getElementById('eventModalTitle').textContent = titles[type] || '🎉 Create Event';
+      document.getElementById('iconGroup').style.display = type === 'announcement' ? 'block' : 'none';
+      document.getElementById('eventModal').classList.add('open');
+    };
+    window.closeEventModal = () => document.getElementById('eventModal').classList.remove('open');
+    document.getElementById('eventModal').addEventListener('click', e => { if(e.target === document.getElementById('eventModal')) closeEventModal(); });
+
+    // ── TABS ──
+    window.switchTab = (tab, btn) => {
+      document.querySelectorAll('.events-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.events-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      btn.classList.add('active');
+    };
+
+    // ── HELPERS ──
+    window.showToast = msg => {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    };
+    function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function timeAgo(ts) {
+      if (!ts) return '';
+      const diff = Math.floor((Date.now() - ts) / 1000);
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+      if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+      return Math.floor(diff/86400) + 'd ago';
+    }
+    function formatDate(d) {
+      if (!d) return 'TBA';
+      const date = d.toDate ? d.toDate() : new Date(d);
+      return date.toLocaleDateString('en', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    }
+  </script>
+
+</body>
+</html>
