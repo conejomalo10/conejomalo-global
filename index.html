@@ -496,6 +496,111 @@
       .hg-stat  { min-width: 33%; }
     }
 
+    /* ══════════════════════════════════════
+       PHASE 5 — GLOBAL FAN MAP
+    ══════════════════════════════════════ */
+    .map-totals-strip {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; margin: 20px auto 28px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px; overflow: hidden;
+      max-width: 420px;
+    }
+    .map-total-item {
+      flex: 1; padding: 14px 10px; text-align: center;
+    }
+    .map-total-divider {
+      width: 1px; height: 40px;
+      background: rgba(255,255,255,0.10);
+    }
+    .map-total-num {
+      display: block;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px; font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 12px rgba(255,215,0,0.40);
+      margin-bottom: 4px;
+    }
+    .map-total-label {
+      display: block;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.40);
+    }
+
+    /* Country cards grid */
+    .fan-map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .fan-country-card {
+      background: rgba(10,4,30,0.80);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 16px 12px 14px;
+      text-align: center;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.5s ease both;
+    }
+    .fan-country-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,75,241,0.08), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .fan-country-card:hover { border-color: rgba(255,75,241,0.40); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.45); }
+    .fan-country-card:hover::before { opacity: 1; }
+    .fan-country-flag { font-size: 32px; margin-bottom: 8px; display: block; line-height: 1; }
+    .fan-country-name { font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .fan-country-count {
+      display: inline-block;
+      background: rgba(255,215,0,0.15);
+      border: 1px solid rgba(255,215,0,0.35);
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 11px; font-weight: 700;
+      color: #ffd700;
+    }
+    .fan-country-bar {
+      height: 3px; border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      margin-top: 8px; overflow: hidden;
+    }
+    .fan-country-bar-fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(to right, #ff4bf1, #ffd700);
+      transition: width 1s ease;
+    }
+    /* top country gets gold border */
+    .fan-country-card.top-country {
+      border-color: rgba(255,215,0,0.45);
+      box-shadow: 0 0 20px rgba(255,215,0,0.15);
+    }
+    .fan-country-card.top-country .fan-country-count {
+      background: rgba(255,215,0,0.25);
+      border-color: #ffd700;
+    }
+    .top-badge {
+      position: absolute; top: 8px; right: 8px;
+      font-size: 14px;
+    }
+
+    /* map loading */
+    .map-loading { text-align: center; padding: 40px; color: rgba(255,255,255,0.40); grid-column: 1/-1; }
+    .map-spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ff4bf1; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+
+    @media(max-width:600px){
+      .fan-map-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+      .map-totals-strip { max-width: 100%; }
+    }
+
   </style>
 </head>
 
@@ -748,25 +853,42 @@
     </div>
   </section>
 
-  <!-- GLOBAL FAN MAP -->
+  <!-- GLOBAL FAN MAP — Phase 5 — Live fan counts from Firestore -->
   <section class="section" id="map">
     <div class="glass section-glass">
-      <div class="section-tag">WORLDWIDE</div>
+      <div class="section-tag">🌍 WORLDWIDE</div>
       <h2 data-lang="mapTitle">Global Fan Map</h2>
       <p data-lang="mapDesc">Our community spans every continent. Fans united by music.</p>
-      <div class="fan-map">
-        <div class="map-region reveal">🇺🇸 USA</div>
-        <div class="map-region reveal">🇪🇸 Spain</div>
-        <div class="map-region reveal">🇲🇽 Mexico</div>
-        <div class="map-region reveal">🇧🇷 Brazil</div>
-        <div class="map-region reveal">🇨🇦 Canada</div>
-        <div class="map-region reveal">🇩🇪 Germany</div>
-        <div class="map-region reveal">🇳🇱 Netherlands</div>
-        <div class="map-region reveal">🇯🇵 Japan</div>
-        <div class="map-region reveal">🇸🇦 Saudi Arabia</div>
-        <div class="map-region reveal">🇮🇩 Indonesia</div>
-        <div class="map-region reveal">🇫🇷 France</div>
-        <div class="map-region reveal">🇬🇧 UK</div>
+
+      <!-- LIVE COUNTER STRIP -->
+      <div class="map-totals-strip">
+        <div class="map-total-item">
+          <span class="map-total-num" id="mapTotalFans">—</span>
+          <span class="map-total-label">Total Fans</span>
+        </div>
+        <div class="map-total-divider"></div>
+        <div class="map-total-item">
+          <span class="map-total-num" id="mapTotalCountries">—</span>
+          <span class="map-total-label">Countries</span>
+        </div>
+        <div class="map-total-divider"></div>
+        <div class="map-total-item">
+          <span class="map-total-num">🌎</span>
+          <span class="map-total-label">Worldwide</span>
+        </div>
+      </div>
+
+      <!-- COUNTRY CARDS GRID — live counts -->
+      <div class="fan-map-grid" id="fanMapGrid">
+        <div class="map-loading"><div class="map-spinner"></div><p>Loading fan locations...</p></div>
+      </div>
+
+      <!-- CTA -->
+      <div style="text-align:center;margin-top:28px">
+        <p style="font-size:13px;color:rgba(255,255,255,0.50);margin-bottom:14px">Don't see your country? Register and put your flag on the map! 🚩</p>
+        <button class="button button-primary" onclick="openModal()" style="padding:12px 32px;font-weight:800">
+          🐰 Join & Add Your Country
+        </button>
       </div>
     </div>
   </section>
@@ -859,6 +981,37 @@
         <label for="password" data-lang="passLabel">Password</label>
         <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
       </div>
+      <div class="input-group">
+        <label for="userCountry">🌍 Your Country <span style="color:rgba(255,255,255,0.40);font-weight:400">(puts your flag on the map!)</span></label>
+        <select id="userCountry" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:14px;">
+          <option value="">— Select your country —</option>
+          <option value="US">🇺🇸 USA</option>
+          <option value="ES">🇪🇸 Spain</option>
+          <option value="MX">🇲🇽 Mexico</option>
+          <option value="BR">🇧🇷 Brazil</option>
+          <option value="CA">🇨🇦 Canada</option>
+          <option value="DE">🇩🇪 Germany</option>
+          <option value="NL">🇳🇱 Netherlands</option>
+          <option value="JP">🇯🇵 Japan</option>
+          <option value="SA">🇸🇦 Saudi Arabia</option>
+          <option value="ID">🇮🇩 Indonesia</option>
+          <option value="FR">🇫🇷 France</option>
+          <option value="GB">🇬🇧 UK</option>
+          <option value="IT">🇮🇹 Italy</option>
+          <option value="CO">🇨🇴 Colombia</option>
+          <option value="PR">🇵🇷 Puerto Rico</option>
+          <option value="AR">🇦🇷 Argentina</option>
+          <option value="CL">🇨🇱 Chile</option>
+          <option value="AU">🇦🇺 Australia</option>
+          <option value="KR">🇰🇷 South Korea</option>
+          <option value="NG">🇳🇬 Nigeria</option>
+          <option value="ZA">🇿🇦 South Africa</option>
+          <option value="IN">🇮🇳 India</option>
+          <option value="PH">🇵🇭 Philippines</option>
+          <option value="PT">🇵🇹 Portugal</option>
+          <option value="OTHER">🌍 Other</option>
+        </select>
+      </div>
       <div class="modal-buttons">
         <button class="button button-primary" onclick="register()" data-lang="registerBtn">Register</button>
         <button class="button button-outline" onclick="login()" data-lang="loginModalBtn">Login</button>
@@ -915,6 +1068,95 @@
   <script src="language.js"></script>
   <script src="script.js"></script>
   <script src="pwa.js"></script>
+
+  <!-- PHASE 5 — GLOBAL FAN MAP — live counts + country save on register -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const COUNTRIES = [
+      { code:'US', name:'USA',          flag:'🇺🇸' },
+      { code:'ES', name:'Spain',        flag:'🇪🇸' },
+      { code:'MX', name:'Mexico',       flag:'🇲🇽' },
+      { code:'BR', name:'Brazil',       flag:'🇧🇷' },
+      { code:'CA', name:'Canada',       flag:'🇨🇦' },
+      { code:'DE', name:'Germany',      flag:'🇩🇪' },
+      { code:'NL', name:'Netherlands',  flag:'🇳🇱' },
+      { code:'JP', name:'Japan',        flag:'🇯🇵' },
+      { code:'SA', name:'Saudi Arabia', flag:'🇸🇦' },
+      { code:'ID', name:'Indonesia',    flag:'🇮🇩' },
+      { code:'FR', name:'France',       flag:'🇫🇷' },
+      { code:'GB', name:'UK',           flag:'🇬🇧' },
+      { code:'IT', name:'Italy',        flag:'🇮🇹' },
+      { code:'CO', name:'Colombia',     flag:'🇨🇴' },
+      { code:'PR', name:'Puerto Rico',  flag:'🇵🇷' },
+      { code:'AR', name:'Argentina',    flag:'🇦🇷' },
+      { code:'CL', name:'Chile',        flag:'🇨🇱' },
+      { code:'AU', name:'Australia',    flag:'🇦🇺' },
+      { code:'KR', name:'South Korea',  flag:'🇰🇷' },
+      { code:'NG', name:'Nigeria',      flag:'🇳🇬' },
+    ];
+
+    // ── Render country cards ──
+    function renderMap(counts) {
+      const grid = document.getElementById('fanMapGrid');
+      if (!grid) return;
+      const sorted = [...COUNTRIES].sort((a,b) => (counts[b.code]||0) - (counts[a.code]||0));
+      const maxCount = Math.max(...sorted.map(c => counts[c.code]||0), 1);
+      const totalFans = Object.values(counts).reduce((s,v)=>s+v,0);
+      const totalCountries = Object.keys(counts).filter(k=>counts[k]>0).length;
+
+      const totalFansEl = document.getElementById('mapTotalFans');
+      const totalCtEl   = document.getElementById('mapTotalCountries');
+      if (totalFansEl) totalFansEl.textContent = totalFans > 0 ? totalFans.toLocaleString() : '1,000+';
+      if (totalCtEl)   totalCtEl.textContent   = totalCountries > 0 ? totalCountries : '20+';
+
+      grid.innerHTML = '';
+      sorted.forEach((country, i) => {
+        const count = counts[country.code] || 0;
+        const isTop = i === 0 && count > 0;
+        const pct   = Math.max(Math.round((count / maxCount) * 100), 5);
+        const div   = document.createElement('div');
+        div.className = 'fan-country-card reveal' + (isTop ? ' top-country' : '');
+        div.style.animationDelay = (i * 0.04) + 's';
+        div.innerHTML = `
+          ${isTop ? '<span class="top-badge">🥇</span>' : ''}
+          <span class="fan-country-flag">${country.flag}</span>
+          <div class="fan-country-name">${country.name}</div>
+          <span class="fan-country-count">${count > 0 ? count + ' fan' + (count !== 1 ? 's' : '') : 'Join!'}</span>
+          <div class="fan-country-bar">
+            <div class="fan-country-bar-fill" style="width:${pct}%"></div>
+          </div>`;
+        grid.appendChild(div);
+      });
+    }
+
+    // ── Live map — listens to users collection ──
+    onSnapshot(collection(db, 'users'), snap => {
+      const counts = {};
+      snap.forEach(d => {
+        const c = d.data().country;
+        if (c) counts[c] = (counts[c] || 0) + 1;
+      });
+      renderMap(counts);
+    });
+
+    // ── Save country when user logs in / registers ──
+    // Runs once per auth state change — saves country selection to Firestore
+    onAuthStateChanged(auth, async user => {
+      if (!user) return;
+      const countryEl = document.getElementById('userCountry');
+      const country   = countryEl?.value;
+      if (!country) return;
+      try {
+        await setDoc(doc(db, 'users', user.uid), { country }, { merge: true });
+      } catch(e) { console.log('Country save skipped:', e.message); }
+    });
+  </script>
 
 </body>
 </html>
