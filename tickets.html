@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ticket Concierge — Comunidad Global de Fans de Conejo Malo" />
+  <title>Ticket Concierge — Conejo Malo Global</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0533" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #1a0533; color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden; min-height: 100vh;
+    }
+
+    /* ── BG ORBS ── */
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.22; }
+    .orb-1 { width: 500px; height: 500px; background: #7b2fff; top: -100px; left: -100px; animation: orbFloat 18s ease-in-out infinite; }
+    .orb-2 { width: 400px; height: 400px; background: #ff0066; bottom: 10%; right: -80px; animation: orbFloat 22s ease-in-out infinite reverse; }
+    .orb-3 { width: 300px; height: 300px; background: #00d4ff; top: 40%; left: 30%; animation: orbFloat 14s ease-in-out infinite 3s; }
+    @keyframes orbFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-40px);} }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+      background: rgba(10,4,30,0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+    }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .rabbit-emblem { font-size: 26px; }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.70); text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; padding: 6px 10px; border-radius: 8px; transition: all 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: #ffd700; background: rgba(255,215,0,0.10); }
+    .nav-login-btn {
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800;
+      letter-spacing: 1.5px; padding: 8px 20px; cursor: pointer; transition: all 0.2s;
+    }
+    .nav-login-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,0,102,0.5); }
+    .hamburger { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+    @media(max-width:768px){
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10,4,30,0.98); padding: 16px; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    }
+
+    /* ── MAIN ── */
+    .tickets-main {
+      position: relative; z-index: 1;
+      padding: 84px 16px 60px;
+      max-width: 900px; margin: 0 auto;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header { text-align: center; margin-bottom: 36px; padding: 28px 20px 16px; }
+    .page-header .tag {
+      display: inline-block;
+      background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.40);
+      border-radius: 999px; padding: 5px 18px;
+      font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+      color: #ffd700; margin-bottom: 14px;
+    }
+    .page-header h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(34px, 8vw, 68px); letter-spacing: 4px; color: #fff;
+      text-shadow: 0 0 40px rgba(255,215,0,0.25); margin-bottom: 10px;
+    }
+    .page-header p { font-size: 14px; color: rgba(255,255,255,0.60); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── DISCLAIMER BANNER ── */
+    .disclaimer-banner {
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      border-radius: 16px; padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 13px; color: rgba(255,255,255,0.70);
+      line-height: 1.7; text-align: center;
+    }
+    .disclaimer-banner strong { color: #00d4ff; }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px; margin-bottom: 36px;
+    }
+    .step-card {
+      background: rgba(10,4,30,0.85);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px; padding: 22px 18px;
+      text-align: center; transition: all 0.3s;
+    }
+    .step-card:hover { border-color: rgba(255,215,0,0.35); transform: translateY(-3px); }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900; color: #fff;
+      margin: 0 auto 12px;
+    }
+    .step-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+    .step-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .step-desc  { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ── FREE SERVICE BADGE ── */
+    .free-service-banner {
+      background: linear-gradient(135deg, rgba(0,255,136,0.10), rgba(0,212,255,0.08));
+      border: 1px solid rgba(0,255,136,0.30);
+      border-radius: 16px; padding: 18px 22px;
+      margin-bottom: 28px; display: flex; align-items: center; gap: 14px;
+      flex-wrap: wrap;
+    }
+    .free-service-banner .heart { font-size: 32px; flex-shrink: 0; }
+    .free-service-banner p { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.7; flex: 1; min-width: 200px; }
+    .free-service-banner strong { color: #00ff88; }
+
+    /* ── REQUEST FORM ── */
+    .form-card {
+      background: rgba(10,4,30,0.90);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px; padding: 32px 28px;
+      margin-bottom: 32px;
+    }
+    .form-card h3 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 24px; letter-spacing: 3px; color: #fff;
+      margin-bottom: 8px;
+    }
+    .form-card .form-subtitle {
+      font-size: 13px; color: rgba(255,255,255,0.50);
+      margin-bottom: 24px; line-height: 1.6;
+    }
+    .form-section-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: #ffd700;
+      margin: 24px 0 14px; padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255,215,0,0.20);
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); margin-bottom: 7px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px; padding: 12px 16px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: rgba(255,215,0,0.55);
+      background: rgba(255,255,255,0.10);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.30); }
+    .form-group select option { background: #120824; color: #fff; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+    /* Required star */
+    .req { color: #ff4bf1; margin-left: 2px; }
+
+    /* Payment section */
+    .payment-info {
+      background: rgba(255,215,0,0.06);
+      border: 1px solid rgba(255,215,0,0.20);
+      border-radius: 14px; padding: 16px 18px;
+      margin-bottom: 16px; font-size: 13px;
+      color: rgba(255,255,255,0.65); line-height: 1.7;
+    }
+    .payment-info strong { color: #ffd700; }
+    .payment-methods {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
+    }
+    .pay-pill {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px; padding: 6px 14px;
+      font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.75);
+    }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff0066, #ff4bf1);
+      border: none; border-radius: 999px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800;
+      padding: 16px; cursor: pointer; margin-top: 10px;
+      transition: all 0.2s; letter-spacing: 1px;
+    }
+    .submit-btn:hover { transform: scale(1.02); box-shadow: 0 6px 28px rgba(255,0,102,0.55); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── ADMIN PANEL ── */
+    .admin-panel {
+      background: rgba(10,4,30,0.90);
+      border: 1px solid rgba(255,75,241,0.25);
+      border-radius: 24px; padding: 28px;
+      display: none;
+    }
+    .admin-panel.visible { display: block; }
+    .admin-panel-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 24px; letter-spacing: 3px; color: #fff;
+      margin-bottom: 6px;
+    }
+    .admin-panel-sub { font-size: 13px; color: rgba(255,255,255,0.50); margin-bottom: 22px; }
+
+    .request-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px; padding: 18px 20px;
+      margin-bottom: 14px; transition: all 0.3s;
+    }
+    .request-card:hover { border-color: rgba(255,75,241,0.30); }
+    .request-card-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 12px;
+      margin-bottom: 14px; flex-wrap: wrap;
+    }
+    .request-name { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .request-meta { font-size: 12px; color: rgba(255,255,255,0.50); line-height: 1.6; }
+    .request-status {
+      font-size: 10px; font-weight: 800; letter-spacing: 1px;
+      padding: 4px 12px; border-radius: 999px; text-transform: uppercase; flex-shrink: 0;
+    }
+    .request-status.pending  { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.40); color: #ffd700; }
+    .request-status.inprogress{ background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.40); color: #00d4ff; }
+    .request-status.completed { background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.40); color: #00ff88; }
+    .request-status.cancelled { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.40); color: #ff5050; }
+
+    .request-details {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px; margin-bottom: 14px;
+    }
+    .detail-item { font-size: 12px; color: rgba(255,255,255,0.65); }
+    .detail-item strong { color: #fff; display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.40); margin-bottom: 2px; }
+
+    .request-note {
+      background: rgba(255,255,255,0.04); border-radius: 10px;
+      padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,0.65);
+      margin-bottom: 14px; line-height: 1.6; font-style: italic;
+    }
+
+    .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .action-btn {
+      border: none; border-radius: 999px;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800;
+      padding: 8px 16px; cursor: pointer; transition: all 0.2s;
+    }
+    .action-btn.inprogress { background: rgba(0,212,255,0.20); border: 1px solid rgba(0,212,255,0.50); color: #00d4ff; }
+    .action-btn.completed  { background: rgba(0,255,136,0.20); border: 1px solid rgba(0,255,136,0.50); color: #00ff88; }
+    .action-btn.cancelled  { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.40); color: #ff5050; }
+    .action-btn.delete     { background: rgba(255,80,80,0.10); border: 1px solid rgba(255,80,80,0.25); color: #ff5050; }
+    .action-btn:hover { transform: scale(1.05); }
+
+    /* Admin fee input */
+    .fee-row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+    .fee-input {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px; padding: 7px 14px; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 13px; width: 140px;
+    }
+    .fee-input:focus { outline: none; border-color: rgba(255,215,0,0.55); }
+    .fee-save-btn {
+      background: rgba(255,215,0,0.20); border: 1px solid rgba(255,215,0,0.50);
+      border-radius: 999px; color: #ffd700; padding: 7px 16px;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800;
+      cursor: pointer; transition: all 0.2s;
+    }
+
+    /* ── EMPTY / SPINNER ── */
+    .empty-state { text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.35); }
+    .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state h3 { font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 2px; margin-bottom: 8px; color: rgba(255,255,255,0.45); }
+    .spinner-wrap { text-align: center; padding: 30px; color: rgba(255,255,255,0.40); }
+    .spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ffd700; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(10,4,30,0.98); border: 1px solid rgba(255,215,0,0.40);
+      border-radius: 999px; padding: 12px 28px;
+      font-size: 14px; font-weight: 700; color: #fff;
+      z-index: 9999; opacity: 0; transition: all 0.4s ease;
+      pointer-events: none; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── SUCCESS STATE ── */
+    .success-box {
+      background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.30);
+      border-radius: 20px; padding: 36px 28px; text-align: center;
+      display: none;
+    }
+    .success-box.show { display: block; }
+    .success-icon { font-size: 56px; margin-bottom: 14px; }
+    .success-box h3 { font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 3px; color: #00ff88; margin-bottom: 10px; }
+    .success-box p  { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 18px; }
+
+    @media(max-width:600px){
+      .form-row, .form-row-3 { grid-template-columns: 1fr; }
+      .how-it-works { grid-template-columns: 1fr 1fr; }
+      .form-card { padding: 22px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo"><span class="rabbit-emblem">🐰</span> CONEJO MALO</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="community.html">COMMUNITY</a></li>
+      <li><a href="media.html">MEDIA</a></li>
+      <li><a href="events.html">EVENTS</a></li>
+      <li><a href="tickets.html" class="active">TICKETS</a></li>
+      <li><a href="index.html#membership">MEMBERSHIP</a></li>
+      <li><a href="index.html#support">SUPPORT</a></li>
+    </ul>
+    <button class="nav-login-btn" id="navLogoutBtn" onclick="handleLogout()" style="display:none">LOGOUT</button>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="tickets-main">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="tag">🎟️ Concierge Service</div>
+      <h1>TICKET ASSISTANCE</h1>
+      <p>Can't figure out how to buy tickets? Don't know where to start? Our admin team will purchase your Bad Bunny tickets from authorized vendors on your behalf — safely, securely and with full transparency.</p>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer-banner">
+      <strong>⚠️ Important Notice:</strong> We are an independent fan community — NOT an official ticket vendor. We purchase tickets on your behalf from <strong>authorized sellers only</strong> (Ticketmaster, Live Nation, official Bad Bunny sites). A small service fee may apply, determined per request. We will always confirm availability and total cost <strong>before</strong> you pay.
+    </div>
+
+    <!-- FREE SERVICE FOR ELDERLY/LOW-INCOME -->
+    <div class="free-service-banner">
+      <span class="heart">💚</span>
+      <p>
+        <strong>Free assistance available</strong> for elderly fans, retirees, students and members with financial hardship. 
+        Simply mention your situation in the request form — our team reviews every case with care and compassion. 
+        Everyone deserves to experience Bad Bunny live. 🐰
+      </p>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="how-it-works">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <span class="step-icon">📝</span>
+        <div class="step-title">Fill the Form</div>
+        <div class="step-desc">Tell us which show, how many tickets, your seat preference and contact details.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <span class="step-icon">🔍</span>
+        <div class="step-title">We Check</div>
+        <div class="step-desc">Our admin team finds the tickets from official authorized vendors and confirms availability.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <span class="step-icon">💬</span>
+        <div class="step-title">We Quote</div>
+        <div class="step-desc">We send you the exact ticket price plus any service fee before you pay a single cent.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <span class="step-icon">💳</span>
+        <div class="step-title">You Pay</div>
+        <div class="step-desc">Pay via PayPal, Bitcoin, ETH, USDT or bank transfer — only after you approve the quote.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">5</div>
+        <span class="step-icon">🎟️</span>
+        <div class="step-title">We Deliver</div>
+        <div class="step-desc">We purchase your ticket and send you the confirmation proof directly. You're going! 🎉</div>
+      </div>
+    </div>
+
+    <!-- REQUEST FORM -->
+    <div class="form-card" id="requestFormCard">
+      <h3>🎟️ Submit Your Ticket Request</h3>
+      <p class="form-subtitle">All fields marked <span style="color:#ff4bf1">*</span> are required. We respond within 24 hours.</p>
+
+      <!-- PERSONAL INFO -->
+      <div class="form-section-label">👤 Your Personal Information</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="reqFirstName" placeholder="Your first name" />
+        </div>
+        <div class="form-group">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="reqLastName" placeholder="Your last name" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="reqEmail" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label>WhatsApp / Phone (optional)</label>
+          <input type="text" id="reqPhone" placeholder="+1 234 567 8900" />
+        </div>
+      </div>
+      <div class="form-row-3">
+        <div class="form-group">
+          <label>Country <span class="req">*</span></label>
+          <select id="reqCountry">
+            <option value="">— Select —</option>
+            <option>🇺🇸 USA</option><option>🇪🇸 Spain</option><option>🇲🇽 Mexico</option>
+            <option>🇧🇷 Brazil</option><option>🇨🇦 Canada</option><option>🇩🇪 Germany</option>
+            <option>🇳🇱 Netherlands</option><option>🇯🇵 Japan</option><option>🇸🇦 Saudi Arabia</option>
+            <option>🇮🇩 Indonesia</option><option>🇫🇷 France</option><option>🇬🇧 UK</option>
+            <option>🇮🇹 Italy</option><option>🇨🇴 Colombia</option><option>🇵🇷 Puerto Rico</option>
+            <option>🇦🇷 Argentina</option><option>🇨🇱 Chile</option><option>🇦🇺 Australia</option>
+            <option>🇰🇷 South Korea</option><option>🇳🇬 Nigeria</option><option>🇿🇦 South Africa</option>
+            <option>🇮🇳 India</option><option>🇵🇭 Philippines</option><option>🇵🇹 Portugal</option>
+            <option>🌍 Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Age <span class="req">*</span></label>
+          <input type="number" id="reqAge" placeholder="e.g. 45" min="5" max="120" />
+        </div>
+        <div class="form-group">
+          <label>Occupation <span class="req">*</span></label>
+          <select id="reqOccupation">
+            <option value="">— Select —</option>
+            <option>Student</option>
+            <option>Employed (Full-time)</option>
+            <option>Employed (Part-time)</option>
+            <option>Self-employed / Business</option>
+            <option>Artisan / Craftsperson</option>
+            <option>Retired / Pensioner</option>
+            <option>Unemployed</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TICKET INFO -->
+      <div class="form-section-label">🎟️ Ticket Details</div>
+      <div class="form-group">
+        <label>Concert / Show Name <span class="req">*</span></label>
+        <input type="text" id="reqShow" placeholder="e.g. DeBí TiRAR MáS FOToS World Tour — Düsseldorf" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Show Date <span class="req">*</span></label>
+          <input type="date" id="reqShowDate" />
+        </div>
+        <div class="form-group">
+          <label>City / Venue <span class="req">*</span></label>
+          <input type="text" id="reqVenue" placeholder="e.g. Merkur Spiel-Arena, Düsseldorf" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Number of Tickets <span class="req">*</span></label>
+          <select id="reqQty">
+            <option value="1">1 ticket</option>
+            <option value="2">2 tickets</option>
+            <option value="3">3 tickets</option>
+            <option value="4">4 tickets</option>
+            <option value="5">5 tickets</option>
+            <option value="6+">6+ tickets</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Seat Preference</label>
+          <select id="reqSeat">
+            <option value="">No preference</option>
+            <option>Floor / Standing</option>
+            <option>Lower Level Seated</option>
+            <option>Upper Level Seated</option>
+            <option>VIP / Premium</option>
+            <option>Accessible / Disability</option>
+            <option>Best available</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Budget per ticket (optional)</label>
+        <input type="text" id="reqBudget" placeholder="e.g. $100 USD or any amount" />
+      </div>
+
+      <!-- PAYMENT -->
+      <div class="form-section-label">💳 Payment Preference</div>
+      <div class="payment-info">
+        <strong>How payment works:</strong> We confirm ticket availability and send you a quote with the exact ticket price + service fee (if any). You only pay <strong>after you approve the quote</strong>. We never take money before confirming tickets exist.
+      </div>
+      <div class="form-group">
+        <label>Preferred Payment Method <span class="req">*</span></label>
+        <select id="reqPayment">
+          <option value="">— Select —</option>
+          <option>PayPal</option>
+          <option>Bitcoin (BTC)</option>
+          <option>Ethereum (ETH)</option>
+          <option>USDT / Tether (TRC20)</option>
+          <option>USDT / Tether (ERC20)</option>
+          <option>Bank Transfer</option>
+        </select>
+      </div>
+
+      <!-- SPECIAL CIRCUMSTANCES -->
+      <div class="form-section-label">💚 Special Circumstances (Optional)</div>
+      <div class="form-group">
+        <label>Are you requesting free / reduced service fee assistance?</label>
+        <select id="reqFreeService">
+          <option value="no">No — standard service applies</option>
+          <option value="yes">Yes — I would like to request free assistance</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Additional Notes / Special Requests</label>
+        <textarea id="reqNotes" placeholder="Any extra info — disability access needs, elderly fan, student hardship, first time buying tickets online, etc."></textarea>
+      </div>
+
+      <button class="submit-btn" id="submitReqBtn" onclick="submitTicketRequest()">
+        🎟️ Submit My Ticket Request
+      </button>
+    </div>
+
+    <!-- SUCCESS BOX -->
+    <div class="success-box" id="successBox">
+      <div class="success-icon">🎟️✅</div>
+      <h3>Request Submitted!</h3>
+      <p>Your ticket request has been received. Our admin team will review it and contact you at the email you provided within <strong>24 hours</strong> with availability and a quote.<br><br>Thank you for trusting Comunidad Global de Fans de Conejo Malo. 🐰💜</p>
+      <button onclick="resetForm()" style="background:linear-gradient(135deg,#ff0066,#ff4bf1);border:none;border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;padding:12px 28px;cursor:pointer;">
+        Submit Another Request
+      </button>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div class="admin-panel" id="adminPanel">
+      <div class="admin-panel-title">🎟️ Ticket Requests — Admin</div>
+      <p class="admin-panel-sub">All incoming ticket assistance requests. Review, quote, update status and manage each request.</p>
+      <div id="adminRequestsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading requests...</p></div>
+      <div id="adminRequestsList"></div>
+      <div class="empty-state" id="adminRequestsEmpty" style="display:none">
+        <div class="empty-icon">🎟️</div>
+        <h3>No Requests Yet</h3>
+        <p>Ticket requests from fans will appear here.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- FIREBASE -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore, collection, addDoc, deleteDoc, doc,
+      query, orderBy, onSnapshot, updateDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const ADMIN_EMAILS     = ["official.deconejomalo@gmail.com"];
+    const SUB_ADMIN_EMAILS = [];
+
+    let currentUser = null;
+    let isAdmin     = false;
+    let isSubAdmin  = false;
+
+    // ── AUTH ──
+    onAuthStateChanged(auth, user => {
+      const lb = document.getElementById('navLogoutBtn');
+      if (user) {
+        currentUser = user;
+        isAdmin     = ADMIN_EMAILS.includes(user.email);
+        isSubAdmin  = SUB_ADMIN_EMAILS.includes(user.email);
+        if (lb) lb.style.display = 'inline-block';
+        // Pre-fill email
+        const emailEl = document.getElementById('reqEmail');
+        if (emailEl && !emailEl.value) emailEl.value = user.email;
+        if (isAdmin || isSubAdmin) {
+          document.getElementById('adminPanel').classList.add('visible');
+          loadAdminRequests();
+        }
+      } else {
+        currentUser = null; isAdmin = false; isSubAdmin = false;
+        if (lb) lb.style.display = 'none';
+      }
+    });
+
+    window.handleLogout = async () => { await signOut(auth); window.location.href = 'index.html'; };
+
+    // ── SUBMIT REQUEST ──
+    window.submitTicketRequest = async function() {
+      const firstName  = document.getElementById('reqFirstName').value.trim();
+      const lastName   = document.getElementById('reqLastName').value.trim();
+      const email      = document.getElementById('reqEmail').value.trim();
+      const phone      = document.getElementById('reqPhone').value.trim();
+      const country    = document.getElementById('reqCountry').value;
+      const age        = document.getElementById('reqAge').value.trim();
+      const occupation = document.getElementById('reqOccupation').value;
+      const show       = document.getElementById('reqShow').value.trim();
+      const showDate   = document.getElementById('reqShowDate').value;
+      const venue      = document.getElementById('reqVenue').value.trim();
+      const qty        = document.getElementById('reqQty').value;
+      const seat       = document.getElementById('reqSeat').value;
+      const budget     = document.getElementById('reqBudget').value.trim();
+      const payment    = document.getElementById('reqPayment').value;
+      const freeService= document.getElementById('reqFreeService').value;
+      const notes      = document.getElementById('reqNotes').value.trim();
+
+      if (!firstName||!lastName||!email||!country||!age||!occupation||!show||!showDate||!venue||!payment) {
+        showToast('⚠️ Please fill all required fields!'); return;
+      }
+
+      const btn = document.getElementById('submitReqBtn');
+      btn.disabled = true; btn.textContent = 'Submitting...';
+
+      try {
+        await addDoc(collection(db, 'ticketRequests'), {
+          firstName, lastName, email, phone, country, age, occupation,
+          show, showDate, venue, qty, seat, budget, payment,
+          freeService, notes,
+          status: 'pending',
+          serviceFee: '',
+          userId: currentUser?.uid || 'guest',
+          createdAt: serverTimestamp()
+        });
+        document.getElementById('requestFormCard').style.display = 'none';
+        document.getElementById('successBox').classList.add('show');
+      } catch(e) {
+        showToast('❌ Error: ' + e.message);
+        btn.disabled = false; btn.textContent = '🎟️ Submit My Ticket Request';
+      }
+    };
+
+    window.resetForm = function() {
+      document.getElementById('requestFormCard').style.display = 'block';
+      document.getElementById('successBox').classList.remove('show');
+      ['reqFirstName','reqLastName','reqPhone','reqShow','reqShowDate','reqVenue','reqBudget','reqNotes','reqAge']
+        .forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+      ['reqCountry','reqOccupation','reqPayment','reqFreeService','reqQty','reqSeat']
+        .forEach(id => { const el=document.getElementById(id); if(el) el.selectedIndex=0; });
+      const btn = document.getElementById('submitReqBtn');
+      btn.disabled = false; btn.textContent = '🎟️ Submit My Ticket Request';
+    };
+
+    // ── ADMIN: LOAD REQUESTS ──
+    function loadAdminRequests() {
+      const list    = document.getElementById('adminRequestsList');
+      const loading = document.getElementById('adminRequestsLoading');
+      const empty   = document.getElementById('adminRequestsEmpty');
+      const q = query(collection(db, 'ticketRequests'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => list.appendChild(buildRequestCard(d.id, d.data())));
+      });
+    }
+
+    function buildRequestCard(id, data) {
+      const div = document.createElement('div');
+      div.className = 'request-card';
+      const statusLabels = { pending:'⏳ Pending', inprogress:'🔄 In Progress', completed:'✅ Completed', cancelled:'❌ Cancelled' };
+      const isFree = data.freeService === 'yes';
+      div.innerHTML = `
+        <div class="request-card-top">
+          <div>
+            <div class="request-name">${esc(data.firstName)} ${esc(data.lastName)}
+              ${isFree ? '<span style="font-size:11px;background:rgba(0,255,136,0.15);border:1px solid rgba(0,255,136,0.40);color:#00ff88;border-radius:999px;padding:2px 8px;margin-left:6px;font-weight:700">💚 FREE ASSIST</span>' : ''}
+            </div>
+            <div class="request-meta">
+              📧 ${esc(data.email)}
+              ${data.phone ? ' · 📱 ' + esc(data.phone) : ''}
+              · 🌍 ${esc(data.country)}
+              · 👤 Age: ${esc(data.age)} · ${esc(data.occupation)}
+            </div>
+          </div>
+          <span class="request-status ${data.status||'pending'}">${statusLabels[data.status]||'⏳ Pending'}</span>
+        </div>
+        <div class="request-details">
+          <div class="detail-item"><strong>Show</strong>${esc(data.show)}</div>
+          <div class="detail-item"><strong>Date</strong>${esc(data.showDate)}</div>
+          <div class="detail-item"><strong>Venue</strong>${esc(data.venue)}</div>
+          <div class="detail-item"><strong>Tickets</strong>${esc(data.qty)}</div>
+          <div class="detail-item"><strong>Seat</strong>${esc(data.seat||'No preference')}</div>
+          <div class="detail-item"><strong>Budget</strong>${esc(data.budget||'Not specified')}</div>
+          <div class="detail-item"><strong>Payment</strong>${esc(data.payment)}</div>
+          <div class="detail-item"><strong>Service Fee</strong><span id="fee-display-${id}">${esc(data.serviceFee||'Not set')}</span></div>
+        </div>
+        ${data.notes ? `<div class="request-note">📝 "${esc(data.notes)}"</div>` : ''}
+        <div class="fee-row">
+          <input class="fee-input" id="fee-${id}" placeholder="e.g. $10 or FREE" value="${esc(data.serviceFee||'')}">
+          <button class="fee-save-btn" onclick="saveFee('${id}')">💾 Save Fee</button>
+        </div>
+        <div class="admin-actions" style="margin-top:10px">
+          <button class="action-btn inprogress" onclick="updateStatus('${id}','inprogress')">🔄 In Progress</button>
+          <button class="action-btn completed"  onclick="updateStatus('${id}','completed')">✅ Completed</button>
+          <button class="action-btn cancelled"  onclick="updateStatus('${id}','cancelled')">❌ Cancel</button>
+          <button class="action-btn delete"     onclick="deleteRequest('${id}')">🗑️ Delete</button>
+        </div>`;
+      return div;
+    }
+
+    window.saveFee = async (id) => {
+      const fee = document.getElementById('fee-' + id)?.value.trim();
+      await updateDoc(doc(db, 'ticketRequests', id), { serviceFee: fee });
+      showToast('💾 Fee saved!');
+    };
+
+    window.updateStatus = async (id, status) => {
+      await updateDoc(doc(db, 'ticketRequests', id), { status });
+      showToast('✅ Status updated!');
+    };
+
+    window.deleteRequest = async (id) => {
+      if (!confirm('Delete this ticket request?')) return;
+      await deleteDoc(doc(db, 'ticketRequests', id));
+      showToast('🗑️ Deleted!');
+    };
+
+    // ── HELPERS ──
+    window.showToast = msg => {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    };
+    function esc(s) {
+      return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+
+</body>
+</html>
