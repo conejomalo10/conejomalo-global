@@ -1,53 +1,76 @@
-// sw.js — Service Worker — Conejo Malo Global Fan Community
-const CACHE_NAME = 'conejomalo-v1';
-const ASSETS = [
-  '/conejomalo-global/',
-  '/conejomalo-global/index.html',
-  '/conejomalo-global/community.html',
-  '/conejomalo-global/style.css',
-  '/conejomalo-global/community.css',
-  '/conejomalo-global/script.js',
-  '/conejomalo-global/language.js',
-  '/conejomalo-global/manifest.json'
+// ═══════════════════════════════════════════════════
+//  Service Worker — Conejo Malo Global Fan Community
+//  Caches core assets for fast loading & offline use
+// ═══════════════════════════════════════════════════
+
+const CACHE_NAME = 'conejomalo-v2';
+
+const CORE_ASSETS = [
+  './index.html',
+  './community.html',
+  './media.html',
+  './tickets.html',
+  './events.html',
+  './connect.html',
+  './donate.html',
+  './style.css',
+  './pwa.js',
+  './manifest.json',
 ];
 
-// Install — cache core assets
+// ── INSTALL: cache core assets ──
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(CORE_ASSETS).catch(err => {
+        console.log('Cache partial error (non-critical):', err);
+      });
+    })
   );
+  self.skipWaiting();
 });
 
-// Activate — clean old caches
+// ── ACTIVATE: clean old caches ──
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
         keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
       )
-    ).then(() => self.clients.claim())
+    )
   );
+  self.clients.claim();
 });
 
-// Fetch — network first, fallback to cache
+// ── FETCH: network first, cache fallback ──
 self.addEventListener('fetch', event => {
-  // Skip Firebase requests — always need network
-  if (event.request.url.includes('firebase') ||
-      event.request.url.includes('googleapis') ||
-      event.request.url.includes('gstatic')) {
-    return;
-  }
+  // Skip non-GET, Firebase, Cloudinary and external requests
+  if (event.request.method !== 'GET') return;
+  const url = event.request.url;
+  if (url.includes('firestore') || url.includes('firebase') ||
+      url.includes('cloudinary') || url.includes('googleapis') ||
+      url.includes('gstatic') || url.includes('youtube') ||
+      url.includes('chrome-extension')) return;
 
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Cache successful responses
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        // Cache successful responses for our own assets
+        if (response && response.status === 200 && response.type === 'basic') {
+          const cloned = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, cloned));
+        }
         return response;
       })
-      .catch(() => caches.match(event.request))
+      .catch(() => {
+        // Offline fallback — serve from cache
+        return caches.match(event.request).then(cached => {
+          if (cached) return cached;
+          // Fallback to index for navigation requests
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        });
+      })
   );
 });
