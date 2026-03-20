@@ -96,24 +96,28 @@
 
     /* ── SECTION TABS ── */
     .media-tabs {
-      display: flex; gap: 8px; justify-content: center;
-      flex-wrap: wrap; margin-bottom: 36px;
+      display: flex; gap: 4px; justify-content: center;
+      flex-wrap: nowrap; margin-bottom: 28px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; padding: 4px 0 8px;
     }
+    .media-tabs::-webkit-scrollbar { display: none; }
     .media-tab {
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 999px;
+      border-radius: 10px;
       color: rgba(255,255,255,0.70);
       font-family: 'Montserrat', sans-serif;
-      font-size: 13px; font-weight: 700;
-      padding: 10px 24px; cursor: pointer;
-      transition: all 0.3s;
+      font-size: 11px; font-weight: 700;
+      padding: 8px 12px; cursor: pointer;
+      transition: all 0.3s; white-space: nowrap;
+      flex-shrink: 0; letter-spacing: 0.5px;
     }
     .media-tab:hover, .media-tab.active {
       background: rgba(255,75,241,0.20);
       border-color: rgba(255,75,241,0.60);
       color: #fff;
-      box-shadow: 0 0 16px rgba(255,75,241,0.25);
+      box-shadow: 0 0 12px rgba(255,75,241,0.20);
     }
 
     /* ── SECTION PANELS ── */
@@ -510,7 +514,7 @@
       .payment-methods-grid { grid-template-columns: 1fr 1fr !important; }
     }
   </style>
-</head>
+<style>@media(max-width:768px){.bg-orbs{display:none!important}.orb{display:none!important}}</style></head>
 <body>
 
   <!-- BG ORBS -->
