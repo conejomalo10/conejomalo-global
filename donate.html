@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Support & Donate — Comunidad Global de Fans de Conejo Malo" />
+  <title>Support Us — Conejo Malo Global</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0533" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #1a0533; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; min-height: 100vh; }
+
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.22; }
+    .orb-1 { width: 500px; height: 500px; background: #ffd700; top: -100px; left: -100px; animation: orbFloat 18s ease-in-out infinite; }
+    .orb-2 { width: 400px; height: 400px; background: #ff0066; bottom: 10%; right: -80px; animation: orbFloat 22s ease-in-out infinite reverse; }
+    .orb-3 { width: 300px; height: 300px; background: #7b2fff; top: 40%; left: 30%; animation: orbFloat 14s ease-in-out infinite 3s; }
+    @keyframes orbFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-40px);} }
+
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 64px; background: rgba(10,4,30,0.95); border-bottom: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .rabbit-emblem { font-size: 26px; }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.70); text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; padding: 6px 10px; border-radius: 8px; transition: all 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: #ffd700; background: rgba(255,215,0,0.10); }
+    .nav-login-btn { background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; padding: 8px 20px; cursor: pointer; transition: all 0.2s; }
+    .hamburger { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:block;} .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(10,4,30,0.98);padding:16px;gap:4px;border-bottom:1px solid rgba(255,255,255,0.1);} }
+
+    .donate-main { position: relative; z-index: 1; padding: 84px 16px 60px; max-width: 900px; margin: 0 auto; }
+
+    /* PAGE HEADER */
+    .page-header { text-align: center; margin-bottom: 36px; padding: 28px 20px 16px; }
+    .page-header .tag { display: inline-block; background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.40); border-radius: 999px; padding: 5px 18px; font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #ffd700; margin-bottom: 14px; }
+    .page-header h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(34px, 8vw, 68px); letter-spacing: 4px; color: #fff; text-shadow: 0 0 40px rgba(255,215,0,0.25); margin-bottom: 10px; }
+    .page-header p { font-size: 14px; color: rgba(255,255,255,0.60); max-width: 600px; margin: 0 auto; line-height: 1.75; }
+
+    /* WHY SUPPORT */
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 36px; }
+    .why-card { background: rgba(10,4,30,0.85); border: 1px solid rgba(255,255,255,0.10); border-radius: 18px; padding: 22px 18px; text-align: center; transition: all 0.3s; }
+    .why-card:hover { border-color: rgba(255,215,0,0.35); transform: translateY(-3px); }
+    .why-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+    .why-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .why-desc { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+    /* PAYMENT METHODS DISPLAY */
+    .payment-methods-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 32px; }
+    .payment-method-card {
+      background: rgba(10,4,30,0.85); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px; padding: 20px 16px; text-align: center;
+      transition: all 0.3s; cursor: pointer;
+    }
+    .payment-method-card:hover { border-color: rgba(255,215,0,0.45); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
+    .payment-method-card.selected { border-color: rgba(255,215,0,0.70); background: rgba(255,215,0,0.08); }
+    .pay-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+    .pay-name { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .pay-note { font-size: 11px; color: rgba(255,255,255,0.45); }
+
+    /* DONATION FORM */
+    .form-card { background: rgba(10,4,30,0.90); border: 1px solid rgba(255,215,0,0.20); border-radius: 24px; padding: 32px 28px; margin-bottom: 32px; }
+    .form-card h3 { font-family: 'Bebas Neue', cursive; font-size: 24px; letter-spacing: 3px; color: #fff; margin-bottom: 6px; }
+    .form-card .subtitle { font-size: 13px; color: rgba(255,255,255,0.50); margin-bottom: 24px; line-height: 1.6; }
+    .form-section-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #ffd700; margin: 22px 0 14px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,215,0,0.20); }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.50); margin-bottom: 7px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 12px 16px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; transition: border-color 0.3s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: rgba(255,215,0,0.55); }
+    .form-group select option { background: #120824; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* AMOUNT PRESETS */
+    .amount-presets { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .amount-preset { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; padding: 7px 16px; font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.75); cursor: pointer; transition: all 0.3s; font-family: 'Montserrat', sans-serif; }
+    .amount-preset:hover, .amount-preset.active { background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.55); color: #ffd700; }
+
+    .submit-btn { width: 100%; background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; padding: 16px; cursor: pointer; margin-top: 10px; transition: all 0.2s; letter-spacing: 1px; }
+    .submit-btn:hover { transform: scale(1.02); box-shadow: 0 6px 28px rgba(255,0,102,0.55); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* SUCCESS */
+    .success-box { background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.30); border-radius: 20px; padding: 40px 28px; text-align: center; display: none; }
+    .success-box.show { display: block; }
+    .success-icon { font-size: 56px; margin-bottom: 14px; }
+    .success-box h3 { font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 3px; color: #00ff88; margin-bottom: 10px; }
+    .success-box p { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.75; margin-bottom: 18px; }
+    .success-box .pending-badge { display: inline-block; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.40); border-radius: 999px; padding: 6px 20px; font-size: 12px; font-weight: 800; color: #ffd700; letter-spacing: 1px; margin-bottom: 16px; }
+
+    /* ADMIN DONATIONS PANEL */
+    .admin-panel { background: rgba(10,4,30,0.90); border: 1px solid rgba(255,75,241,0.25); border-radius: 24px; padding: 28px; display: none; }
+    .admin-panel.visible { display: block; }
+    .admin-panel-title { font-family: 'Bebas Neue', cursive; font-size: 24px; letter-spacing: 3px; color: #fff; margin-bottom: 6px; }
+    .admin-panel-sub { font-size: 13px; color: rgba(255,255,255,0.50); margin-bottom: 22px; }
+    .donation-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; padding: 18px 20px; margin-bottom: 12px; transition: all 0.3s; }
+    .donation-card:hover { border-color: rgba(255,215,0,0.25); }
+    .donation-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .donation-name { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .donation-meta { font-size: 12px; color: rgba(255,255,255,0.50); line-height: 1.6; }
+    .donation-status { font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 4px 12px; border-radius: 999px; text-transform: uppercase; flex-shrink: 0; }
+    .donation-status.pending   { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.40); color: #ffd700; }
+    .donation-status.sent      { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.40); color: #00d4ff; }
+    .donation-status.confirmed { background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.40); color: #00ff88; }
+    .donation-status.declined  { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.40); color: #ff5050; }
+    .donation-details { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .detail-item { font-size: 12px; color: rgba(255,255,255,0.65); }
+    .detail-item strong { color: rgba(255,255,255,0.40); display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+    .donation-note { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,0.60); margin-bottom: 12px; font-style: italic; }
+    .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .action-btn { border: none; border-radius: 999px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; padding: 8px 16px; cursor: pointer; transition: all 0.2s; }
+    .action-btn.sent      { background: rgba(0,212,255,0.20); border: 1px solid rgba(0,212,255,0.50); color: #00d4ff; }
+    .action-btn.confirmed { background: rgba(0,255,136,0.20); border: 1px solid rgba(0,255,136,0.50); color: #00ff88; }
+    .action-btn.declined  { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.40); color: #ff5050; }
+    .action-btn.delete    { background: rgba(255,80,80,0.10); border: 1px solid rgba(255,80,80,0.25); color: #ff5050; }
+    .action-btn:hover { transform: scale(1.05); }
+
+    .spinner-wrap { text-align: center; padding: 30px; color: rgba(255,255,255,0.40); }
+    .spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ffd700; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state { text-align: center; padding: 40px; color: rgba(255,255,255,0.35); }
+    .empty-state .ei { font-size: 48px; margin-bottom: 12px; }
+
+    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(10,4,30,0.98); border: 1px solid rgba(255,215,0,0.40); border-radius: 999px; padding: 12px 28px; font-size: 14px; font-weight: 700; color: #fff; z-index: 9999; opacity: 0; transition: all 0.4s ease; pointer-events: none; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media(max-width:600px){ .form-row{grid-template-columns:1fr;} .why-grid{grid-template-columns:1fr 1fr;} }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-logo"><span class="rabbit-emblem">🐰</span> CONEJO MALO</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="community.html">COMMUNITY</a></li>
+      <li><a href="media.html">MEDIA</a></li>
+      <li><a href="tickets.html">TICKETS</a></li>
+      <li><a href="events.html">EVENTS</a></li>
+      <li><a href="connect.html">CONNECTIONS</a></li>
+      <li><a href="donate.html" class="active">SUPPORT</a></li>
+      <li><a href="index.html#membership">MEMBERSHIP</a></li>
+    <li><a href="admin.html" style="color:rgba(255,75,241,0.70)">⚙️ ADMIN</a></li>
+    </ul>
+    <button class="nav-login-btn" id="navLogoutBtn" onclick="handleLogout()" style="display:none">LOGOUT</button>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </nav>
+
+  <main class="donate-main">
+
+    <div class="page-header">
+      <div class="tag">💛 Phase 7 — Support</div>
+      <h1>SUPPORT THE COMMUNITY</h1>
+      <p>Every contribution — big or small — keeps this global fan community alive, growing and free for fans worldwide. Your support is our fuel. 🐰💜</p>
+    </div>
+
+    <!-- WHY SUPPORT -->
+    <div class="why-grid">
+      <div class="why-card"><span class="why-icon">🌍</span><div class="why-title">Keep It Global</div><div class="why-desc">Server costs, domain fees and tools that keep the community running 24/7 for fans worldwide.</div></div>
+      <div class="why-card"><span class="why-icon">🎵</span><div class="why-title">More Content</div><div class="why-desc">Support funds more media uploads, tour coverage and exclusive community content.</div></div>
+      <div class="why-card"><span class="why-icon">🎟️</span><div class="why-title">Ticket Assistance</div><div class="why-desc">Helps fund free ticket assistance for elderly and low-income fans who can't afford service fees.</div></div>
+      <div class="why-card"><span class="why-icon">🛡️</span><div class="why-title">Safe Community</div><div class="why-desc">Supports moderation tools and safety features that keep the community clean and respectful.</div></div>
+    </div>
+
+    <!-- PAYMENT METHODS -->
+    <div class="form-card">
+      <h3>💛 Choose How to Support</h3>
+      <p class="subtitle">Select your preferred payment method. Our admin team will review your request and send you the exact payment details within 24 hours. You pay only after receiving the details — no money upfront.</p>
+
+      <div class="form-section-label">💳 Payment Method</div>
+      <div class="payment-methods-grid">
+        <div class="payment-method-card" onclick="selectPayment('Bitcoin (BTC)', this)">
+          <span class="pay-icon">₿</span>
+          <div class="pay-name">Bitcoin</div>
+          <div class="pay-note">BTC Network</div>
+        </div>
+        <div class="payment-method-card" onclick="selectPayment('Ethereum (ETH)', this)">
+          <span class="pay-icon">Ξ</span>
+          <div class="pay-name">Ethereum</div>
+          <div class="pay-note">ETH Network</div>
+        </div>
+        <div class="payment-method-card" onclick="selectPayment('USDT TRC20', this)">
+          <span class="pay-icon">₮</span>
+          <div class="pay-name">USDT TRC20</div>
+          <div class="pay-note">Tron Network</div>
+        </div>
+        <div class="payment-method-card" onclick="selectPayment('USDT ERC20', this)">
+          <span class="pay-icon">₮</span>
+          <div class="pay-name">USDT ERC20</div>
+          <div class="pay-note">Ethereum Network</div>
+        </div>
+        <div class="payment-method-card" onclick="selectPayment('PayPal', this)">
+          <span class="pay-icon">🅿️</span>
+          <div class="pay-name">PayPal</div>
+          <div class="pay-note">Instant Transfer</div>
+        </div>
+        <div class="payment-method-card" onclick="selectPayment('Bank Transfer', this)">
+          <span class="pay-icon">🏦</span>
+          <div class="pay-name">Bank Transfer</div>
+          <div class="pay-note">Wire / SWIFT</div>
+        </div>
+      </div>
+
+      <div class="form-section-label">💛 Donation Amount</div>
+      <div class="amount-presets">
+        <button class="amount-preset" onclick="setAmount('$5')">$5</button>
+        <button class="amount-preset" onclick="setAmount('$10')">$10</button>
+        <button class="amount-preset" onclick="setAmount('$20')">$20</button>
+        <button class="amount-preset" onclick="setAmount('$50')">$50</button>
+        <button class="amount-preset" onclick="setAmount('$100')">$100</button>
+        <button class="amount-preset" onclick="setAmount('Custom')">✏️ Custom</button>
+      </div>
+      <div class="form-group">
+        <label>Amount (USD or equivalent)</label>
+        <input type="text" id="donateAmount" placeholder="e.g. $20 USD or 0.001 BTC" />
+      </div>
+
+      <div class="form-section-label">👤 Your Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name <span style="color:#ff4bf1">*</span></label>
+          <input type="text" id="donateName" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label>Email Address <span style="color:#ff4bf1">*</span></label>
+          <input type="email" id="donateEmail" placeholder="your@email.com" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Message (optional)</label>
+        <textarea id="donateMessage" placeholder="Any message for the community team — or tell us what you'd like the donation to support..."></textarea>
+      </div>
+      <input type="hidden" id="donatePaymentMethod" value="" />
+
+      <div style="background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.20);border-radius:14px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7;">
+        ⚠️ <strong style="color:#ffd700">How it works:</strong> After submitting this form, our admin team will review your request and send the exact payment details to your email within <strong style="color:#fff">24 hours</strong>. You make the payment only after receiving those details. We never ask for payment upfront.
+      </div>
+
+      <button class="submit-btn" id="donateSubmitBtn" onclick="submitDonation()">
+        💛 Submit Donation Request
+      </button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-box" id="successBox">
+      <div class="success-icon">💛✅</div>
+      <h3>Request Received!</h3>
+      <div class="pending-badge">⏳ UNDER REVIEW</div>
+      <p>Thank you for your generous support! Our admin team will review your request and send the payment details to <strong id="successEmail"></strong> within 24 hours.<br><br>Your contribution keeps this global Bad Bunny fan community alive for fans everywhere. We are truly grateful. 🐰💜</p>
+      <button onclick="resetForm()" style="background:linear-gradient(135deg,#ff0066,#ff4bf1);border:none;border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;padding:12px 28px;cursor:pointer;">
+        Submit Another
+      </button>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div class="admin-panel" id="adminPanel">
+      <div class="admin-panel-title">💛 Donation Requests — Admin</div>
+      <p class="admin-panel-sub">All incoming donation requests. Review, update status and manage each request.</p>
+      <div id="adminLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+      <div id="adminDonationsList"></div>
+      <div class="empty-state" id="adminEmpty" style="display:none">
+        <div class="ei">💛</div>
+        <p>No donation requests yet.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+    const ADMIN_EMAILS = ["official.deconejomalo@gmail.com"];
+    let currentUser = null, isAdmin = false;
+
+    onAuthStateChanged(auth, user => {
+      const lb = document.getElementById('navLogoutBtn');
+      if (user) {
+        currentUser = user;
+        isAdmin = ADMIN_EMAILS.includes(user.email);
+        if (lb) lb.style.display = 'inline-block';
+        const emailEl = document.getElementById('donateEmail');
+        if (emailEl && !emailEl.value) emailEl.value = user.email;
+        const nameEl = document.getElementById('donateName');
+        if (nameEl && !nameEl.value) nameEl.value = user.displayName || user.email.split('@')[0];
+        if (isAdmin) { document.getElementById('adminPanel').classList.add('visible'); loadAdminDonations(); }
+      } else {
+        currentUser = null; isAdmin = false;
+        if (lb) lb.style.display = 'none';
+      }
+    });
+
+    window.handleLogout = async () => { await signOut(auth); window.location.href = 'index.html'; };
+
+    window.selectPayment = function(method, card) {
+      document.querySelectorAll('.payment-method-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      document.getElementById('donatePaymentMethod').value = method;
+    };
+
+    window.setAmount = function(amount) {
+      document.querySelectorAll('.amount-preset').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      if (amount !== 'Custom') document.getElementById('donateAmount').value = amount;
+      else { document.getElementById('donateAmount').value = ''; document.getElementById('donateAmount').focus(); }
+    };
+
+    window.submitDonation = async function() {
+      const name    = document.getElementById('donateName').value.trim();
+      const email   = document.getElementById('donateEmail').value.trim();
+      const amount  = document.getElementById('donateAmount').value.trim();
+      const method  = document.getElementById('donatePaymentMethod').value;
+      const message = document.getElementById('donateMessage').value.trim();
+      if (!name || !email) { showToast('⚠️ Name and email are required!'); return; }
+      if (!method) { showToast('⚠️ Please select a payment method!'); return; }
+      if (!amount) { showToast('⚠️ Please enter an amount!'); return; }
+      const btn = document.getElementById('donateSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Submitting...';
+      try {
+        await addDoc(collection(db, 'donationRequests'), {
+          name, email, amount, paymentMethod: method, message,
+          status: 'pending', userId: currentUser?.uid || 'guest',
+          createdAt: serverTimestamp()
+        });
+        document.getElementById('successEmail').textContent = email;
+        document.querySelector('.form-card').style.display = 'none';
+        document.getElementById('successBox').classList.add('show');
+      } catch(e) { showToast('❌ ' + e.message); btn.disabled = false; btn.textContent = '💛 Submit Donation Request'; }
+    };
+
+    window.resetForm = function() {
+      document.querySelector('.form-card').style.display = 'block';
+      document.getElementById('successBox').classList.remove('show');
+      ['donateAmount','donateMessage'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+      document.getElementById('donatePaymentMethod').value = '';
+      document.querySelectorAll('.payment-method-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.amount-preset').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById('donateSubmitBtn');
+      btn.disabled = false; btn.textContent = '💛 Submit Donation Request';
+    };
+
+    function loadAdminDonations() {
+      const list = document.getElementById('adminDonationsList');
+      const loading = document.getElementById('adminLoading');
+      const empty = document.getElementById('adminEmpty');
+      const q = query(collection(db, 'donationRequests'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => list.appendChild(buildDonationCard(d.id, d.data())));
+      });
+    }
+
+    function buildDonationCard(id, data) {
+      const div = document.createElement('div');
+      div.className = 'donation-card';
+      const statusLabels = { pending:'⏳ Pending', sent:'📧 Details Sent', confirmed:'✅ Confirmed', declined:'❌ Declined' };
+      div.innerHTML = `
+        <div class="donation-card-top">
+          <div>
+            <div class="donation-name">${esc(data.name)}</div>
+            <div class="donation-meta">📧 ${esc(data.email)} · 💳 ${esc(data.paymentMethod)} · 💰 ${esc(data.amount)}</div>
+          </div>
+          <span class="donation-status ${data.status||'pending'}">${statusLabels[data.status]||'⏳ Pending'}</span>
+        </div>
+        ${data.message ? `<div class="donation-note">💬 "${esc(data.message)}"</div>` : ''}
+        <div class="admin-actions">
+          <button class="action-btn sent"      onclick="updateDonation('${id}','sent')">📧 Mark Details Sent</button>
+          <button class="action-btn confirmed" onclick="updateDonation('${id}','confirmed')">✅ Confirmed</button>
+          <button class="action-btn declined"  onclick="updateDonation('${id}','declined')">❌ Decline</button>
+          <button class="action-btn delete"    onclick="deleteDonation('${id}')">🗑️ Delete</button>
+        </div>`;
+      return div;
+    }
+
+    window.updateDonation = async (id, status) => { await updateDoc(doc(db,'donationRequests',id),{status}); showToast('✅ Updated!'); };
+    window.deleteDonation = async (id) => { if(!confirm('Delete?'))return; await deleteDoc(doc(db,'donationRequests',id)); showToast('🗑️ Deleted!'); };
+
+    window.showToast = msg => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); };
+    function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  </script>
+</body>
+</html>
