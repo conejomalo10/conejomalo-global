@@ -876,13 +876,23 @@
       return null;
     }
 
+    // Helper: accepts either a YouTube ID or full URL
+    function getYtId(val) {
+      if (!val) return '';
+      // Already an 11-char ID
+      if (/^[A-Za-z0-9_-]{11}$/.test(val.trim())) return val.trim();
+      // Extract from URL
+      const m = val.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/);
+      return m ? m[1] : val.trim();
+    }
+
     function buildVideoCard(id, data) {
       const div = document.createElement('div');
       div.className = 'video-card';
       const catLabels = { musicvideo:'🎵 Music Video', performance:'🎤 Performance', interview:'🎙️ Interview', bts:'🎬 Behind The Scenes', fan:'💜 Fan Made' };
       div.innerHTML = `
         <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/${escHtml(data.youtubeId)}?rel=0"
+          <iframe src="https://www.youtube.com/embed/${getYtId(data.youtubeId)}?rel=0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen loading="lazy"></iframe>
         </div>
