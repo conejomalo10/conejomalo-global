@@ -1,37 +1,58 @@
 {
   "name": "Comunidad Global de Fans de Conejo Malo",
   "short_name": "Conejo Malo",
-  "description": "Bad Bunny Global Fan Community — Official Fan App",
-  "start_url": "/conejomalo-global/",
+  "description": "Bad Bunny Global Fan Community — Connect, share and celebrate with fans worldwide",
+  "start_url": "/conejomalo-global/index.html",
   "scope": "/conejomalo-global/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#1a0533",
   "theme_color": "#1a0533",
   "lang": "en",
+  "categories": ["music", "social", "entertainment"],
   "icons": [
     {
-      "src": "images/icon-192.png",
+      "src": "https://raw.githubusercontent.com/conejomalo10/conejomalo-global/main/images/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "images/icon-512.png",
+      "src": "https://raw.githubusercontent.com/conejomalo10/conejomalo-global/main/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
   "screenshots": [],
-  "categories": ["entertainment", "music", "social"],
   "shortcuts": [
     {
       "name": "Community",
       "short_name": "Community",
-      "description": "Go to fan community",
+      "description": "Fan community posts and discussions",
       "url": "/conejomalo-global/community.html",
-      "icons": []
+      "icons": [{ "src": "https://raw.githubusercontent.com/conejomalo10/conejomalo-global/main/images/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Media Hub",
+      "short_name": "Media",
+      "description": "Tour dates, photos and music videos",
+      "url": "/conejomalo-global/media.html",
+      "icons": [{ "src": "https://raw.githubusercontent.com/conejomalo10/conejomalo-global/main/images/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Events",
+      "short_name": "Events",
+      "description": "Fan events and listening parties",
+      "url": "/conejomalo-global/events.html",
+      "icons": [{ "src": "https://raw.githubusercontent.com/conejomalo10/conejomalo-global/main/images/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ticket Concierge",
+      "short_name": "Tickets",
+      "description": "Get help buying Bad Bunny tickets",
+      "url": "/conejomalo-global/tickets.html",
+      "icons": [{ "src": "https://raw.githubusercontent.com/conejomalo10/conejomalo-global/main/images/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
