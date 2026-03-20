@@ -516,11 +516,14 @@ onAuthStateChanged(auth, async user => {
       if (userDoc.exists()) userMembership = userDoc.data().membership || null;
     } catch(e){ console.warn(e); }
 
+    // Admin & SubAdmin ALWAYS get full dashboard access
     const hasAccess = isAdmin || isSubAdmin || userMembership;
 
     if (hasAccess) {
       if (dashboard) dashboard.style.display='block';
       if (denied)    denied.style.display='none';
+      const previewSec=document.getElementById('previewSection');
+      if(previewSec) previewSec.style.display='none';
     } else {
       if (dashboard) dashboard.style.display='none';
       if (denied)    denied.style.display='block';
