@@ -411,6 +411,21 @@
     .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ff4bf1; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── DIRECT UPLOAD DROP ZONES ── */
+    .direct-drop-zone {
+      border: 2px dashed rgba(255,75,241,0.35);
+      border-radius: 16px; padding: 36px 20px;
+      text-align: center; cursor: pointer;
+      transition: all 0.3s; background: rgba(255,255,255,0.03);
+    }
+    .direct-drop-zone:hover, .direct-drop-zone.dragover {
+      border-color: rgba(255,75,241,0.75);
+      background: rgba(255,75,241,0.06);
+    }
+    .drop-icon  { font-size: 40px; margin-bottom: 10px; display: block; }
+    .drop-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .drop-sub   { font-size: 12px; color: rgba(255,255,255,0.45); }
+
     /* ── RESPONSIVE ── */
     @media(max-width:600px){
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
@@ -464,6 +479,7 @@
       <button class="media-tab active" onclick="switchTab('tour', this)">🗓️ Tour Dates</button>
       <button class="media-tab" onclick="switchTab('gallery', this)">📸 Photo Gallery</button>
       <button class="media-tab" onclick="switchTab('videos', this)">🎬 Music Videos</button>
+      <button class="media-tab" onclick="switchTab('upload', this)">📤 Upload Media</button>
     </div>
 
     <!-- ══════════════════════════════
@@ -531,6 +547,133 @@
         <div class="empty-icon">🎬</div>
         <h3>No Videos Yet</h3>
         <p>Music videos &amp; performances will appear here.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         TAB 4 — UPLOAD MEDIA (Direct Cloudinary)
+    ══════════════════════════════ -->
+    <div id="tab-upload" class="media-section">
+      <div class="tour-header">
+        <div class="section-title">📤 Upload Media</div>
+      </div>
+
+      <!-- Admin only notice -->
+      <div id="uploadAdminNotice" style="display:none;background:rgba(255,80,80,0.10);border:1px solid rgba(255,80,80,0.30);border-radius:14px;padding:16px 20px;margin-bottom:22px;font-size:13px;color:rgba(255,255,255,0.70);">
+        🔒 This section is for Admin only. Login with your admin account to upload media directly.
+      </div>
+
+      <!-- Upload panels — admin only -->
+      <div id="uploadPanel" style="display:none">
+
+        <!-- INFO BANNER -->
+        <div style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:14px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:rgba(255,255,255,0.70);line-height:1.7;">
+          📤 <strong style="color:#00d4ff">Direct Upload</strong> — Upload videos and images directly from your phone or computer. 
+          Use this when YouTube links are blocked or unavailable. Files are stored securely on Cloudinary.
+        </div>
+
+        <!-- VIDEO UPLOAD -->
+        <div style="background:rgba(10,4,30,0.88);border:1px solid rgba(255,255,255,0.10);border-radius:20px;padding:24px;margin-bottom:20px;">
+          <div style="font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:2px;color:#fff;margin-bottom:16px;">🎬 Upload Video</div>
+
+          <div class="direct-drop-zone" id="videoDrop"
+            onclick="document.getElementById('directVideoInput').click()"
+            ondragover="event.preventDefault();this.classList.add('dragover')"
+            ondragleave="this.classList.remove('dragover')"
+            ondrop="handleDirectDrop(event,'video')">
+            <input type="file" id="directVideoInput" accept="video/*" style="display:none" onchange="handleDirectFiles(this.files,'video')" />
+            <div class="drop-icon">🎬</div>
+            <p class="drop-title">Click or drag to upload video</p>
+            <p class="drop-sub">MP4 · MOV · AVI · WebM · up to 200MB</p>
+          </div>
+
+          <div class="form-group" style="margin-top:16px">
+            <label>Video Title <span style="color:#ff4bf1">*</span></label>
+            <input type="text" id="directVideoTitle" placeholder="e.g. Bad Bunny Super Bowl Halftime Show 2026" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="directVideoCategory">
+                <option value="musicvideo">🎵 Music Video</option>
+                <option value="performance">🎤 Performance</option>
+                <option value="interview">🎙️ Interview</option>
+                <option value="bts">🎬 Behind The Scenes</option>
+                <option value="fan">💜 Fan Made</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Year</label>
+              <input type="number" id="directVideoYear" placeholder="2026" min="2000" max="2030" />
+            </div>
+          </div>
+
+          <!-- Progress -->
+          <div class="upload-progress" id="videoUploadProgress">
+            <div class="upload-progress-bar" id="videoProgressBar"></div>
+          </div>
+          <div id="videoUploadStatus" style="font-size:12px;color:rgba(255,255,255,0.50);margin:8px 0;display:none"></div>
+
+          <button class="add-btn visible" id="uploadVideoBtn" onclick="uploadDirectVideo()" style="margin-top:12px;width:100%;border-radius:14px;padding:14px">
+            🎬 Upload Video to Media Hub
+          </button>
+        </div>
+
+        <!-- IMAGE UPLOAD -->
+        <div style="background:rgba(10,4,30,0.88);border:1px solid rgba(255,255,255,0.10);border-radius:20px;padding:24px;margin-bottom:20px;">
+          <div style="font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:2px;color:#fff;margin-bottom:16px;">🖼️ Upload Images</div>
+
+          <div class="direct-drop-zone" id="imageDrop"
+            onclick="document.getElementById('directImageInput').click()"
+            ondragover="event.preventDefault();this.classList.add('dragover')"
+            ondragleave="this.classList.remove('dragover')"
+            ondrop="handleDirectDrop(event,'image')">
+            <input type="file" id="directImageInput" accept="image/*" multiple style="display:none" onchange="handleDirectFiles(this.files,'image')" />
+            <div class="drop-icon">🖼️</div>
+            <p class="drop-title">Click or drag to upload images</p>
+            <p class="drop-sub">JPG · PNG · WEBP · GIF · up to 10MB each · Multiple allowed</p>
+          </div>
+
+          <div class="form-row" style="margin-top:16px">
+            <div class="form-group">
+              <label>Caption / Label</label>
+              <input type="text" id="directImageCaption" placeholder="e.g. Bad Bunny Super Bowl 2026" />
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select id="directImageCategory">
+                <option value="concert">🎤 Concert</option>
+                <option value="fanart">🎨 Fan Art</option>
+                <option value="community">🌍 Community</option>
+                <option value="bts">🎬 Behind The Scenes</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Image preview grid -->
+          <div id="directImagePreviews" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0"></div>
+
+          <!-- Progress -->
+          <div class="upload-progress" id="imageUploadProgress">
+            <div class="upload-progress-bar" id="imageProgressBar"></div>
+          </div>
+          <div id="imageUploadStatus" style="font-size:12px;color:rgba(255,255,255,0.50);margin:8px 0;display:none"></div>
+
+          <button class="add-btn visible" id="uploadImageBtn" onclick="uploadDirectImages()" style="margin-top:12px;width:100%;border-radius:14px;padding:14px">
+            🖼️ Upload Images to Gallery
+          </button>
+        </div>
+
+        <!-- UPLOADED VIDEOS GRID -->
+        <div style="font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:2px;color:#fff;margin-bottom:14px;">📂 Directly Uploaded Videos</div>
+        <div id="directVideoLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+        <div class="video-grid" id="directVideoGrid"></div>
+        <div class="empty-state" id="directVideoEmpty" style="display:none">
+          <div class="empty-icon">🎬</div>
+          <h3>No Direct Uploads Yet</h3>
+          <p>Videos you upload here will appear in this grid.</p>
+        </div>
+
       </div>
     </div>
 
@@ -971,6 +1114,211 @@
       document.querySelectorAll('.media-tab').forEach(b => b.classList.remove('active'));
       document.getElementById('tab-' + tab).classList.add('active');
       btn.classList.add('active');
+      // Show/hide upload panel based on admin status
+      if (tab === 'upload') {
+        const isAdminUser = isAdmin || isSubAdmin;
+        document.getElementById('uploadPanel').style.display       = isAdminUser ? 'block' : 'none';
+        document.getElementById('uploadAdminNotice').style.display = isAdminUser ? 'none'  : 'block';
+        if (isAdminUser) loadDirectVideos();
+      }
+    };
+
+    // ══════════════════════════
+    // DIRECT VIDEO UPLOAD
+    // ══════════════════════════
+    let selectedVideoFile  = null;
+    let selectedImageFiles = [];
+
+    window.handleDirectDrop = function(e, type) {
+      e.preventDefault();
+      document.getElementById(type === 'video' ? 'videoDrop' : 'imageDrop').classList.remove('dragover');
+      handleDirectFiles(e.dataTransfer.files, type);
+    };
+
+    window.handleDirectFiles = function(files, type) {
+      if (!files?.length) return;
+      if (type === 'video') {
+        const file = files[0];
+        if (!file.type.startsWith('video/')) { showToast('⚠️ Please select a video file!'); return; }
+        if (file.size > 200 * 1024 * 1024) { showToast('⚠️ Video must be under 200MB!'); return; }
+        selectedVideoFile = file;
+        const drop = document.getElementById('videoDrop');
+        drop.innerHTML = `
+          <div class="drop-icon">✅</div>
+          <p class="drop-title">${escHtml(file.name)}</p>
+          <p class="drop-sub">${(file.size/1024/1024).toFixed(1)} MB — Ready to upload</p>`;
+        showToast('🎬 Video selected!');
+      } else {
+        selectedImageFiles = [...files].filter(f => f.type.startsWith('image/'));
+        if (!selectedImageFiles.length) { showToast('⚠️ Please select image files!'); return; }
+        const prev = document.getElementById('directImagePreviews');
+        prev.innerHTML = '';
+        selectedImageFiles.forEach(f => {
+          const url = URL.createObjectURL(f);
+          const img = document.createElement('img');
+          img.src = url;
+          img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:10px;border:1px solid rgba(255,255,255,0.15)';
+          prev.appendChild(img);
+        });
+        showToast(`🖼️ ${selectedImageFiles.length} image${selectedImageFiles.length>1?'s':''} selected!`);
+      }
+    };
+
+    window.uploadDirectVideo = async function() {
+      if (!currentUser || (!isAdmin && !isSubAdmin)) { showToast('⚠️ Admin only!'); return; }
+      if (!selectedVideoFile) { showToast('⚠️ Please select a video file first!'); return; }
+      const title = document.getElementById('directVideoTitle').value.trim();
+      if (!title) { showToast('⚠️ Please add a title!'); return; }
+
+      const btn = document.getElementById('uploadVideoBtn');
+      btn.disabled = true; btn.textContent = 'Uploading...';
+      const progress = document.getElementById('videoUploadProgress');
+      const bar      = document.getElementById('videoProgressBar');
+      const status   = document.getElementById('videoUploadStatus');
+      progress.classList.add('show');
+      status.style.display = 'block';
+      status.textContent   = 'Uploading to Cloudinary... this may take a moment for large videos.';
+
+      try {
+        const fd = new FormData();
+        fd.append('file', selectedVideoFile);
+        fd.append('upload_preset', CLOUDINARY_PRESET);
+        fd.append('folder', 'conejomalo_media_direct');
+
+        // Use XMLHttpRequest for upload progress
+        const url = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.upload.onprogress = e => {
+            if (e.lengthComputable) {
+              const pct = Math.round((e.loaded / e.total) * 100);
+              bar.style.width = pct + '%';
+              status.textContent = `Uploading... ${pct}%`;
+            }
+          };
+          xhr.onload = () => {
+            if (xhr.status === 200) resolve(JSON.parse(xhr.responseText).secure_url);
+            else reject(new Error('Upload failed'));
+          };
+          xhr.onerror = () => reject(new Error('Network error'));
+          xhr.open('POST', CLOUDINARY_URL);
+          xhr.send(fd);
+        });
+
+        const cat  = document.getElementById('directVideoCategory').value;
+        const year = document.getElementById('directVideoYear').value;
+
+        // Save as directMedia document (separate from YouTube videos)
+        await addDoc(collection(db, 'directMedia'), {
+          type: 'video', url, title, category: cat, year: year || '',
+          fileName: selectedVideoFile.name,
+          uploadedBy: currentUser.email,
+          createdAt: serverTimestamp()
+        });
+
+        showToast('✅ Video uploaded successfully!');
+        status.textContent = '✅ Done!';
+        selectedVideoFile  = null;
+        document.getElementById('directVideoTitle').value = '';
+        document.getElementById('videoDrop').innerHTML = `
+          <div class="drop-icon">🎬</div>
+          <p class="drop-title">Click or drag to upload video</p>
+          <p class="drop-sub">MP4 · MOV · AVI · WebM · up to 200MB</p>`;
+        loadDirectVideos();
+
+      } catch(e) {
+        showToast('❌ Upload failed: ' + e.message);
+        status.textContent = '❌ Failed — please try again';
+      } finally {
+        btn.disabled = false; btn.textContent = '🎬 Upload Video to Media Hub';
+        setTimeout(() => { progress.classList.remove('show'); bar.style.width='0%'; status.style.display='none'; }, 3000);
+      }
+    };
+
+    window.uploadDirectImages = async function() {
+      if (!currentUser || (!isAdmin && !isSubAdmin)) { showToast('⚠️ Admin only!'); return; }
+      if (!selectedImageFiles.length) { showToast('⚠️ Please select images first!'); return; }
+
+      const btn      = document.getElementById('uploadImageBtn');
+      btn.disabled   = true; btn.textContent = 'Uploading...';
+      const progress = document.getElementById('imageUploadProgress');
+      const bar      = document.getElementById('imageProgressBar');
+      const status   = document.getElementById('imageUploadStatus');
+      const caption  = document.getElementById('directImageCaption').value.trim();
+      const cat      = document.getElementById('directImageCategory').value;
+      progress.classList.add('show');
+      status.style.display = 'block';
+
+      let done = 0;
+      for (const file of selectedImageFiles) {
+        try {
+          const fd = new FormData();
+          fd.append('file', file);
+          fd.append('upload_preset', CLOUDINARY_PRESET);
+          fd.append('folder', 'conejomalo_gallery');
+          const res  = await fetch(CLOUDINARY_URL, { method:'POST', body:fd });
+          const data = await res.json();
+          await addDoc(collection(db, 'gallery'), {
+            url: data.secure_url, category: cat,
+            caption: caption || file.name.replace(/\.[^.]+$/, ''),
+            uploadedBy: currentUser.email, createdAt: serverTimestamp()
+          });
+        } catch(e) { showToast('❌ Failed: ' + e.message); }
+        done++;
+        bar.style.width = Math.round((done / selectedImageFiles.length) * 100) + '%';
+        status.textContent = `Uploading ${done} of ${selectedImageFiles.length}...`;
+      }
+
+      showToast(`✅ ${done} image${done>1?'s':''} uploaded to Gallery!`);
+      selectedImageFiles = [];
+      document.getElementById('directImagePreviews').innerHTML = '';
+      document.getElementById('directImageCaption').value = '';
+      btn.disabled = false; btn.textContent = '🖼️ Upload Images to Gallery';
+      setTimeout(() => { progress.classList.remove('show'); bar.style.width='0%'; status.style.display='none'; }, 3000);
+    };
+
+    // ══════════════════════════
+    // LOAD DIRECT VIDEOS
+    // ══════════════════════════
+    function loadDirectVideos() {
+      const grid    = document.getElementById('directVideoGrid');
+      const loading = document.getElementById('directVideoLoading');
+      const empty   = document.getElementById('directVideoEmpty');
+      const q = query(collection(db, 'directMedia'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        grid.innerHTML = '';
+        const videos = snap.docs.filter(d => d.data().type === 'video');
+        if (!videos.length) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        videos.forEach(d => {
+          const data = d.data();
+          const catLabels = { musicvideo:'🎵 Music Video', performance:'🎤 Performance', interview:'🎙️ Interview', bts:'🎬 Behind The Scenes', fan:'💜 Fan Made' };
+          const div = document.createElement('div');
+          div.className = 'video-card';
+          div.innerHTML = `
+            <div class="video-embed" style="background:#000">
+              <video src="${data.url}" controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain"></video>
+            </div>
+            <div class="video-info">
+              <div class="video-title">${escHtml(data.title)}</div>
+              <div class="video-meta">
+                <span class="video-category">${catLabels[data.category]||'🎬 Video'}</span>
+                <span>${data.year||''}</span>
+              </div>
+            </div>
+            <div class="video-card-actions">
+              <button class="video-delete-btn ${(isAdmin||isSubAdmin)?'visible':''}" onclick="deleteDirectVideo('${d.id}')">🗑️ Delete</button>
+            </div>`;
+          grid.appendChild(div);
+        });
+      });
+    }
+
+    window.deleteDirectVideo = async function(id) {
+      if (!isAdmin && !isSubAdmin) return;
+      if (!confirm('Delete this video?')) return;
+      try { await deleteDoc(doc(db, 'directMedia', id)); showToast('🗑️ Deleted!'); }
+      catch(e) { showToast('❌ ' + e.message); }
     };
 
     // ══════════════════════════
