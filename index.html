@@ -678,7 +678,7 @@
       .payment-methods-grid { grid-template-columns: 1fr 1fr !important; }
     }
   </style>
-</head>
+<style>@media(max-width:768px){.bg-orbs{display:none!important}.orb{animation:none!important}}</style></head>
 
 <body>
 
@@ -792,6 +792,20 @@
         <button class="hg-btn-secondary"
           onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})"
           data-lang="exploreBtn">Explore</button>
+      </div>
+
+      <!-- PWA Install Button — shows only when installable -->
+      <div id="pwaHeroBtnWrap" style="display:none;margin-top:10px">
+        <button id="pwaHeroInstallBtn" onclick="triggerPwaInstall()" style="
+          background: rgba(0,255,136,0.12);
+          border: 1px solid rgba(0,255,136,0.40);
+          border-radius: 999px; color: #00ff88;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 12px; font-weight: 800;
+          padding: 10px 24px; cursor: pointer;
+          transition: all 0.2s; letter-spacing: 1px;
+          touch-action: manipulation;
+        ">📲 Download App — Install on Phone</button>
       </div>
 
       <p id="status" class="hg-status-text">Not logged in</p>
@@ -1043,15 +1057,55 @@
     <div class="glass section-glass" style="text-align:center;">
       <div class="section-tag">CONTACT</div>
       <h2 data-lang="contactTitle">Get In Touch</h2>
-      <p data-lang="contactDesc">Have questions or want to collaborate? Reach out to the community team.</p>
-      <div class="social-links">
-        <a class="social-btn" href="#" data-lang="socialIG">📸 Instagram</a>
-        <a class="social-btn" href="#" data-lang="socialTT">🎵 TikTok</a>
-        <a class="social-btn" href="#" data-lang="socialFB">👤 Facebook</a>
-        <a class="social-btn" href="#" data-lang="socialX">✖ X (Twitter)</a>
+      <p data-lang="contactDesc">Have questions or want to collaborate? Reach out to the community team through any of the channels below.</p>
+
+      <!-- MESSAGING APPS -->
+      <div style="margin:24px 0 10px;font-family:'Bebas Neue',cursive;font-size:16px;letter-spacing:2px;color:rgba(255,255,255,0.55)">💬 DIRECT MESSAGING</div>
+      <div class="social-links" style="margin-bottom:20px">
+        <a class="social-btn whatsapp-btn" href="https://wa.me/message/XXXXXXXXXX" target="_blank" rel="noopener">
+          <span>📱</span> WhatsApp
+        </a>
+        <a class="social-btn telegram-btn" href="https://t.me/ConejoMaloGlobal" target="_blank" rel="noopener">
+          <span>✈️</span> Telegram
+        </a>
+        <a class="social-btn email-btn" href="mailto:official.deconejomalo@gmail.com">
+          <span>✉️</span> Email Us
+        </a>
       </div>
+
+      <!-- SOCIAL MEDIA -->
+      <div style="margin:0 0 10px;font-family:'Bebas Neue',cursive;font-size:16px;letter-spacing:2px;color:rgba(255,255,255,0.55)">🌍 SOCIAL MEDIA</div>
+      <div class="social-links">
+        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialIG">📸 Instagram</a>
+        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialTT">🎵 TikTok</a>
+        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialFB">👤 Facebook</a>
+        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialX">✖ X (Twitter)</a>
+        <a class="social-btn youtube-btn" href="#" target="_blank" rel="noopener">▶️ YouTube</a>
+      </div>
+
+      <p style="font-size:12px;color:rgba(255,255,255,0.30);margin-top:20px;line-height:1.6">
+        ⚠️ We only respond through official channels above.<br>
+        Never send money to anyone claiming to be us outside these links.
+      </p>
     </div>
   </section>
+
+  <style>
+    /* Contact buttons */
+    .whatsapp-btn { background: rgba(37,211,102,0.15) !important; border-color: rgba(37,211,102,0.45) !important; color: #25d366 !important; }
+    .whatsapp-btn:hover { background: rgba(37,211,102,0.28) !important; }
+    .telegram-btn { background: rgba(0,136,204,0.15) !important; border-color: rgba(0,136,204,0.45) !important; color: #29b6f6 !important; }
+    .telegram-btn:hover { background: rgba(0,136,204,0.28) !important; }
+    .email-btn { background: rgba(255,215,0,0.12) !important; border-color: rgba(255,215,0,0.40) !important; color: #ffd700 !important; }
+    .email-btn:hover { background: rgba(255,215,0,0.22) !important; }
+    .youtube-btn { background: rgba(255,0,0,0.12) !important; border-color: rgba(255,0,0,0.40) !important; color: #ff4444 !important; }
+    .youtube-btn:hover { background: rgba(255,0,0,0.22) !important; }
+    .social-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    @media(max-width:480px) {
+      .social-links { gap: 8px; }
+      .social-btn { font-size: 12px !important; padding: 10px 14px !important; }
+    }
+  </style>
 
   <!-- FOOTER -->
   <footer>
@@ -1182,6 +1236,30 @@
   <script src="language.js"></script>
   <script src="script.js"></script>
   <script src="pwa.js"></script>
+  <script>
+    // ── PWA Hero Install Button ──
+    let _pwaPrompt = null;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      _pwaPrompt = e;
+      // Show the hero install button
+      const wrap = document.getElementById('pwaHeroBtnWrap');
+      if (wrap) wrap.style.display = 'block';
+    });
+    window.triggerPwaInstall = async function() {
+      if (!_pwaPrompt) return;
+      _pwaPrompt.prompt();
+      const { outcome } = await _pwaPrompt.userChoice;
+      if (outcome === 'accepted') {
+        document.getElementById('pwaHeroBtnWrap').style.display = 'none';
+      }
+      _pwaPrompt = null;
+    };
+    window.addEventListener('appinstalled', () => {
+      const wrap = document.getElementById('pwaHeroBtnWrap');
+      if (wrap) wrap.style.display = 'none';
+    });
+  </script>
 
   <!-- PHASE 5 — GLOBAL FAN MAP — live counts + country save on register -->
   <script type="module">
