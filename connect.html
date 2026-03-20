@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fan Connections — Comunidad Global de Fans de Conejo Malo" />
+  <title>Connections — Conejo Malo Global</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0533" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #1a0533; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; min-height: 100vh; }
+
+    /* ── BG ORBS ── */
+    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.22; }
+    .orb-1 { width: 500px; height: 500px; background: #ff0066; top: -100px; left: -100px; animation: orbFloat 18s ease-in-out infinite; }
+    .orb-2 { width: 400px; height: 400px; background: #7b2fff; bottom: 10%; right: -80px; animation: orbFloat 22s ease-in-out infinite reverse; }
+    .orb-3 { width: 300px; height: 300px; background: #ff4bf1; top: 40%; left: 30%; animation: orbFloat 14s ease-in-out infinite 3s; }
+    @keyframes orbFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-40px);} }
+
+    /* ── NAVBAR ── */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 64px; background: rgba(10,4,30,0.95); border-bottom: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .rabbit-emblem { font-size: 26px; }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.70); text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; padding: 6px 10px; border-radius: 8px; transition: all 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: #ff4bf1; background: rgba(255,75,241,0.10); }
+    .nav-login-btn { background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; padding: 8px 20px; cursor: pointer; transition: all 0.2s; }
+    .nav-login-btn:hover { transform: scale(1.05); }
+    .hamburger { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:block;} .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(10,4,30,0.98);padding:16px;gap:4px;border-bottom:1px solid rgba(255,255,255,0.1);} }
+
+    /* ── MAIN ── */
+    .connect-main { position: relative; z-index: 1; padding: 84px 16px 60px; max-width: 1100px; margin: 0 auto; }
+
+    /* ── AGE GATE ── */
+    .age-gate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(10,4,30,0.98); backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .age-gate-box {
+      background: #120824; border: 1px solid rgba(255,75,241,0.35);
+      border-radius: 28px; padding: 44px 36px; max-width: 460px; width: 100%; text-align: center;
+      animation: fadeInUp 0.4s ease;
+    }
+    .age-gate-icon { font-size: 56px; margin-bottom: 16px; }
+    .age-gate-box h2 { font-family: 'Bebas Neue', cursive; font-size: 32px; letter-spacing: 4px; color: #fff; margin-bottom: 12px; }
+    .age-gate-box p { font-size: 14px; color: rgba(255,255,255,0.60); line-height: 1.75; margin-bottom: 28px; }
+    .age-gate-check { display: flex; align-items: flex-start; gap: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,75,241,0.25); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; text-align: left; cursor: pointer; }
+    .age-gate-check input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: #ff4bf1; flex-shrink: 0; cursor: pointer; }
+    .age-gate-check label { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.65; cursor: pointer; }
+    .age-gate-btn { width: 100%; background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; padding: 14px; cursor: pointer; transition: all 0.2s; }
+    .age-gate-btn:hover { transform: scale(1.02); box-shadow: 0 6px 28px rgba(255,0,102,0.5); }
+    .age-gate-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .age-gate-decline { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 14px; cursor: pointer; text-decoration: underline; }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+
+    /* ── PAGE CONTENT (hidden until gate passed) ── */
+    .connect-content { display: none; }
+    .connect-content.unlocked { display: block; }
+
+    /* ── PAGE HEADER ── */
+    .page-header { text-align: center; margin-bottom: 32px; padding: 20px; }
+    .page-header .tag { display: inline-block; background: rgba(255,75,241,0.12); border: 1px solid rgba(255,75,241,0.40); border-radius: 999px; padding: 5px 18px; font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #ff4bf1; margin-bottom: 14px; }
+    .page-header h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(34px, 8vw, 68px); letter-spacing: 4px; color: #fff; text-shadow: 0 0 40px rgba(255,75,241,0.30); margin-bottom: 10px; }
+    .page-header p { font-size: 14px; color: rgba(255,255,255,0.55); max-width: 580px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── TABS ── */
+    .connect-tabs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+    .connect-tab { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; color: rgba(255,255,255,0.70); font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; padding: 10px 22px; cursor: pointer; transition: all 0.3s; }
+    .connect-tab:hover, .connect-tab.active { background: rgba(255,75,241,0.18); border-color: rgba(255,75,241,0.55); color: #ff4bf1; }
+
+    /* ── SECTIONS ── */
+    .connect-section { display: none; animation: fadeInUp 0.4s ease; }
+    .connect-section.active { display: block; }
+
+    /* ── GLASS ── */
+    .glass { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; backdrop-filter: blur(16px); }
+
+    /* ════════════════════════
+       MY PROFILE SETUP
+    ════════════════════════ */
+    .profile-setup-card { background: rgba(10,4,30,0.90); border: 1px solid rgba(255,75,241,0.20); border-radius: 24px; padding: 28px; margin-bottom: 24px; }
+    .profile-setup-card h3 { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: #fff; margin-bottom: 6px; }
+    .profile-setup-card p { font-size: 13px; color: rgba(255,255,255,0.50); margin-bottom: 22px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.50); margin-bottom: 7px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 12px 16px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; transition: border-color 0.3s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: rgba(255,75,241,0.55); }
+    .form-group select option { background: #120824; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .save-profile-btn { background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; padding: 12px 32px; cursor: pointer; transition: all 0.2s; }
+    .save-profile-btn:hover { transform: scale(1.04); box-shadow: 0 4px 20px rgba(255,0,102,0.5); }
+
+    /* ════════════════════════
+       FAN CARDS GRID
+    ════════════════════════ */
+    .fans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .fan-card {
+      background: rgba(10,4,30,0.88); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px; padding: 22px; transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .fan-card:hover { border-color: rgba(255,75,241,0.40); transform: translateY(-3px); box-shadow: 0 10px 35px rgba(0,0,0,0.5); }
+    .fan-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .fan-avatar {
+      width: 54px; height: 54px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; color: #fff;
+      background: linear-gradient(135deg, #ff0066, #7b2fff);
+      box-shadow: 0 0 16px rgba(255,0,102,0.35);
+    }
+    .fan-card-info { flex: 1; }
+    .fan-card-name { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .fan-card-location { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 5px; }
+    .fan-looking-badge {
+      display: inline-block; font-size: 10px; font-weight: 800;
+      padding: 3px 10px; border-radius: 999px; letter-spacing: 1px;
+    }
+    .fan-looking-badge.friends  { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.35); color: #00d4ff; }
+    .fan-looking-badge.dating   { background: rgba(255,75,241,0.15); border: 1px solid rgba(255,75,241,0.35); color: #ff4bf1; }
+    .fan-looking-badge.collab   { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.35); color: #ffd700; }
+    .fan-looking-badge.concert  { background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.35); color: #00ff88; }
+
+    .fan-bio { font-size: 13px; color: rgba(255,255,255,0.60); line-height: 1.65; margin-bottom: 12px; }
+    .fan-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .fan-tag { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; padding: 3px 10px; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.65); }
+
+    /* Compatibility score */
+    .compat-score {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 14px; padding: 8px 12px;
+      background: rgba(255,75,241,0.08); border-radius: 10px;
+    }
+    .compat-bar { flex: 1; height: 4px; background: rgba(255,255,255,0.10); border-radius: 999px; overflow: hidden; }
+    .compat-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(to right, #ff0066, #ff4bf1); }
+    .compat-pct { font-size: 12px; font-weight: 800; color: #ff4bf1; flex-shrink: 0; }
+
+    .fan-card-actions { display: flex; gap: 8px; }
+    .crush-btn {
+      flex: 1; background: rgba(255,0,102,0.15); border: 1px solid rgba(255,0,102,0.35);
+      border-radius: 999px; color: #ff6699; font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 800; padding: 9px 14px; cursor: pointer; transition: all 0.2s;
+    }
+    .crush-btn:hover, .crush-btn.crushed { background: rgba(255,0,102,0.30); border-color: #ff0066; color: #fff; }
+    .msg-btn {
+      flex: 1; background: rgba(255,75,241,0.15); border: 1px solid rgba(255,75,241,0.35);
+      border-radius: 999px; color: #ff4bf1; font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 800; padding: 9px 14px; cursor: pointer; transition: all 0.2s;
+    }
+    .msg-btn:hover { background: rgba(255,75,241,0.30); color: #fff; }
+    .report-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; color: rgba(255,255,255,0.35); font-family: 'Montserrat', sans-serif;
+      font-size: 11px; font-weight: 700; padding: 9px 12px; cursor: pointer; transition: all 0.2s;
+    }
+    .report-btn:hover { background: rgba(255,80,80,0.15); color: #ff5050; border-color: rgba(255,80,80,0.35); }
+
+    /* ════════════════════════
+       MESSAGING
+    ════════════════════════ */
+    .messages-layout { display: grid; grid-template-columns: 280px 1fr; gap: 16px; min-height: 500px; }
+    .conversations-list { background: rgba(10,4,30,0.88); border: 1px solid rgba(255,255,255,0.10); border-radius: 20px; overflow: hidden; }
+    .conv-header { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: 'Bebas Neue', cursive; font-size: 16px; letter-spacing: 2px; color: #fff; }
+    .conv-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .conv-item:hover, .conv-item.active { background: rgba(255,75,241,0.10); }
+    .conv-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ff0066, #7b2fff); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; color: #fff; flex-shrink: 0; }
+    .conv-name { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+    .conv-preview { font-size: 11px; color: rgba(255,255,255,0.40); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+    .conv-unread { background: #ff4bf1; border-radius: 50%; width: 8px; height: 8px; margin-left: auto; flex-shrink: 0; }
+
+    .chat-window { background: rgba(10,4,30,0.88); border: 1px solid rgba(255,255,255,0.10); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; }
+    .chat-header { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 12px; }
+    .chat-name { font-size: 15px; font-weight: 800; color: #fff; }
+    .chat-status { font-size: 11px; color: rgba(255,255,255,0.40); }
+    .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; min-height: 300px; max-height: 400px; }
+    .chat-msg { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-msg.mine { flex-direction: row-reverse; }
+    .chat-msg-bubble { max-width: 72%; padding: 10px 14px; border-radius: 18px; font-size: 13px; line-height: 1.6; }
+    .chat-msg.theirs .chat-msg-bubble { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.10); color: rgba(255,255,255,0.85); border-bottom-left-radius: 4px; }
+    .chat-msg.mine .chat-msg-bubble { background: linear-gradient(135deg, #ff0066, #ff4bf1); color: #fff; border-bottom-right-radius: 4px; }
+    .chat-msg-time { font-size: 10px; color: rgba(255,255,255,0.30); flex-shrink: 0; }
+    .chat-input-row { padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 10px; align-items: center; }
+    .chat-input { flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; padding: 10px 18px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 13px; transition: border-color 0.3s; }
+    .chat-input:focus { outline: none; border-color: rgba(255,75,241,0.55); }
+    .chat-send-btn { background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 50%; width: 40px; height: 40px; color: #fff; font-size: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .chat-send-btn:hover { transform: scale(1.08); }
+    .no-chat-selected { flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: rgba(255,255,255,0.30); font-size: 14px; padding: 40px; text-align: center; }
+    .no-chat-selected .icon { font-size: 48px; }
+
+    /* ════════════════════════
+       FORUMS
+    ════════════════════════ */
+    .forum-threads { display: flex; flex-direction: column; gap: 12px; }
+    .forum-thread {
+      background: rgba(10,4,30,0.88); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px; padding: 18px 20px; transition: all 0.3s; cursor: pointer;
+    }
+    .forum-thread:hover { border-color: rgba(255,75,241,0.35); transform: translateX(4px); }
+    .forum-thread-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .forum-thread-cat { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; text-transform: uppercase; }
+    .forum-thread-cat.buddies  { background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.35); color: #00ff88; }
+    .forum-thread-cat.duet     { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.35); color: #ffd700; }
+    .forum-thread-cat.over30   { background: rgba(255,75,241,0.15); border: 1px solid rgba(255,75,241,0.35); color: #ff4bf1; }
+    .forum-thread-cat.general  { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.35); color: #00d4ff; }
+    .forum-thread-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+    .forum-thread-preview { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 10px; }
+    .forum-thread-meta { display: flex; gap: 16px; font-size: 11px; color: rgba(255,255,255,0.35); font-weight: 600; }
+    .add-thread-btn { background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; padding: 10px 22px; cursor: pointer; transition: all 0.2s; }
+    .add-thread-btn:hover { transform: scale(1.05); }
+
+    /* ════════════════════════
+       SPEED DATING EVENTS
+    ════════════════════════ */
+    .speed-event-card {
+      background: rgba(10,4,30,0.88); border: 1px solid rgba(255,75,241,0.20);
+      border-radius: 18px; padding: 22px; margin-bottom: 14px;
+      position: relative; overflow: hidden; transition: all 0.3s;
+    }
+    .speed-event-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, transparent, #ff4bf1, #ff0066, transparent); }
+    .speed-event-card:hover { border-color: rgba(255,75,241,0.45); transform: translateY(-2px); }
+    .speed-event-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .speed-event-desc  { font-size: 13px; color: rgba(255,255,255,0.60); line-height: 1.7; margin-bottom: 12px; }
+    .speed-event-meta  { display: flex; gap: 16px; font-size: 12px; color: rgba(255,255,255,0.45); flex-wrap: wrap; margin-bottom: 14px; }
+    .speed-event-join-btn { background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; padding: 10px 22px; cursor: pointer; transition: all 0.2s; }
+    .speed-event-join-btn:hover { transform: scale(1.05); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; align-items: center; }
+    .filter-select { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; padding: 8px 16px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .filter-select:focus { outline: none; border-color: rgba(255,75,241,0.5); }
+    .filter-select option { background: #120824; }
+
+    /* ── MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; z-index: 8000; background: rgba(0,0,0,0.82); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: #120824; border: 1px solid rgba(255,75,241,0.30); border-radius: 24px; padding: 32px 28px; width: 100%; max-width: 480px; position: relative; animation: fadeInUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
+    .modal-box h3 { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: #fff; margin-bottom: 20px; }
+    .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 22px; cursor: pointer; }
+    .modal-close:hover { color: #fff; }
+    .submit-btn { width: 100%; background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; padding: 14px; cursor: pointer; margin-top: 10px; transition: all 0.2s; }
+    .submit-btn:hover { transform: scale(1.02); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── REPORT MODAL ── */
+    .report-reasons { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .report-reason-btn { background: rgba(255,80,80,0.10); border: 1px solid rgba(255,80,80,0.25); border-radius: 12px; padding: 10px 16px; color: rgba(255,255,255,0.75); font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; text-align: left; transition: all 0.2s; }
+    .report-reason-btn:hover { background: rgba(255,80,80,0.25); color: #fff; }
+
+    /* ── SAFETY BANNER ── */
+    .safety-banner { background: rgba(255,215,0,0.07); border: 1px solid rgba(255,215,0,0.25); border-radius: 14px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+    .safety-banner strong { color: #ffd700; }
+
+    /* ── EMPTY / SPINNER ── */
+    .empty-state { text-align: center; padding: 50px 20px; color: rgba(255,255,255,0.35); }
+    .empty-state .empty-icon { font-size: 52px; margin-bottom: 14px; }
+    .empty-state h3 { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 2px; margin-bottom: 8px; color: rgba(255,255,255,0.45); }
+    .spinner-wrap { text-align: center; padding: 40px; color: rgba(255,255,255,0.40); }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ff4bf1; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── TOAST ── */
+    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(10,4,30,0.98); border: 1px solid rgba(255,75,241,0.40); border-radius: 999px; padding: 12px 28px; font-size: 14px; font-weight: 700; color: #fff; z-index: 9999; opacity: 0; transition: all 0.4s ease; pointer-events: none; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media(max-width:700px){ .messages-layout{grid-template-columns:1fr;} .conversations-list{display:none;} .form-row,.form-row-3{grid-template-columns:1fr;} .fans-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  </div>
+
+  <!-- ══════════════════════════════
+       18+ AGE GATE
+  ══════════════════════════════ -->
+  <div class="age-gate" id="ageGate">
+    <div class="age-gate-box">
+      <div class="age-gate-icon">💜🐰</div>
+      <h2>Fan Connections</h2>
+      <p>This section is for fans looking to connect, make friends, find concert buddies or explore romantic connections — all built on a shared love of Bad Bunny.</p>
+      <p style="margin-bottom:20px;color:rgba(255,255,255,0.45);font-size:12px">You must be <strong style="color:#ff4bf1">18 years or older</strong> to access this section.</p>
+      <div class="age-gate-check">
+        <input type="checkbox" id="ageConfirm" onchange="document.getElementById('ageGateBtn').disabled=!this.checked" />
+        <label for="ageConfirm">I confirm I am <strong>18 years of age or older</strong> and I agree to engage respectfully with other fans. I understand this is a fan community space — not a professional matchmaking service.</label>
+      </div>
+      <div class="age-gate-check">
+        <input type="checkbox" id="rulesConfirm" onchange="checkGateBtns()" />
+        <label for="rulesConfirm">I agree to the community rules: <strong>no harassment, no unsolicited explicit content, no scamming.</strong> Violations will result in an immediate ban.</label>
+      </div>
+      <button class="age-gate-btn" id="ageGateBtn" onclick="passAgeGate()" disabled>
+        💜 I'm 18+ — Enter Fan Connections
+      </button>
+      <div class="age-gate-decline" onclick="window.location.href='index.html'">I'm under 18 — take me back</div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo"><span class="rabbit-emblem">🐰</span> CONEJO MALO</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="community.html">COMMUNITY</a></li>
+      <li><a href="media.html">MEDIA</a></li>
+      <li><a href="tickets.html">TICKETS</a></li>
+      <li><a href="events.html">EVENTS</a></li>
+      <li><a href="connect.html" class="active">CONNECTIONS</a></li>
+      <li><a href="index.html#membership">MEMBERSHIP</a></li>
+      <li><a href="index.html#support">SUPPORT</a></li>
+    </ul>
+    <button class="nav-login-btn" id="navLogoutBtn" onclick="handleLogout()" style="display:none">LOGOUT</button>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="connect-main">
+    <div class="connect-content" id="connectContent">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <div class="tag">💜 18+ Only</div>
+        <h1>FAN CONNECTIONS</h1>
+        <p>Find friends, concert buddies, collaborators or that special someone who loves Bad Bunny as much as you do. Real connections built on real music.</p>
+      </div>
+
+      <!-- SAFETY BANNER -->
+      <div class="safety-banner">
+        🛡️ <strong>Safety First:</strong> Never share personal financial info in messages. Report suspicious behaviour immediately. Our admin team monitors this section actively. <strong>Block &amp; Report</strong> buttons are on every profile.
+      </div>
+
+      <!-- TABS -->
+      <div class="connect-tabs">
+        <button class="connect-tab active" onclick="switchTab('discover', this)">💜 Discover Fans</button>
+        <button class="connect-tab" onclick="switchTab('profile', this)">👤 My Profile</button>
+        <button class="connect-tab" onclick="switchTab('messages', this)">💬 Messages</button>
+        <button class="connect-tab" onclick="switchTab('forums', this)">🎤 Fan Forums</button>
+        <button class="connect-tab" onclick="switchTab('speeddate', this)">⚡ Speed Events</button>
+      </div>
+
+      <!-- ══════════════════════
+           TAB 1: DISCOVER
+      ══════════════════════ -->
+      <div id="tab-discover" class="connect-section active">
+        <div class="filter-bar">
+          <select class="filter-select" id="filterLooking" onchange="applyFilters()">
+            <option value="">💜 All — Looking for</option>
+            <option value="friends">👋 Friends</option>
+            <option value="dating">❤️ Dating</option>
+            <option value="collab">🎵 Collab</option>
+            <option value="concert">🎤 Concert Buddy</option>
+          </select>
+          <select class="filter-select" id="filterContinent" onchange="applyFilters()">
+            <option value="">🌍 All Locations</option>
+            <option value="americas">🌎 Americas</option>
+            <option value="europe">🌍 Europe</option>
+            <option value="asia">🌏 Asia</option>
+            <option value="africa">🌍 Africa</option>
+            <option value="oceania">🇦🇺 Oceania</option>
+          </select>
+        </div>
+        <div id="discoverLoading" class="spinner-wrap"><div class="spinner"></div><p>Finding fans...</p></div>
+        <div class="fans-grid" id="fansGrid"></div>
+        <div class="empty-state" id="fansEmpty" style="display:none">
+          <div class="empty-icon">💜</div>
+          <h3>No Fans Found</h3>
+          <p>Be the first to set up your profile and appear here!</p>
+        </div>
+      </div>
+
+      <!-- ══════════════════════
+           TAB 2: MY PROFILE
+      ══════════════════════ -->
+      <div id="tab-profile" class="connect-section">
+        <div class="profile-setup-card">
+          <h3>💜 My Connection Profile</h3>
+          <p>Set up your profile to appear in Fan Discoveries. Only fans who have opted in can see you.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Display Name</label>
+              <input type="text" id="profName" placeholder="How fans will see you" />
+            </div>
+            <div class="form-group">
+              <label>Age</label>
+              <input type="number" id="profAge" placeholder="Must be 18+" min="18" max="99" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Location</label>
+              <select id="profLocation">
+                <option value="">— Select —</option>
+                <optgroup label="🌎 Americas"><option value="americas_us">🇺🇸 USA</option><option value="americas_mx">🇲🇽 Mexico</option><option value="americas_br">🇧🇷 Brazil</option><option value="americas_co">🇨🇴 Colombia</option><option value="americas_pr">🇵🇷 Puerto Rico</option><option value="americas_ar">🇦🇷 Argentina</option><option value="americas_other">🌎 Other Americas</option></optgroup>
+                <optgroup label="🌍 Europe"><option value="europe_es">🇪🇸 Spain</option><option value="europe_de">🇩🇪 Germany</option><option value="europe_nl">🇳🇱 Netherlands</option><option value="europe_fr">🇫🇷 France</option><option value="europe_gb">🇬🇧 UK</option><option value="europe_it">🇮🇹 Italy</option><option value="europe_pt">🇵🇹 Portugal</option><option value="europe_other">🌍 Other Europe</option></optgroup>
+                <optgroup label="🌏 Asia"><option value="asia_jp">🇯🇵 Japan</option><option value="asia_id">🇮🇩 Indonesia</option><option value="asia_other">🌏 Other Asia</option></optgroup>
+                <optgroup label="🌍 Africa"><option value="africa">🌍 Africa</option></optgroup>
+                <optgroup label="🇦🇺 Oceania"><option value="oceania">🇦🇺 Oceania</option></optgroup>
+                <optgroup label="🕌 Middle East"><option value="middleeast">🕌 Middle East</option></optgroup>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Gender (optional)</label>
+              <select id="profGender">
+                <option value="">Prefer not to say</option>
+                <option value="man">Man</option>
+                <option value="woman">Woman</option>
+                <option value="nonbinary">Non-binary</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>I'm looking for</label>
+            <select id="profLooking">
+              <option value="friends">👋 Friends</option>
+              <option value="dating">❤️ Dating</option>
+              <option value="collab">🎵 Music Collab</option>
+              <option value="concert">🎤 Concert Buddy</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Favourite Bad Bunny Albums / Songs (comma separated)</label>
+            <input type="text" id="profFavSongs" placeholder="e.g. Un Verano Sin Ti, Tití Me Preguntó, Moscow Mule" />
+          </div>
+          <div class="form-group">
+            <label>Concerts Attended</label>
+            <input type="text" id="profConcerts" placeholder="e.g. El Último Tour Del Mundo 2022 — NYC" />
+          </div>
+          <div class="form-group">
+            <label>About Me</label>
+            <textarea id="profBio" placeholder="Tell other fans about yourself — your love for Bad Bunny, what you're looking for, your vibe..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Visibility</label>
+            <select id="profVisible">
+              <option value="true">✅ Show me in Fan Discoveries</option>
+              <option value="false">👁️ Hidden — browse only</option>
+            </select>
+          </div>
+          <button class="save-profile-btn" onclick="saveProfile()">💾 Save My Profile</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════
+           TAB 3: MESSAGES
+      ══════════════════════ -->
+      <div id="tab-messages" class="connect-section">
+        <div class="messages-layout">
+          <div class="conversations-list">
+            <div class="conv-header">💬 Chats</div>
+            <div id="convList">
+              <div class="empty-state" style="padding:30px 16px">
+                <div style="font-size:32px;margin-bottom:8px">💬</div>
+                <p style="font-size:12px">No conversations yet.<br>Send a message from a fan profile!</p>
+              </div>
+            </div>
+          </div>
+          <div class="chat-window" id="chatWindow">
+            <div class="no-chat-selected">
+              <div class="icon">💜</div>
+              <p>Select a conversation<br>or message a fan from Discover</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════
+           TAB 4: FAN FORUMS
+      ══════════════════════ -->
+      <div id="tab-forums" class="connect-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+          <div style="font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:3px">🎤 Fan Forums</div>
+          <button class="add-thread-btn" id="addThreadBtn" onclick="openModal('threadModal')" style="display:none">+ New Thread</button>
+        </div>
+        <div id="forumsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading forums...</p></div>
+        <div class="forum-threads" id="forumsList"></div>
+        <div class="empty-state" id="forumsEmpty" style="display:none">
+          <div class="empty-icon">🎤</div>
+          <h3>No Threads Yet</h3>
+          <p>Start the first fan forum conversation!</p>
+        </div>
+      </div>
+
+      <!-- ══════════════════════
+           TAB 5: SPEED EVENTS
+      ══════════════════════ -->
+      <div id="tab-speeddate" class="connect-section">
+        <div style="font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:3px;margin-bottom:20px">⚡ Virtual Speed Events</div>
+        <div id="speedLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading events...</p></div>
+        <div id="speedEventsList"></div>
+        <div class="empty-state" id="speedEmpty" style="display:none">
+          <div class="empty-icon">⚡</div>
+          <h3>No Speed Events Yet</h3>
+          <p>Virtual speed dating events around album drops and tour announcements coming soon!</p>
+        </div>
+      </div>
+
+    </div><!-- end connect-content -->
+  </main>
+
+  <!-- NEW THREAD MODAL -->
+  <div class="modal-overlay" id="threadModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('threadModal')">✕</button>
+      <h3>🎤 New Forum Thread</h3>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="threadCat">
+          <option value="buddies">🎤 Concert Buddies</option>
+          <option value="duet">🎵 Looking for Duet Partner</option>
+          <option value="over30">💜 Fans Over 30 — Connect IRL</option>
+          <option value="general">💬 General Connection</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Thread Title</label>
+        <input type="text" id="threadTitle" placeholder="e.g. Anyone going to Düsseldorf June 14?" />
+      </div>
+      <div class="form-group">
+        <label>Your Message</label>
+        <textarea id="threadBody" placeholder="Tell other fans what you're looking for..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="saveThread()">🎤 Post Thread</button>
+    </div>
+  </div>
+
+  <!-- REPORT MODAL -->
+  <div class="modal-overlay" id="reportModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('reportModal')">✕</button>
+      <h3>🚩 Report Fan</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:16px">Select the reason for your report. Our admin team reviews all reports within 24 hours.</p>
+      <div class="report-reasons">
+        <button class="report-reason-btn" onclick="submitReport('Harassment or bullying')">😡 Harassment or bullying</button>
+        <button class="report-reason-btn" onclick="submitReport('Unsolicited explicit content')">🔞 Unsolicited explicit content</button>
+        <button class="report-reason-btn" onclick="submitReport('Scam or fake profile')">🎭 Scam or fake profile</button>
+        <button class="report-reason-btn" onclick="submitReport('Underage user suspected')">⚠️ Underage user suspected</button>
+        <button class="report-reason-btn" onclick="submitReport('Hate speech or racism')">🚫 Hate speech or racism</button>
+        <button class="report-reason-btn" onclick="submitReport('Other')">📝 Other</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- FIREBASE -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore, collection, doc, addDoc, setDoc, getDoc,
+      query, orderBy, onSnapshot, updateDoc, deleteDoc,
+      arrayUnion, arrayRemove, serverTimestamp, where
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const ADMIN_EMAILS = ["official.deconejomalo@gmail.com"];
+    const CONTINENT_MAP = {
+      americas_us:'americas', americas_mx:'americas', americas_br:'americas', americas_co:'americas',
+      americas_pr:'americas', americas_ar:'americas', americas_other:'americas',
+      europe_es:'europe', europe_de:'europe', europe_nl:'europe', europe_fr:'europe',
+      europe_gb:'europe', europe_it:'europe', europe_pt:'europe', europe_other:'europe',
+      asia_jp:'asia', asia_id:'asia', asia_other:'asia',
+      africa:'africa', oceania:'oceania', middleeast:'asia',
+    };
+
+    let currentUser = null;
+    let isAdmin     = false;
+    let myProfile   = null;
+    let reportTargetId = null;
+    let activeChatId   = null;
+    let allFans = [];
+
+    // ── AGE GATE ──
+    window.checkGateBtns = function() {
+      const a = document.getElementById('ageConfirm').checked;
+      const r = document.getElementById('rulesConfirm').checked;
+      document.getElementById('ageGateBtn').disabled = !(a && r);
+    };
+    window.passAgeGate = function() {
+      sessionStorage.setItem('cm_age_verified', '1');
+      document.getElementById('ageGate').style.display = 'none';
+      document.getElementById('connectContent').classList.add('unlocked');
+    };
+    // Auto-pass if already verified this session
+    if (sessionStorage.getItem('cm_age_verified') === '1') {
+      document.getElementById('ageGate').style.display = 'none';
+      document.getElementById('connectContent').classList.add('unlocked');
+    }
+
+    // ── AUTH ──
+    onAuthStateChanged(auth, async user => {
+      const lb = document.getElementById('navLogoutBtn');
+      if (user) {
+        currentUser = user;
+        isAdmin = ADMIN_EMAILS.includes(user.email);
+        if (lb) lb.style.display = 'inline-block';
+        if (isAdmin) document.getElementById('addThreadBtn').style.display = 'inline-block';
+        // Load my profile
+        const snap = await getDoc(doc(db, 'fanProfiles', user.uid));
+        if (snap.exists()) {
+          myProfile = snap.data();
+          populateProfileForm(myProfile);
+        }
+        loadFans();
+        loadForums();
+        loadSpeedEvents();
+        loadConversations();
+      } else {
+        currentUser = null; isAdmin = false; myProfile = null;
+        if (lb) lb.style.display = 'none';
+      }
+    });
+
+    window.handleLogout = async () => { await signOut(auth); window.location.href = 'index.html'; };
+
+    // ── SAVE PROFILE ──
+    window.saveProfile = async function() {
+      if (!currentUser) { showToast('⚠️ Please login first!'); return; }
+      const age = parseInt(document.getElementById('profAge').value);
+      if (!age || age < 18) { showToast('⚠️ You must be 18+ to use Fan Connections!'); return; }
+      const profile = {
+        uid: currentUser.uid,
+        email: currentUser.email,
+        displayName: document.getElementById('profName').value.trim() || currentUser.email.split('@')[0],
+        age,
+        location: document.getElementById('profLocation').value,
+        gender: document.getElementById('profGender').value,
+        lookingFor: document.getElementById('profLooking').value,
+        favSongs: document.getElementById('profFavSongs').value.trim(),
+        concerts: document.getElementById('profConcerts').value.trim(),
+        bio: document.getElementById('profBio').value.trim(),
+        visible: document.getElementById('profVisible').value === 'true',
+        updatedAt: serverTimestamp()
+      };
+      await setDoc(doc(db, 'fanProfiles', currentUser.uid), profile, { merge: true });
+      myProfile = profile;
+      showToast('✅ Profile saved!');
+    };
+
+    function populateProfileForm(p) {
+      ['profName','profAge','profLocation','profGender','profLooking','profFavSongs','profConcerts','profBio','profVisible']
+        .forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const key = id.replace('prof','').replace(/^./, c => c.toLowerCase());
+          const map = { name:'displayName', age:'age', location:'location', gender:'gender', looking:'lookingFor', favSongs:'favSongs', concerts:'concerts', bio:'bio', visible:'visible' };
+          const val = p[map[key] || key];
+          if (val !== undefined) el.value = String(val);
+        });
+    }
+
+    // ── LOAD FANS ──
+    function loadFans() {
+      const loading = document.getElementById('discoverLoading');
+      const grid    = document.getElementById('fansGrid');
+      const empty   = document.getElementById('fansEmpty');
+      onSnapshot(collection(db, 'fanProfiles'), snap => {
+        if (loading) loading.style.display = 'none';
+        allFans = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(f => f.visible && f.uid !== currentUser?.uid);
+        renderFans(allFans);
+      });
+    }
+
+    function renderFans(fans) {
+      const grid  = document.getElementById('fansGrid');
+      const empty = document.getElementById('fansEmpty');
+      grid.innerHTML = '';
+      if (fans.length === 0) { empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      fans.forEach(fan => grid.appendChild(buildFanCard(fan)));
+    }
+
+    window.applyFilters = function() {
+      const looking   = document.getElementById('filterLooking').value;
+      const continent = document.getElementById('filterContinent').value;
+      let filtered = [...allFans];
+      if (looking)   filtered = filtered.filter(f => f.lookingFor === looking);
+      if (continent) filtered = filtered.filter(f => CONTINENT_MAP[f.location] === continent || f.location === continent);
+      renderFans(filtered);
+    };
+
+    function calcCompat(fan) {
+      if (!myProfile) return Math.floor(Math.random() * 40 + 40);
+      let score = 50;
+      if (fan.lookingFor === myProfile.lookingFor) score += 20;
+      if (fan.location && myProfile.location) {
+        if (fan.location === myProfile.location) score += 15;
+        else if (CONTINENT_MAP[fan.location] === CONTINENT_MAP[myProfile.location]) score += 8;
+      }
+      const myTags = (myProfile.favSongs || '').toLowerCase().split(',').map(s=>s.trim());
+      const fanTags = (fan.favSongs || '').toLowerCase().split(',').map(s=>s.trim());
+      const shared = myTags.filter(t => t && fanTags.includes(t)).length;
+      score += Math.min(shared * 5, 15);
+      return Math.min(score, 99);
+    }
+
+    function buildFanCard(fan) {
+      const div = document.createElement('div');
+      div.className = 'fan-card';
+      const compat = calcCompat(fan);
+      const initials = (fan.displayName || 'F')[0].toUpperCase();
+      const lookingLabels = { friends:'👋 Friends', dating:'❤️ Dating', collab:'🎵 Collab', concert:'🎤 Concert Buddy' };
+      const tags = (fan.favSongs || '').split(',').map(s=>s.trim()).filter(Boolean).slice(0,4);
+      div.innerHTML = `
+        <div class="fan-card-header">
+          <div class="fan-avatar">${initials}</div>
+          <div class="fan-card-info">
+            <div class="fan-card-name">${esc(fan.displayName || 'Fan')}</div>
+            <div class="fan-card-location">${esc(fan.location?.replace(/_/g,' ') || '')} ${fan.age ? '· ' + fan.age + ' yrs' : ''}</div>
+            <span class="fan-looking-badge ${fan.lookingFor||'friends'}">${lookingLabels[fan.lookingFor]||'👋 Friends'}</span>
+          </div>
+        </div>
+        ${fan.bio ? `<div class="fan-bio">${esc(fan.bio.slice(0,120))}${fan.bio.length>120?'...':''}</div>` : ''}
+        ${tags.length ? `<div class="fan-tags">${tags.map(t=>`<span class="fan-tag">🎵 ${esc(t)}</span>`).join('')}</div>` : ''}
+        <div class="compat-score">
+          <span style="font-size:11px;color:rgba(255,255,255,0.45);font-weight:700">💜 Compatibility</span>
+          <div class="compat-bar"><div class="compat-bar-fill" style="width:${compat}%"></div></div>
+          <span class="compat-pct">${compat}%</span>
+        </div>
+        <div class="fan-card-actions">
+          <button class="crush-btn" id="crush-${fan.uid}" onclick="toggleCrush('${fan.uid}')">💜 Like</button>
+          <button class="msg-btn" onclick="openChat('${fan.uid}','${esc(fan.displayName||'Fan')}')">💬 Message</button>
+          <button class="report-btn" onclick="openReport('${fan.uid}')">🚩</button>
+        </div>`;
+      return div;
+    }
+
+    // ── CRUSH / LIKE ──
+    window.toggleCrush = async function(targetUid) {
+      if (!currentUser) { showToast('⚠️ Login to like fans!'); return; }
+      const ref = doc(db, 'fanCrushes', currentUser.uid + '_' + targetUid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        await deleteDoc(ref);
+        document.getElementById('crush-' + targetUid)?.classList.remove('crushed');
+        showToast('💔 Like removed');
+      } else {
+        await setDoc(ref, { from: currentUser.uid, to: targetUid, createdAt: serverTimestamp() });
+        document.getElementById('crush-' + targetUid)?.classList.add('crushed');
+        showToast('💜 Liked!');
+      }
+    };
+
+    // ── MESSAGING ──
+    window.openChat = function(uid, name) {
+      switchTab('messages', document.querySelectorAll('.connect-tab')[2]);
+      activeChatId = [currentUser.uid, uid].sort().join('_');
+      renderChatWindow(uid, name);
+    };
+
+    function renderChatWindow(uid, name) {
+      const win = document.getElementById('chatWindow');
+      win.innerHTML = `
+        <div class="chat-header">
+          <div class="fan-avatar" style="width:36px;height:36px;font-size:14px">${name[0].toUpperCase()}</div>
+          <div><div class="chat-name">${esc(name)}</div><div class="chat-status">Fan · Bad Bunny Community</div></div>
+        </div>
+        <div class="chat-messages" id="chatMsgs"></div>
+        <div class="chat-input-row">
+          <input class="chat-input" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg('${uid}','${esc(name)}')" />
+          <button class="chat-send-btn" onclick="sendMsg('${uid}','${esc(name)}')">➤</button>
+        </div>`;
+      // Load messages
+      const q = query(collection(db, 'fanMessages', activeChatId, 'msgs'), orderBy('createdAt','asc'));
+      onSnapshot(q, snap => {
+        const container = document.getElementById('chatMsgs');
+        if (!container) return;
+        container.innerHTML = '';
+        if (snap.empty) {
+          container.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.30);font-size:13px;padding:20px">Say hello! 👋</div>`;
+          return;
+        }
+        snap.forEach(d => {
+          const msg = d.data();
+          const isMine = msg.senderId === currentUser?.uid;
+          const div = document.createElement('div');
+          div.className = 'chat-msg ' + (isMine ? 'mine' : 'theirs');
+          div.innerHTML = `<div class="chat-msg-bubble">${esc(msg.text)}</div>`;
+          container.appendChild(div);
+        });
+        container.scrollTop = container.scrollHeight;
+      });
+    }
+
+    window.sendMsg = async function(uid, name) {
+      if (!currentUser) return;
+      const input = document.getElementById('chatInput');
+      const text  = input?.value?.trim();
+      if (!text) return;
+      if (!activeChatId) activeChatId = [currentUser.uid, uid].sort().join('_');
+      // Ensure conversation record exists
+      await setDoc(doc(db, 'fanMessages', activeChatId), {
+        participants: [currentUser.uid, uid],
+        names: { [currentUser.uid]: currentUser.displayName || currentUser.email.split('@')[0], [uid]: name },
+        lastMsg: text, updatedAt: serverTimestamp()
+      }, { merge: true });
+      await addDoc(collection(db, 'fanMessages', activeChatId, 'msgs'), {
+        senderId: currentUser.uid, text, createdAt: serverTimestamp()
+      });
+      if (input) input.value = '';
+    };
+
+    function loadConversations() {
+      if (!currentUser) return;
+      const q = query(collection(db, 'fanMessages'), where('participants', 'array-contains', currentUser.uid));
+      onSnapshot(q, snap => {
+        const list = document.getElementById('convList');
+        if (snap.empty) return;
+        list.innerHTML = '';
+        snap.forEach(d => {
+          const data = d.data();
+          const otherId = data.participants.find(p => p !== currentUser.uid);
+          const otherName = data.names?.[otherId] || 'Fan';
+          const item = document.createElement('div');
+          item.className = 'conv-item';
+          item.onclick = () => openChat(otherId, otherName);
+          item.innerHTML = `
+            <div class="conv-avatar">${otherName[0].toUpperCase()}</div>
+            <div><div class="conv-name">${esc(otherName)}</div><div class="conv-preview">${esc(data.lastMsg||'')}</div></div>`;
+          list.appendChild(item);
+        });
+      });
+    }
+
+    // ── FORUMS ──
+    function loadForums() {
+      const loading = document.getElementById('forumsLoading');
+      const list    = document.getElementById('forumsList');
+      const empty   = document.getElementById('forumsEmpty');
+      const q = query(collection(db, 'fanForums'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => {
+          const data = d.data();
+          const catLabels = { buddies:'🎤 Concert Buddies', duet:'🎵 Duet Partner', over30:'💜 Fans Over 30', general:'💬 General' };
+          const div = document.createElement('div');
+          div.className = 'forum-thread';
+          div.innerHTML = `
+            <div class="forum-thread-top">
+              <span class="forum-thread-cat ${data.category||'general'}">${catLabels[data.category]||'💬 General'}</span>
+              ${(isAdmin) ? `<button onclick="deleteThread('${d.id}')" style="background:none;border:none;color:rgba(255,80,80,0.5);cursor:pointer;font-size:12px">🗑️</button>` : ''}
+            </div>
+            <div class="forum-thread-title">${esc(data.title)}</div>
+            <div class="forum-thread-preview">${esc((data.body||'').slice(0,120))}...</div>
+            <div class="forum-thread-meta">
+              <span>👤 ${esc(data.authorName||'Fan')}</span>
+              <span>💬 ${(data.replies||[]).length} replies</span>
+              <span>📅 ${timeAgo(data.createdAt?.toMillis?.())}</span>
+            </div>`;
+          list.appendChild(div);
+        });
+        if (currentUser) document.getElementById('addThreadBtn').style.display = 'inline-block';
+      });
+    }
+
+    window.saveThread = async function() {
+      if (!currentUser) { showToast('⚠️ Login to post!'); return; }
+      const title = document.getElementById('threadTitle').value.trim();
+      const body  = document.getElementById('threadBody').value.trim();
+      const cat   = document.getElementById('threadCat').value;
+      if (!title || !body) { showToast('⚠️ Title and message required!'); return; }
+      await addDoc(collection(db, 'fanForums'), {
+        title, body, category: cat,
+        authorId: currentUser.uid,
+        authorName: myProfile?.displayName || currentUser.email.split('@')[0],
+        replies: [], createdAt: serverTimestamp()
+      });
+      showToast('🎤 Thread posted!');
+      closeModal('threadModal');
+      document.getElementById('threadTitle').value = '';
+      document.getElementById('threadBody').value = '';
+    };
+
+    window.deleteThread = async id => {
+      if (!isAdmin) return;
+      if (!confirm('Delete thread?')) return;
+      await deleteDoc(doc(db, 'fanForums', id));
+      showToast('🗑️ Deleted!');
+    };
+
+    // ── SPEED EVENTS ──
+    function loadSpeedEvents() {
+      const loading = document.getElementById('speedLoading');
+      const list    = document.getElementById('speedEventsList');
+      const empty   = document.getElementById('speedEmpty');
+      const q = query(collection(db, 'speedEvents'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        if (snap.empty) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => {
+          const data = d.data();
+          const joined = (data.joinedBy||[]).includes(currentUser?.uid);
+          const card = document.createElement('div');
+          card.className = 'speed-event-card';
+          card.innerHTML = `
+            <div class="speed-event-title">${esc(data.title)}</div>
+            <div class="speed-event-desc">${esc(data.desc)}</div>
+            <div class="speed-event-meta">
+              <span>📅 ${esc(data.date||'TBA')}</span>
+              <span>👥 ${(data.joinedBy||[]).length} joining</span>
+              <span>⏱️ ${esc(data.duration||'30 mins')}</span>
+            </div>
+            <button class="speed-event-join-btn ${joined?'joined':''}" onclick="joinSpeedEvent('${d.id}')">
+              ${joined ? '✅ Joined' : '⚡ Join Event'}
+            </button>`;
+          list.appendChild(card);
+        });
+      });
+    }
+
+    window.joinSpeedEvent = async function(id) {
+      if (!currentUser) { showToast('⚠️ Login to join!'); return; }
+      const ref = doc(db, 'speedEvents', id);
+      const snap = await getDoc(ref);
+      const joined = (snap.data()?.joinedBy||[]).includes(currentUser.uid);
+      await updateDoc(ref, { joinedBy: joined ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid) });
+      showToast(joined ? '👋 Left event' : '⚡ Joined!');
+    };
+
+    // ── REPORT ──
+    window.openReport = function(uid) {
+      reportTargetId = uid;
+      document.getElementById('reportModal').classList.add('open');
+    };
+    window.submitReport = async function(reason) {
+      if (!currentUser || !reportTargetId) return;
+      await addDoc(collection(db, 'fanReports'), {
+        reportedUid: reportTargetId, reason,
+        reportedBy: currentUser.uid, createdAt: serverTimestamp()
+      });
+      showToast('🚩 Report submitted. Thank you.');
+      closeModal('reportModal');
+      reportTargetId = null;
+    };
+
+    // ── TABS / MODALS / HELPERS ──
+    window.switchTab = function(tab, btn) {
+      document.querySelectorAll('.connect-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.connect-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      if (btn) btn.classList.add('active');
+    };
+    window.openModal  = id => document.getElementById(id).classList.add('open');
+    window.closeModal = id => document.getElementById(id).classList.remove('open');
+    document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+
+    window.showToast = msg => {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    };
+    function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function timeAgo(ms) {
+      if (!ms) return '';
+      const diff = Math.floor((Date.now()-ms)/1000);
+      if (diff<60) return 'just now';
+      if (diff<3600) return Math.floor(diff/60)+'m ago';
+      if (diff<86400) return Math.floor(diff/3600)+'h ago';
+      return Math.floor(diff/86400)+'d ago';
+    }
+  </script>
+
+</body>
+</html>
