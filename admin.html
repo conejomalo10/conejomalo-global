@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Admin Dashboard — Conejo Malo Global" />
+  <title>Admin — Conejo Malo Global</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Bebas+Neue&family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #0a0016; color: #fff; font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    /* ADMIN HEADER */
+    .admin-header { background: rgba(10,4,30,0.98); border-bottom: 1px solid rgba(255,75,241,0.20); padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); }
+    .admin-logo { font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 3px; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .admin-badge-pill { background: rgba(255,75,241,0.20); border: 1px solid rgba(255,75,241,0.50); border-radius: 999px; padding: 4px 14px; font-size: 11px; font-weight: 800; color: #ff4bf1; letter-spacing: 1.5px; }
+    .admin-header-right { display: flex; align-items: center; gap: 12px; }
+    .back-btn { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; color: rgba(255,255,255,0.65); font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; padding: 7px 16px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+    .back-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    /* LAYOUT */
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 64px); }
+
+    /* SIDEBAR */
+    .admin-sidebar { background: rgba(10,4,30,0.95); border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 0; }
+    .sidebar-section-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 14px 20px 6px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 11px 20px; cursor: pointer; transition: all 0.2s; font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.60); border-left: 3px solid transparent; }
+    .sidebar-link:hover { background: rgba(255,75,241,0.08); color: #fff; border-left-color: rgba(255,75,241,0.40); }
+    .sidebar-link.active { background: rgba(255,75,241,0.12); color: #ff4bf1; border-left-color: #ff4bf1; }
+    .sidebar-link .icon { font-size: 16px; width: 20px; text-align: center; }
+    .sidebar-badge { background: #ff4bf1; border-radius: 999px; padding: 2px 7px; font-size: 10px; font-weight: 800; color: #fff; margin-left: auto; }
+
+    /* MAIN CONTENT */
+    .admin-content { padding: 28px; overflow-y: auto; }
+
+    /* STATS GRID */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+    .stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; padding: 18px 20px; }
+    .stat-card-val { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 700; color: #ff4bf1; margin-bottom: 4px; }
+    .stat-card-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.45); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* PANELS */
+    .admin-panel { display: none; animation: fadeIn 0.3s ease; }
+    .admin-panel.active { display: block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+    .panel-title { font-family: 'Bebas Neue', cursive; font-size: 26px; letter-spacing: 3px; color: #fff; margin-bottom: 6px; }
+    .panel-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 24px; }
+
+    /* BROADCAST */
+    .broadcast-card { background: rgba(255,75,241,0.06); border: 1px solid rgba(255,75,241,0.25); border-radius: 20px; padding: 24px; margin-bottom: 24px; }
+    .broadcast-card h4 { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .broadcast-textarea { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px 16px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; resize: vertical; min-height: 100px; transition: border-color 0.3s; }
+    .broadcast-textarea:focus { outline: none; border-color: rgba(255,75,241,0.55); }
+    .broadcast-type-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+    .broadcast-type { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.65); cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.2s; }
+    .broadcast-type.active { background: rgba(255,75,241,0.20); border-color: rgba(255,75,241,0.55); color: #ff4bf1; }
+    .broadcast-btn { background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; padding: 12px 28px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+    .broadcast-btn:hover { transform: scale(1.04); }
+
+    /* MEMBERS TABLE */
+    .members-search { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; padding: 10px 18px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 13px; margin-bottom: 18px; transition: border-color 0.3s; }
+    .members-search:focus { outline: none; border-color: rgba(255,75,241,0.55); }
+    .member-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; margin-bottom: 8px; transition: all 0.2s; flex-wrap: wrap; }
+    .member-row:hover { border-color: rgba(255,255,255,0.15); }
+    .member-row.banned { opacity: 0.55; border-color: rgba(255,80,80,0.25); background: rgba(255,80,80,0.05); }
+    .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ff0066, #7b2fff); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .member-info { flex: 1; min-width: 150px; }
+    .member-email { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .member-meta  { font-size: 11px; color: rgba(255,255,255,0.40); }
+    .member-tier  { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+    .member-tier.vip    { background: rgba(192,192,192,0.15); border: 1px solid rgba(192,192,192,0.35); color: #c0c0c0; }
+    .member-tier.vvip   { background: rgba(100,180,255,0.15); border: 1px solid rgba(100,180,255,0.35); color: #64b4ff; }
+    .member-tier.vvvip  { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.35); color: #ffd700; }
+    .member-tier.none   { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.45); }
+    .member-tier.banned { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.35); color: #ff5050; }
+    .member-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .mem-btn { border: none; border-radius: 999px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; padding: 6px 12px; cursor: pointer; transition: all 0.2s; }
+    .mem-btn.ban   { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.35); color: #ff5050; }
+    .mem-btn.unban { background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.35); color: #00ff88; }
+    .mem-btn.view  { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.35); color: #00d4ff; }
+    .mem-btn.promote { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.35); color: #ffd700; }
+    .mem-btn:hover { transform: scale(1.06); }
+
+    /* REPORTS */
+    .report-card { background: rgba(255,80,80,0.05); border: 1px solid rgba(255,80,80,0.20); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; }
+    .report-reason { font-size: 14px; font-weight: 800; color: #ff5050; margin-bottom: 6px; }
+    .report-meta   { font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .report-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .rep-btn { border: none; border-radius: 999px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; padding: 7px 14px; cursor: pointer; transition: all 0.2s; }
+    .rep-btn.ban    { background: rgba(255,80,80,0.20); border: 1px solid rgba(255,80,80,0.45); color: #ff5050; }
+    .rep-btn.dismiss{ background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.55); }
+    .rep-btn:hover { transform: scale(1.05); }
+
+    /* ANNOUNCEMENTS */
+    .announce-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.10); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .announce-text { font-size: 13px; color: rgba(255,255,255,0.80); line-height: 1.65; flex: 1; }
+    .announce-type { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px; flex-shrink: 0; }
+    .announce-type.info    { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.35); color: #00d4ff; }
+    .announce-type.warning { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.35); color: #ffd700; }
+    .announce-type.urgent  { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.35); color: #ff5050; }
+
+    /* PROMOTE MODAL */
+    .modal-overlay { position: fixed; inset: 0; z-index: 9000; background: rgba(0,0,0,0.82); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: #120824; border: 1px solid rgba(255,75,241,0.30); border-radius: 24px; padding: 28px; width: 100%; max-width: 400px; position: relative; }
+    .modal-box h3 { font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 2px; color: #fff; margin-bottom: 16px; }
+    .modal-close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 20px; cursor: pointer; }
+    .modal-select { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 12px 14px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; margin-bottom: 14px; }
+    .modal-select option { background: #120824; }
+    .modal-btn { width: 100%; background: linear-gradient(135deg, #ff0066, #ff4bf1); border: none; border-radius: 999px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; padding: 12px; cursor: pointer; }
+
+    /* MISC */
+    .spinner-wrap { text-align: center; padding: 30px; color: rgba(255,255,255,0.40); }
+    .spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.10); border-top-color: #ff4bf1; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state { text-align: center; padding: 40px; color: rgba(255,255,255,0.35); font-size: 13px; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(10,4,30,0.98); border: 1px solid rgba(255,75,241,0.40); border-radius: 999px; padding: 12px 28px; font-size: 14px; font-weight: 700; color: #fff; z-index: 9999; opacity: 0; transition: all 0.4s ease; pointer-events: none; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .access-denied-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 16px; text-align: center; padding: 20px; }
+    .access-denied-screen h2 { font-family: 'Bebas Neue', cursive; font-size: 36px; letter-spacing: 4px; color: #ff5050; }
+
+    @media(max-width:700px){ .admin-layout{grid-template-columns:1fr;} .admin-sidebar{display:none;} }
+  </style>
+</head>
+<body>
+
+  <!-- ACCESS DENIED (shown until admin confirmed) -->
+  <div class="access-denied-screen" id="accessDeniedScreen">
+    <div style="font-size:56px">🔒</div>
+    <h2>Admin Only</h2>
+    <p style="color:rgba(255,255,255,0.55);font-size:14px">This page is restricted to admin accounts only.</p>
+    <a href="index.html" style="background:linear-gradient(135deg,#ff0066,#ff4bf1);border:none;border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;padding:12px 28px;cursor:pointer;text-decoration:none">Go Back Home</a>
+  </div>
+
+  <!-- ADMIN DASHBOARD (hidden until verified) -->
+  <div id="adminDashboard" style="display:none">
+
+    <div class="admin-header">
+      <div class="admin-logo">🐰 CONEJO MALO <span class="admin-badge-pill">ADMIN</span></div>
+      <div class="admin-header-right">
+        <a href="community.html" class="back-btn">← Community</a>
+        <a href="index.html" class="back-btn">🏠 Home</a>
+        <button class="back-btn" onclick="handleLogout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="admin-layout">
+
+      <!-- SIDEBAR -->
+      <div class="admin-sidebar">
+        <div class="sidebar-section-label">Overview</div>
+        <div class="sidebar-link active" onclick="showPanel('overview', this)"><span class="icon">📊</span> Dashboard</div>
+
+        <div class="sidebar-section-label">Members</div>
+        <div class="sidebar-link" onclick="showPanel('members', this)"><span class="icon">👥</span> All Members</div>
+        <div class="sidebar-link" onclick="showPanel('membership', this)"><span class="icon">⭐</span> Membership Requests <span class="sidebar-badge" id="memberBadge">0</span></div>
+        <div class="sidebar-link" onclick="showPanel('banned', this)"><span class="icon">🚫</span> Banned Users</div>
+
+        <div class="sidebar-section-label">Content</div>
+        <div class="sidebar-link" onclick="showPanel('posts', this)"><span class="icon">📝</span> All Posts</div>
+        <div class="sidebar-link" onclick="showPanel('reports', this)"><span class="icon">🚩</span> Reports <span class="sidebar-badge" id="reportBadge">0</span></div>
+
+        <div class="sidebar-section-label">Communication</div>
+        <div class="sidebar-link" onclick="showPanel('broadcast', this)"><span class="icon">📢</span> Broadcast</div>
+        <div class="sidebar-link" onclick="showPanel('tickets', this)"><span class="icon">🎟️</span> Ticket Requests</div>
+        <div class="sidebar-link" onclick="showPanel('donations', this)"><span class="icon">💛</span> Donations</div>
+        <div class="sidebar-link" onclick="showPanel('connections', this)"><span class="icon">🚩</span> Connection Reports</div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="admin-content">
+
+        <!-- OVERVIEW -->
+        <div id="panel-overview" class="admin-panel active">
+          <div class="panel-title">📊 Dashboard Overview</div>
+          <p class="panel-sub">Welcome back, Chief Admin. Here's your community at a glance.</p>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-card-val" id="statMembers">—</div><div class="stat-card-label">Total Members</div></div>
+            <div class="stat-card"><div class="stat-card-val" id="statPosts">—</div><div class="stat-card-label">Total Posts</div></div>
+            <div class="stat-card"><div class="stat-card-val" id="statPending">—</div><div class="stat-card-label">Pending Requests</div></div>
+            <div class="stat-card"><div class="stat-card-val" id="statReports">—</div><div class="stat-card-label">Open Reports</div></div>
+            <div class="stat-card"><div class="stat-card-val" id="statDonations">—</div><div class="stat-card-label">Donation Requests</div></div>
+            <div class="stat-card"><div class="stat-card-val" id="statBanned">—</div><div class="stat-card-label">Banned Users</div></div>
+          </div>
+          <div style="background:rgba(255,75,241,0.06);border:1px solid rgba(255,75,241,0.20);border-radius:16px;padding:20px;margin-top:8px">
+            <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;margin-bottom:10px">⚡ Quick Actions</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button onclick="showPanel('membership',document.querySelector('[onclick*=membership]'))" style="background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.40);border-radius:999px;color:#ffd700;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;padding:9px 18px;cursor:pointer">⭐ Review Memberships</button>
+              <button onclick="showPanel('broadcast',document.querySelector('[onclick*=broadcast]'))" style="background:rgba(255,75,241,0.15);border:1px solid rgba(255,75,241,0.40);border-radius:999px;color:#ff4bf1;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;padding:9px 18px;cursor:pointer">📢 Send Broadcast</button>
+              <button onclick="showPanel('reports',document.querySelector('[onclick*=reports]'))" style="background:rgba(255,80,80,0.15);border:1px solid rgba(255,80,80,0.40);border-radius:999px;color:#ff5050;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;padding:9px 18px;cursor:pointer">🚩 View Reports</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MEMBERS -->
+        <div id="panel-members" class="admin-panel">
+          <div class="panel-title">👥 All Members</div>
+          <p class="panel-sub">View, manage, promote and ban community members.</p>
+          <input class="members-search" type="text" id="memberSearch" placeholder="🔍 Search by email..." oninput="filterMembers()" />
+          <div id="membersLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading members...</p></div>
+          <div id="membersList"></div>
+        </div>
+
+        <!-- MEMBERSHIP REQUESTS -->
+        <div id="panel-membership" class="admin-panel">
+          <div class="panel-title">⭐ Membership Requests</div>
+          <p class="panel-sub">Review and approve or reject fan membership upgrade requests.</p>
+          <div id="membershipLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+          <div id="membershipList"></div>
+          <div class="empty-state" id="membershipEmpty" style="display:none">No pending requests.</div>
+        </div>
+
+        <!-- BANNED -->
+        <div id="panel-banned" class="admin-panel">
+          <div class="panel-title">🚫 Banned Users</div>
+          <p class="panel-sub">All currently banned members. Unban at any time.</p>
+          <div id="bannedList"></div>
+          <div class="empty-state" id="bannedEmpty">No banned users.</div>
+        </div>
+
+        <!-- POSTS -->
+        <div id="panel-posts" class="admin-panel">
+          <div class="panel-title">📝 All Posts</div>
+          <p class="panel-sub">View and delete any community post.</p>
+          <div id="postsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading posts...</p></div>
+          <div id="postsList"></div>
+        </div>
+
+        <!-- REPORTS -->
+        <div id="panel-reports" class="admin-panel">
+          <div class="panel-title">🚩 Fan Reports</div>
+          <p class="panel-sub">Reports submitted by fans. Investigate and take action.</p>
+          <div id="reportsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+          <div id="reportsList"></div>
+          <div class="empty-state" id="reportsEmpty" style="display:none">No reports. Community is clean! ✅</div>
+        </div>
+
+        <!-- BROADCAST -->
+        <div id="panel-broadcast" class="admin-panel">
+          <div class="panel-title">📢 Broadcast Message</div>
+          <p class="panel-sub">Send announcements visible to all members on the community page.</p>
+          <div class="broadcast-card">
+            <h4>📢 New Broadcast</h4>
+            <textarea class="broadcast-textarea" id="broadcastText" placeholder="Type your message to all fans..."></textarea>
+            <div class="broadcast-type-row">
+              <button class="broadcast-type active" onclick="setBroadcastType('info',this)">ℹ️ Info</button>
+              <button class="broadcast-type" onclick="setBroadcastType('warning',this)">⚠️ Warning</button>
+              <button class="broadcast-type" onclick="setBroadcastType('urgent',this)">🚨 Urgent</button>
+              <button class="broadcast-type" onclick="setBroadcastType('celebration',this)">🎉 Celebration</button>
+            </div>
+            <button class="broadcast-btn" onclick="sendBroadcast()">📢 Send to All Members</button>
+          </div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;margin-bottom:12px">📋 Sent Broadcasts</div>
+          <div id="broadcastHistory"></div>
+        </div>
+
+        <!-- TICKETS -->
+        <div id="panel-tickets" class="admin-panel">
+          <div class="panel-title">🎟️ Ticket Requests</div>
+          <p class="panel-sub">All ticket assistance requests from fans.</p>
+          <div id="ticketsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+          <div id="ticketsList"></div>
+          <div class="empty-state" id="ticketsEmpty" style="display:none">No ticket requests yet.</div>
+        </div>
+
+        <!-- DONATIONS -->
+        <div id="panel-donations" class="admin-panel">
+          <div class="panel-title">💛 Donation Requests</div>
+          <p class="panel-sub">All donation requests pending payment details.</p>
+          <div id="donationsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+          <div id="donationsList"></div>
+          <div class="empty-state" id="donationsEmpty" style="display:none">No donation requests yet.</div>
+        </div>
+
+        <!-- CONNECTION REPORTS -->
+        <div id="panel-connections" class="admin-panel">
+          <div class="panel-title">🚩 Connection Reports</div>
+          <p class="panel-sub">Reports from the Fan Connections section.</p>
+          <div id="connReportsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+          <div id="connReportsList"></div>
+          <div class="empty-state" id="connReportsEmpty" style="display:none">No connection reports.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMOTE MODAL -->
+  <div class="modal-overlay" id="promoteModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('promoteModal')">✕</button>
+      <h3>⭐ Set Membership Tier</h3>
+      <input type="hidden" id="promoteUid" />
+      <select class="modal-select" id="promoteTier">
+        <option value="">— Remove Membership —</option>
+        <option value="VIP">⭐ VIP</option>
+        <option value="VVIP">💎 VVIP</option>
+        <option value="VVVIP">👑 VVVIP</option>
+      </select>
+      <button class="modal-btn" onclick="confirmPromote()">✅ Save Tier</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs,
+      query, orderBy, onSnapshot, updateDoc, deleteDoc,
+      where, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+    const ADMIN_EMAILS = ["official.deconejomalo@gmail.com"];
+
+    let currentUser = null;
+    let allMembers  = [];
+    let broadcastType = 'info';
+
+    // ── AUTH GUARD ──
+    onAuthStateChanged(auth, async user => {
+      if (user && ADMIN_EMAILS.includes(user.email)) {
+        currentUser = user;
+        document.getElementById('accessDeniedScreen').style.display = 'none';
+        document.getElementById('adminDashboard').style.display = 'block';
+        loadAll();
+      } else {
+        document.getElementById('accessDeniedScreen').style.display = 'flex';
+        document.getElementById('adminDashboard').style.display = 'none';
+      }
+    });
+
+    window.handleLogout = async () => { await signOut(auth); window.location.href = 'index.html'; };
+
+    function loadAll() {
+      loadStats();
+      loadMembers();
+      loadMembershipRequests();
+      loadPosts();
+      loadReports();
+      loadBroadcasts();
+      loadTickets();
+      loadDonations();
+      loadConnReports();
+    }
+
+    // ── STATS ──
+    function loadStats() {
+      onSnapshot(collection(db,'users'), snap => {
+        const banned = snap.docs.filter(d=>d.data().banned).length;
+        document.getElementById('statMembers').textContent = snap.size;
+        document.getElementById('statBanned').textContent  = banned;
+      });
+      onSnapshot(collection(db,'posts'), snap => { document.getElementById('statPosts').textContent = snap.size; });
+      onSnapshot(query(collection(db,'membershipRequests'),where('status','==','pending')), snap => {
+        document.getElementById('statPending').textContent = snap.size;
+        document.getElementById('memberBadge').textContent = snap.size;
+      });
+      onSnapshot(collection(db,'fanReports'), snap => {
+        document.getElementById('statReports').textContent = snap.size;
+        document.getElementById('reportBadge').textContent = snap.size;
+      });
+      onSnapshot(collection(db,'donationRequests'), snap => { document.getElementById('statDonations').textContent = snap.size; });
+    }
+
+    // ── MEMBERS ──
+    function loadMembers() {
+      onSnapshot(collection(db,'users'), snap => {
+        allMembers = snap.docs.map(d=>({id:d.id,...d.data()}));
+        renderMembers(allMembers);
+        // Banned panel
+        const banned = allMembers.filter(m=>m.banned);
+        const bl = document.getElementById('bannedList');
+        const be = document.getElementById('bannedEmpty');
+        bl.innerHTML = '';
+        if (!banned.length) { be.style.display='block'; return; }
+        be.style.display = 'none';
+        banned.forEach(m => bl.appendChild(buildMemberRow(m)));
+      });
+    }
+
+    window.filterMembers = function() {
+      const q = document.getElementById('memberSearch').value.toLowerCase();
+      renderMembers(allMembers.filter(m => (m.email||'').toLowerCase().includes(q)));
+    };
+
+    function renderMembers(members) {
+      const list = document.getElementById('membersList');
+      const loading = document.getElementById('membersLoading');
+      if (loading) loading.style.display = 'none';
+      list.innerHTML = '';
+      members.forEach(m => list.appendChild(buildMemberRow(m)));
+    }
+
+    function buildMemberRow(m) {
+      const div = document.createElement('div');
+      div.className = 'member-row' + (m.banned ? ' banned' : '');
+      const tier = m.membership || 'none';
+      const tierLabel = { vip:'⭐ VIP', vvip:'💎 VVIP', vvvip:'👑 VVVIP', none:'No Tier' }[tier.toLowerCase()] || tier;
+      div.innerHTML = `
+        <div class="member-avatar">${(m.email||'?')[0].toUpperCase()}</div>
+        <div class="member-info">
+          <div class="member-email">${esc(m.email||'Unknown')}</div>
+          <div class="member-meta">UID: ${m.id?.slice(0,12)}... ${m.country ? '· 🌍 ' + m.country : ''}</div>
+        </div>
+        <span class="member-tier ${m.banned?'banned':(tier.toLowerCase()||'none')}">${m.banned?'🚫 Banned':tierLabel}</span>
+        <div class="member-actions">
+          <button class="mem-btn promote" onclick="openPromote('${m.id}')">⭐ Tier</button>
+          ${m.banned
+            ? `<button class="mem-btn unban" onclick="unbanUser('${m.id}')">✅ Unban</button>`
+            : `<button class="mem-btn ban"   onclick="banUser('${m.id}','${esc(m.email||'')}')">🚫 Ban</button>`}
+        </div>`;
+      return div;
+    }
+
+    window.banUser = async (uid, email) => {
+      if (!confirm(`Ban ${email}?\nThey will lose all access immediately.`)) return;
+      await setDoc(doc(db,'users',uid), { banned: true, bannedAt: serverTimestamp(), bannedBy: currentUser.email }, { merge: true });
+      showToast('🚫 User banned!');
+    };
+
+    window.unbanUser = async uid => {
+      await updateDoc(doc(db,'users',uid), { banned: false });
+      showToast('✅ User unbanned!');
+    };
+
+    window.openPromote = (uid) => {
+      document.getElementById('promoteUid').value = uid;
+      document.getElementById('promoteModal').classList.add('open');
+    };
+
+    window.confirmPromote = async () => {
+      const uid  = document.getElementById('promoteUid').value;
+      const tier = document.getElementById('promoteTier').value;
+      await setDoc(doc(db,'users',uid), { membership: tier || null, memberSince: serverTimestamp(), assignedBy: currentUser.email }, { merge: true });
+      showToast(tier ? `✅ ${tier} assigned!` : '✅ Membership removed!');
+      closeModal('promoteModal');
+    };
+
+    // ── MEMBERSHIP REQUESTS ──
+    function loadMembershipRequests() {
+      const list = document.getElementById('membershipList');
+      const loading = document.getElementById('membershipLoading');
+      const empty = document.getElementById('membershipEmpty');
+      const q = query(collection(db,'membershipRequests'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        const pending = snap.docs.filter(d=>d.data().status==='pending');
+        if (!pending.length) { empty.style.display='block'; return; }
+        empty.style.display = 'none';
+        pending.forEach(d => {
+          const data = d.data();
+          const div = document.createElement('div');
+          div.className = 'member-row';
+          div.innerHTML = `
+            <div class="member-avatar">${(data.firstName||'F')[0].toUpperCase()}</div>
+            <div class="member-info">
+              <div class="member-email">${esc(data.firstName)} ${esc(data.lastName)}</div>
+              <div class="member-meta">📧 ${esc(data.email)} · 🌍 ${esc(data.country)} · 💳 ${esc(data.paymentMethod)} · Tier: ${esc(data.tier)}</div>
+            </div>
+            <span class="member-tier vip">${esc(data.tier||'VIP')}</span>
+            <div class="member-actions">
+              <button class="mem-btn promote" onclick="approveMembership('${d.id}','${data.userId}','${data.tier}')">✅ Approve</button>
+              <button class="mem-btn ban" onclick="rejectMembership('${d.id}')">❌ Reject</button>
+            </div>`;
+          list.appendChild(div);
+        });
+      });
+    }
+
+    window.approveMembership = async (reqId, userId, tier) => {
+      if (!userId) { showToast('⚠️ No user ID found'); return; }
+      await setDoc(doc(db,'users',userId), { membership: tier, memberSince: serverTimestamp(), assignedBy: currentUser.email }, { merge: true });
+      await updateDoc(doc(db,'membershipRequests',reqId), { status:'approved' });
+      showToast(`✅ ${tier} approved!`);
+    };
+
+    window.rejectMembership = async reqId => {
+      await updateDoc(doc(db,'membershipRequests',reqId), { status:'rejected' });
+      showToast('❌ Request rejected');
+    };
+
+    // ── POSTS ──
+    function loadPosts() {
+      const list = document.getElementById('postsList');
+      const loading = document.getElementById('postsLoading');
+      const q = query(collection(db,'posts'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        snap.forEach(d => {
+          const data = d.data();
+          const div = document.createElement('div');
+          div.className = 'member-row';
+          div.innerHTML = `
+            <div class="member-info">
+              <div class="member-email">${esc((data.text||'[Media post]').slice(0,80))}</div>
+              <div class="member-meta">👤 ${esc(data.authorEmail||'')} · 📅 ${timeAgo(data.createdAt?.toMillis?.())} · ${data.pinned?'📌 Pinned':''}</div>
+            </div>
+            <div class="member-actions">
+              <button class="mem-btn ban" onclick="deletePost('${d.id}')">🗑️ Delete</button>
+            </div>`;
+          list.appendChild(div);
+        });
+      });
+    }
+
+    window.deletePost = async id => {
+      if (!confirm('Delete this post?')) return;
+      await deleteDoc(doc(db,'posts',id));
+      showToast('🗑️ Post deleted!');
+    };
+
+    // ── REPORTS ──
+    function loadReports() {
+      const list = document.getElementById('reportsList');
+      const loading = document.getElementById('reportsLoading');
+      const empty = document.getElementById('reportsEmpty');
+      const q = query(collection(db,'fanReports'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        if (snap.empty) { empty.style.display='block'; return; }
+        empty.style.display = 'none';
+        snap.forEach(d => {
+          const data = d.data();
+          const div = document.createElement('div');
+          div.className = 'report-card';
+          div.innerHTML = `
+            <div class="report-reason">🚩 ${esc(data.reason)}</div>
+            <div class="report-meta">Reported UID: ${esc(data.reportedUid||'')} · By: ${esc(data.reportedBy||'')} · ${timeAgo(data.createdAt?.toMillis?.())}</div>
+            <div class="report-actions">
+              <button class="rep-btn ban" onclick="banUser('${data.reportedUid}','${data.reportedUid}')">🚫 Ban User</button>
+              <button class="rep-btn dismiss" onclick="dismissReport('${d.id}')">✅ Dismiss</button>
+            </div>`;
+          list.appendChild(div);
+        });
+      });
+    }
+
+    window.dismissReport = async id => { await deleteDoc(doc(db,'fanReports',id)); showToast('✅ Report dismissed!'); };
+
+    // ── BROADCAST ──
+    window.setBroadcastType = function(type, btn) {
+      broadcastType = type;
+      document.querySelectorAll('.broadcast-type').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+
+    window.sendBroadcast = async function() {
+      const text = document.getElementById('broadcastText').value.trim();
+      if (!text) { showToast('⚠️ Message cannot be empty!'); return; }
+      await addDoc(collection(db,'broadcasts'), {
+        text, type: broadcastType, sentBy: currentUser.email, createdAt: serverTimestamp()
+      });
+      document.getElementById('broadcastText').value = '';
+      showToast('📢 Broadcast sent to all members!');
+    };
+
+    function loadBroadcasts() {
+      const q = query(collection(db,'broadcasts'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        const hist = document.getElementById('broadcastHistory');
+        hist.innerHTML = '';
+        snap.forEach(d => {
+          const data = d.data();
+          const div = document.createElement('div');
+          div.className = 'announce-card';
+          div.innerHTML = `
+            <div class="announce-text">${esc(data.text)}</div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+              <span class="announce-type ${data.type||'info'}">${data.type||'info'}</span>
+              <span style="font-size:10px;color:rgba(255,255,255,0.30)">${timeAgo(data.createdAt?.toMillis?.())}</span>
+              <button onclick="deleteBroadcast('${d.id}')" style="background:none;border:none;color:rgba(255,80,80,0.5);cursor:pointer;font-size:11px">🗑️</button>
+            </div>`;
+          hist.appendChild(div);
+        });
+      });
+    }
+
+    window.deleteBroadcast = async id => { await deleteDoc(doc(db,'broadcasts',id)); showToast('🗑️ Deleted!'); };
+
+    // ── TICKETS ──
+    function loadTickets() {
+      const list=document.getElementById('ticketsList'), loading=document.getElementById('ticketsLoading'), empty=document.getElementById('ticketsEmpty');
+      const q = query(collection(db,'ticketRequests'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        if(loading) loading.style.display='none';
+        list.innerHTML='';
+        if(snap.empty){empty.style.display='block';return;}
+        empty.style.display='none';
+        snap.forEach(d=>{
+          const data=d.data();
+          const div=document.createElement('div'); div.className='member-row';
+          div.innerHTML=`
+            <div class="member-info">
+              <div class="member-email">${esc(data.firstName)} ${esc(data.lastName)} — ${esc(data.show)}</div>
+              <div class="member-meta">📧 ${esc(data.email)} · 🎟️ ${esc(data.qty)} tickets · 💳 ${esc(data.payment)} · ${esc(data.status||'pending')}</div>
+            </div>
+            <div class="member-actions">
+              <button class="mem-btn promote" onclick="updateTicket('${d.id}','inprogress')">🔄 In Progress</button>
+              <button class="mem-btn unban"   onclick="updateTicket('${d.id}','completed')">✅ Done</button>
+              <button class="mem-btn ban"     onclick="deleteTicket('${d.id}')">🗑️</button>
+            </div>`;
+          list.appendChild(div);
+        });
+      });
+    }
+    window.updateTicket = async (id,status) => { await updateDoc(doc(db,'ticketRequests',id),{status}); showToast('✅ Updated!'); };
+    window.deleteTicket = async id => { if(!confirm('Delete?'))return; await deleteDoc(doc(db,'ticketRequests',id)); showToast('🗑️'); };
+
+    // ── DONATIONS ──
+    function loadDonations() {
+      const list=document.getElementById('donationsList'), loading=document.getElementById('donationsLoading'), empty=document.getElementById('donationsEmpty');
+      const q = query(collection(db,'donationRequests'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        if(loading) loading.style.display='none';
+        list.innerHTML='';
+        if(snap.empty){empty.style.display='block';return;}
+        empty.style.display='none';
+        snap.forEach(d=>{
+          const data=d.data();
+          const div=document.createElement('div'); div.className='member-row';
+          div.innerHTML=`
+            <div class="member-info">
+              <div class="member-email">${esc(data.name)} — ${esc(data.amount)}</div>
+              <div class="member-meta">📧 ${esc(data.email)} · 💳 ${esc(data.paymentMethod)} · ${esc(data.status||'pending')}</div>
+            </div>
+            <div class="member-actions">
+              <button class="mem-btn promote" onclick="updateDonation('${d.id}','sent')">📧 Sent Details</button>
+              <button class="mem-btn unban"   onclick="updateDonation('${d.id}','confirmed')">✅ Confirmed</button>
+              <button class="mem-btn ban"     onclick="deleteDonation('${d.id}')">🗑️</button>
+            </div>`;
+          list.appendChild(div);
+        });
+      });
+    }
+    window.updateDonation = async (id,status) => { await updateDoc(doc(db,'donationRequests',id),{status}); showToast('✅ Updated!'); };
+    window.deleteDonation = async id => { if(!confirm('Delete?'))return; await deleteDoc(doc(db,'donationRequests',id)); showToast('🗑️'); };
+
+    // ── CONNECTION REPORTS ──
+    function loadConnReports() {
+      const list=document.getElementById('connReportsList'), loading=document.getElementById('connReportsLoading'), empty=document.getElementById('connReportsEmpty');
+      const q = query(collection(db,'fanReports'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        if(loading) loading.style.display='none';
+        list.innerHTML='';
+        if(snap.empty){empty.style.display='block';return;}
+        empty.style.display='none';
+        snap.forEach(d=>{
+          const data=d.data();
+          const div=document.createElement('div'); div.className='report-card';
+          div.innerHTML=`
+            <div class="report-reason">🚩 ${esc(data.reason)}</div>
+            <div class="report-meta">Reported: ${esc(data.reportedUid||'').slice(0,16)} · By: ${esc(data.reportedBy||'').slice(0,16)} · ${timeAgo(data.createdAt?.toMillis?.())}</div>
+            <div class="report-actions">
+              <button class="rep-btn ban" onclick="banUser('${data.reportedUid}','${data.reportedUid}')">🚫 Ban</button>
+              <button class="rep-btn dismiss" onclick="dismissReport('${d.id}')">✅ Dismiss</button>
+            </div>`;
+          list.appendChild(div);
+        });
+      });
+    }
+
+    // ── PANELS / MODALS ──
+    window.showPanel = function(name, el) {
+      document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+      document.getElementById('panel-'+name).classList.add('active');
+      if(el) el.classList.add('active');
+    };
+    window.openModal  = id => document.getElementById(id).classList.add('open');
+    window.closeModal = id => document.getElementById(id).classList.remove('open');
+    document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+    // ── HELPERS ──
+    window.showToast = msg => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); };
+    function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+    function timeAgo(ms){if(!ms)return'';const d=Math.floor((Date.now()-ms)/1000);if(d<60)return'just now';if(d<3600)return Math.floor(d/60)+'m ago';if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';}
+  </script>
+</body>
+</html>
