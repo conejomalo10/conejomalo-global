@@ -47,8 +47,9 @@
     }
     .age-gate-box {
       background: #120824; border: 1px solid rgba(255,75,241,0.35);
-      border-radius: 28px; padding: 44px 36px; max-width: 460px; width: 100%; text-align: center;
+      border-radius: 24px; padding: 28px 20px; max-width: 460px; width: 100%; text-align: center;
       animation: fadeInUp 0.4s ease;
+      max-height: 92vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
     }
     .age-gate-icon { font-size: 56px; margin-bottom: 16px; }
     .age-gate-box h2 { font-family: 'Bebas Neue', cursive; font-size: 32px; letter-spacing: 4px; color: #fff; margin-bottom: 12px; }
@@ -74,8 +75,20 @@
     .page-header p { font-size: 14px; color: rgba(255,255,255,0.55); max-width: 580px; margin: 0 auto; line-height: 1.7; }
 
     /* ── TABS ── */
-    .connect-tabs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
-    .connect-tab { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; color: rgba(255,255,255,0.70); font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; padding: 10px 22px; cursor: pointer; transition: all 0.3s; }
+    .connect-tabs {
+      display: flex; gap: 4px; justify-content: flex-start;
+      flex-wrap: nowrap; margin-bottom: 24px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; padding: 4px 0 8px;
+    }
+    .connect-tabs::-webkit-scrollbar { display: none; }
+    .connect-tab {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; color: rgba(255,255,255,0.70);
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      padding: 8px 12px; cursor: pointer; transition: all 0.3s;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .connect-tab:hover, .connect-tab.active { background: rgba(255,75,241,0.18); border-color: rgba(255,75,241,0.55); color: #ff4bf1; }
 
     /* ── SECTIONS ── */
@@ -350,7 +363,7 @@
       .payment-methods-grid { grid-template-columns: 1fr 1fr !important; }
     }
   </style>
-</head>
+<style>@media(max-width:768px){.bg-orbs{display:none!important}.age-gate-box{padding:22px 16px!important;max-height:88vh!important;overflow-y:auto!important}.age-gate-icon{font-size:36px!important;margin-bottom:8px!important}.age-gate-box h2{font-size:22px!important}.age-gate-box>p{font-size:12px!important;margin-bottom:12px!important}.age-gate-check{padding:10px 12px!important}.age-gate-btn{padding:12px!important}}</style></head>
 <body>
 
   <div class="bg-orbs">
