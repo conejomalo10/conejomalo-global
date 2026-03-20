@@ -651,7 +651,6 @@
       <li><a href="tickets.html">TICKETS</a></li>
       <li><a href="events.html">EVENTS</a></li>
       <li><a href="#membership" data-lang="navMembership">MEMBERSHIP</a></li>
-      <li><a href="#events"     data-lang="navEvents">EVENTS</a></li>
       <li><a href="#support"    data-lang="navSupport">SUPPORT</a></li>
       <li><a href="#contact"    data-lang="navContact">CONTACT</a></li>
     </ul>
@@ -987,31 +986,42 @@
         <label for="userCountry">🌍 Your Country <span style="color:rgba(255,255,255,0.40);font-weight:400">(puts your flag on the map!)</span></label>
         <select id="userCountry" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:14px;">
           <option value="">— Select your country —</option>
-          <option value="US">🇺🇸 USA</option>
-          <option value="ES">🇪🇸 Spain</option>
-          <option value="MX">🇲🇽 Mexico</option>
-          <option value="BR">🇧🇷 Brazil</option>
-          <option value="CA">🇨🇦 Canada</option>
-          <option value="DE">🇩🇪 Germany</option>
-          <option value="NL">🇳🇱 Netherlands</option>
-          <option value="JP">🇯🇵 Japan</option>
-          <option value="SA">🇸🇦 Saudi Arabia</option>
-          <option value="ID">🇮🇩 Indonesia</option>
-          <option value="FR">🇫🇷 France</option>
-          <option value="GB">🇬🇧 UK</option>
-          <option value="IT">🇮🇹 Italy</option>
-          <option value="CO">🇨🇴 Colombia</option>
-          <option value="PR">🇵🇷 Puerto Rico</option>
-          <option value="AR">🇦🇷 Argentina</option>
-          <option value="CL">🇨🇱 Chile</option>
-          <option value="AU">🇦🇺 Australia</option>
-          <option value="KR">🇰🇷 South Korea</option>
-          <option value="NG">🇳🇬 Nigeria</option>
-          <option value="ZA">🇿🇦 South Africa</option>
-          <option value="IN">🇮🇳 India</option>
-          <option value="PH">🇵🇭 Philippines</option>
-          <option value="PT">🇵🇹 Portugal</option>
-          <option value="OTHER">🌍 Other</option>
+          <optgroup label="🌎 North & South America">
+            <option value="US">🇺🇸 USA</option>
+            <option value="MX">🇲🇽 Mexico</option>
+            <option value="BR">🇧🇷 Brazil</option>
+            <option value="CA">🇨🇦 Canada</option>
+            <option value="CO">🇨🇴 Colombia</option>
+            <option value="PR">🇵🇷 Puerto Rico</option>
+            <option value="AR">🇦🇷 Argentina</option>
+            <option value="CL">🇨🇱 Chile</option>
+            <option value="AM_OTHER">🌎 Other Americas</option>
+          </optgroup>
+          <optgroup label="🌍 Europe">
+            <option value="ES">🇪🇸 Spain</option>
+            <option value="DE">🇩🇪 Germany</option>
+            <option value="NL">🇳🇱 Netherlands</option>
+            <option value="FR">🇫🇷 France</option>
+            <option value="GB">🇬🇧 UK</option>
+            <option value="IT">🇮🇹 Italy</option>
+            <option value="PT">🇵🇹 Portugal</option>
+            <option value="EU_OTHER">🌍 Other Europe</option>
+          </optgroup>
+          <optgroup label="🌏 Asia">
+            <option value="JP">🇯🇵 Japan</option>
+            <option value="SA">🇸🇦 Saudi Arabia</option>
+            <option value="ID">🇮🇩 Indonesia</option>
+            <option value="AS_OTHER">🌏 Other Asia</option>
+          </optgroup>
+          <optgroup label="🌍 Africa">
+            <option value="AF">🌍 Africa</option>
+          </optgroup>
+          <optgroup label="🇦🇺 Oceania">
+            <option value="AU">🇦🇺 Australia & Oceania</option>
+          </optgroup>
+          <optgroup label="🕌 Middle East">
+            <option value="ME">🕌 Middle East (Other)</option>
+          </optgroup>
         </select>
       </div>
       <div class="modal-buttons">
@@ -1081,26 +1091,36 @@
     const db   = getFirestore(app);
 
     const COUNTRIES = [
-      { code:'US', name:'USA',          flag:'🇺🇸' },
-      { code:'ES', name:'Spain',        flag:'🇪🇸' },
-      { code:'MX', name:'Mexico',       flag:'🇲🇽' },
-      { code:'BR', name:'Brazil',       flag:'🇧🇷' },
-      { code:'CA', name:'Canada',       flag:'🇨🇦' },
-      { code:'DE', name:'Germany',      flag:'🇩🇪' },
-      { code:'NL', name:'Netherlands',  flag:'🇳🇱' },
-      { code:'JP', name:'Japan',        flag:'🇯🇵' },
-      { code:'SA', name:'Saudi Arabia', flag:'🇸🇦' },
-      { code:'ID', name:'Indonesia',    flag:'🇮🇩' },
-      { code:'FR', name:'France',       flag:'🇫🇷' },
-      { code:'GB', name:'UK',           flag:'🇬🇧' },
-      { code:'IT', name:'Italy',        flag:'🇮🇹' },
-      { code:'CO', name:'Colombia',     flag:'🇨🇴' },
-      { code:'PR', name:'Puerto Rico',  flag:'🇵🇷' },
-      { code:'AR', name:'Argentina',    flag:'🇦🇷' },
-      { code:'CL', name:'Chile',        flag:'🇨🇱' },
-      { code:'AU', name:'Australia',    flag:'🇦🇺' },
-      { code:'KR', name:'South Korea',  flag:'🇰🇷' },
-      { code:'NG', name:'Nigeria',      flag:'🇳🇬' },
+      // ── North & South America ──
+      { code:'US', name:'USA',                    flag:'🇺🇸' },
+      { code:'MX', name:'Mexico',                 flag:'🇲🇽' },
+      { code:'BR', name:'Brazil',                 flag:'🇧🇷' },
+      { code:'CA', name:'Canada',                 flag:'🇨🇦' },
+      { code:'CO', name:'Colombia',               flag:'🇨🇴' },
+      { code:'PR', name:'Puerto Rico',            flag:'🇵🇷' },
+      { code:'AR', name:'Argentina',              flag:'🇦🇷' },
+      { code:'CL', name:'Chile',                  flag:'🇨🇱' },
+      { code:'AM_OTHER', name:'Americas (Other)', flag:'🌎' },
+      // ── Europe ──
+      { code:'ES', name:'Spain',                  flag:'🇪🇸' },
+      { code:'DE', name:'Germany',                flag:'🇩🇪' },
+      { code:'NL', name:'Netherlands',            flag:'🇳🇱' },
+      { code:'FR', name:'France',                 flag:'🇫🇷' },
+      { code:'GB', name:'UK',                     flag:'🇬🇧' },
+      { code:'IT', name:'Italy',                  flag:'🇮🇹' },
+      { code:'PT', name:'Portugal',               flag:'🇵🇹' },
+      { code:'EU_OTHER', name:'Europe (Other)',   flag:'🌍' },
+      // ── Asia ──
+      { code:'JP', name:'Japan',                  flag:'🇯🇵' },
+      { code:'SA', name:'Saudi Arabia',           flag:'🇸🇦' },
+      { code:'ID', name:'Indonesia',              flag:'🇮🇩' },
+      { code:'AS_OTHER', name:'Asia (Other)',     flag:'🌏' },
+      // ── Africa ──
+      { code:'AF', name:'Africa',                 flag:'🌍' },
+      // ── Oceania ──
+      { code:'AU', name:'Australia & Oceania',    flag:'🇦🇺' },
+      // ── Middle East ──
+      { code:'ME', name:'Middle East (Other)',    flag:'🕌' },
     ];
 
     // ── Render country cards ──
