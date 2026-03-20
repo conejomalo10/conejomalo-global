@@ -123,6 +123,77 @@
     .access-denied-screen h2 { font-family: 'Bebas Neue', cursive; font-size: 36px; letter-spacing: 4px; color: #ff5050; }
 
     @media(max-width:700px){ .admin-layout{grid-template-columns:1fr;} .admin-sidebar{display:none;} }
+  
+    button, a, input, select, textarea { touch-action: manipulation; }
+  </style>
+
+  <style>
+    /* ══════════════════════════════════════
+       PHASE 9 — MOBILE OPTIMIZATION
+       admin.html specific fixes
+    ══════════════════════════════════════ */
+    html, body { overflow-x: hidden; }
+
+    /* Mobile sidebar toggle button */
+    .sidebar-toggle {
+      display: none;
+      background: rgba(255,75,241,0.15);
+      border: 1px solid rgba(255,75,241,0.35);
+      border-radius: 999px; color: #ff4bf1;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 800;
+      padding: 7px 16px; cursor: pointer;
+      margin-right: 10px;
+    }
+
+    @media(max-width: 700px) {
+      /* Stack layout */
+      .admin-layout { grid-template-columns: 1fr !important; }
+
+      /* Sidebar becomes overlay */
+      .admin-sidebar {
+        display: none;
+        position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+        z-index: 500; overflow-y: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+      }
+      .admin-sidebar.open { display: block; }
+      .sidebar-toggle { display: inline-block !important; }
+
+      /* Content full width */
+      .admin-content { padding: 16px !important; }
+
+      /* Stats grid 2 col */
+      .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+      .stat-card-val { font-size: 22px !important; }
+
+      /* Member rows stack */
+      .member-row { flex-direction: column; align-items: flex-start !important; gap: 10px; }
+      .member-actions { width: 100%; display: flex; flex-wrap: wrap; gap: 6px; }
+      .mem-btn { font-size: 10px !important; padding: 5px 10px !important; }
+
+      /* Broadcast */
+      .broadcast-type-row { gap: 6px; }
+      .broadcast-type { font-size: 11px !important; padding: 5px 10px !important; }
+
+      /* Admin header */
+      .admin-header { padding: 0 12px !important; }
+      .admin-logo { font-size: 16px !important; }
+      .back-btn { font-size: 10px !important; padding: 5px 10px !important; }
+
+      /* Report cards */
+      .report-actions { flex-wrap: wrap; gap: 6px; }
+
+      /* Announce card */
+      .announce-card { flex-direction: column; gap: 10px; }
+    }
+
+    @media(max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr 1fr !important; }
+      .admin-header-right { gap: 6px !important; }
+      .admin-badge-pill { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -146,6 +217,7 @@
 
     <div class="admin-header">
       <div class="admin-logo">🐰 CONEJO MALO <span class="admin-badge-pill">ADMIN</span></div>
+      <button class="sidebar-toggle" onclick="document.querySelector('.admin-sidebar').classList.toggle('open')">☰ Menu</button>
       <div class="admin-header-right">
         <a href="community.html" class="back-btn">← Community</a>
         <a href="index.html" class="back-btn">🏠 Home</a>
