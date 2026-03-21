@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import {
   getFirestore, collection, addDoc, deleteDoc,
   doc, query, orderBy, onSnapshot, updateDoc,
-  increment, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc, where
+  increment, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc, where, getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { app } from "./firebase.js";
 
@@ -14,8 +14,9 @@ const CLOUDINARY_CLOUD_NAME    = "dhazrf2xr";
 const CLOUDINARY_UPLOAD_PRESET = "conejomalo_media";
 const CLOUDINARY_UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
-const ADMIN_EMAILS          = ["official.deconejomalo@gmail.com"];
-const SUB_ADMIN_EMAILS      = [];
+const ADMIN_EMAILS = ["official.deconejomalo@gmail.com"];
+// Sub Admins now loaded from Firestore 'admins' collection
+let SUB_ADMIN_EMAILS = [];
 const VISITOR_PREVIEW_COUNT = 5;
 
 let currentUser     = null;
@@ -507,9 +508,18 @@ onAuthStateChanged(auth, async user => {
   if (user) {
     currentUser = user;
     isAdmin     = ADMIN_EMAILS.includes(user.email);
-    isSubAdmin  = SUB_ADMIN_EMAILS.includes(user.email);
     if (navLogout) navLogout.style.display='inline-block';
     if (visitorView) visitorView.style.display='none';
+
+    try {
+      // Load Sub Admins from Firestore 'admins' collection
+      const adminSnap = await getDocs(collection(db, 'admins'));
+      SUB_ADMIN_EMAILS = adminSnap.docs
+        .filter(d => d.data().role === 'subadmin')
+        .map(d => d.data().email)
+        .filter(Boolean);
+      isSubAdmin = SUB_ADMIN_EMAILS.includes(user.email);
+    } catch(e) { console.warn('Sub admin load:', e); }
 
     try {
       const userDoc = await getDoc(doc(db,'users',user.uid));
