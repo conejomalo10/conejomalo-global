@@ -235,6 +235,7 @@
         <div class="sidebar-section-label">Members</div>
         <div class="sidebar-link" onclick="showPanel('members', this)"><span class="icon">👥</span> All Members</div>
         <div class="sidebar-link" onclick="showPanel('membership', this)"><span class="icon">⭐</span> Membership Requests <span class="sidebar-badge" id="memberBadge">0</span></div>
+        <div class="sidebar-link" onclick="showPanel('subadmins', this)"><span class="icon">🛡️</span> Sub Admins</div>
         <div class="sidebar-link" onclick="showPanel('banned', this)"><span class="icon">🚫</span> Banned Users</div>
 
         <div class="sidebar-section-label">Content</div>
@@ -290,6 +291,46 @@
           <div id="membershipLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
           <div id="membershipList"></div>
           <div class="empty-state" id="membershipEmpty" style="display:none">No pending requests.</div>
+        </div>
+
+        <!-- SUB ADMINS -->
+        <div id="panel-subadmins" class="admin-panel">
+          <div class="panel-title">🛡️ Sub Admin Management</div>
+          <p class="panel-sub">Add, manage and remove Sub Admins from any country. Changes take effect instantly — no GitHub upload needed.</p>
+
+          <!-- ADD NEW SUB ADMIN -->
+          <div style="background:rgba(255,75,241,0.06);border:1px solid rgba(255,75,241,0.25);border-radius:20px;padding:22px;margin-bottom:22px;">
+            <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:#ff4bf1;margin-bottom:14px;">➕ Add New Sub Admin</div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <input type="email" id="newSubAdminEmail" placeholder="Sub Admin email address"
+                  style="flex:1;min-width:200px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,75,241,0.30);border-radius:12px;padding:11px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <input type="text" id="newSubAdminName" placeholder="Display name (e.g. Maria — Spain Admin)"
+                  style="flex:1;min-width:200px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:11px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <input type="text" id="newSubAdminCountry" placeholder="Country (e.g. Spain 🇪🇸)"
+                  style="flex:1;min-width:140px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:11px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+              </div>
+              <button onclick="addSubAdmin()" style="background:linear-gradient(135deg,#ff0066,#ff4bf1);border:none;border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;padding:12px 28px;cursor:pointer;align-self:flex-start;transition:all 0.2s;">
+                🛡️ Add Sub Admin
+              </button>
+            </div>
+          </div>
+
+          <!-- PERMISSIONS INFO -->
+          <div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.20);border-radius:14px;padding:14px 18px;margin-bottom:22px;font-size:12px;color:rgba(255,255,255,0.65);line-height:1.8;">
+            🛡️ <strong style="color:#ffd700">Sub Admin permissions:</strong> Can approve/reject memberships · Delete posts · Create events · Manage ticket requests · View donations · See connection reports<br>
+            🔒 <strong style="color:#ff5050">Chief Admin only:</strong> Ban users · Send broadcasts · Contact settings · Admin dashboard · Sub Admin management
+          </div>
+
+          <!-- CURRENT SUB ADMINS LIST -->
+          <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:#fff;margin-bottom:14px;">👥 Current Sub Admins</div>
+          <div id="subAdminLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
+          <div id="subAdminList"></div>
+          <div class="empty-state" id="subAdminEmpty" style="display:none">
+            <p style="font-size:13px">No Sub Admins yet. Add your first one above!</p>
+          </div>
         </div>
 
         <!-- BANNED -->
@@ -465,6 +506,7 @@
     const auth = getAuth(app);
     const db   = getFirestore(app);
     const ADMIN_EMAILS = ["official.deconejomalo@gmail.com"];
+    let SUB_ADMIN_EMAILS = []; // Loaded from Firestore
 
     let currentUser = null;
     let allMembers  = [];
@@ -475,6 +517,13 @@
       document.getElementById('loadingScreen').style.display = 'none';
       if (user && ADMIN_EMAILS.includes(user.email)) {
         currentUser = user;
+        // Load sub admins from Firestore
+        try {
+          const snap = await getDocs(collection(db, 'admins'));
+          SUB_ADMIN_EMAILS = snap.docs
+            .filter(d => d.data().role === 'subadmin')
+            .map(d => d.data().email).filter(Boolean);
+        } catch(e) { console.warn('Sub admins:', e); }
         document.getElementById('accessDeniedScreen').style.display = 'none';
         document.getElementById('adminDashboard').style.display = 'block';
         loadAll();
@@ -489,6 +538,7 @@
     function loadAll() {
       loadStats();
       loadMembers();
+      loadSubAdmins();
       loadMembershipRequests();
       loadPosts();
       loadReports();
@@ -824,12 +874,82 @@
       document.getElementById('panel-'+name).classList.add('active');
       if(el) el.classList.add('active');
       if (name === 'contacts') loadContactSettings();
+      if (name === 'subadmins') loadSubAdmins();
       // ── Close sidebar on mobile after selecting a panel ──
       document.querySelector('.admin-sidebar')?.classList.remove('open');
     };
     window.openModal  = id => document.getElementById(id).classList.add('open');
     window.closeModal = id => document.getElementById(id).classList.remove('open');
     document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+    // ══════════════════════════════════════
+    // SUB ADMIN MANAGEMENT
+    // ══════════════════════════════════════
+    function loadSubAdmins() {
+      const list    = document.getElementById('subAdminList');
+      const loading = document.getElementById('subAdminLoading');
+      const empty   = document.getElementById('subAdminEmpty');
+      onSnapshot(collection(db, 'admins'), snap => {
+        if (loading) loading.style.display = 'none';
+        list.innerHTML = '';
+        const subAdmins = snap.docs.filter(d => d.data().role === 'subadmin');
+        if (!subAdmins.length) { empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        subAdmins.forEach(d => {
+          const data = d.data();
+          const div  = document.createElement('div');
+          div.className = 'member-row';
+          div.innerHTML = `
+            <div class="member-avatar" style="background:linear-gradient(135deg,#ff4bf1,#7b2fff)">
+              ${(data.name||data.email||'S')[0].toUpperCase()}
+            </div>
+            <div class="member-info">
+              <div class="member-email">🛡️ ${esc(data.name||data.email)}</div>
+              <div class="member-meta">📧 ${esc(data.email)} · 🌍 ${esc(data.country||'Not set')} · Added: ${timeAgo(data.createdAt?.toMillis?.())}</div>
+            </div>
+            <span class="member-tier" style="background:rgba(255,75,241,0.15);border:1px solid rgba(255,75,241,0.40);color:#ff4bf1;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;">🛡️ Sub Admin</span>
+            <div class="member-actions">
+              <button class="mem-btn ban" onclick="removeSubAdmin('${d.id}','${esc(data.email)}')">🗑️ Remove</button>
+            </div>`;
+          list.appendChild(div);
+        });
+        // Keep global array in sync
+        SUB_ADMIN_EMAILS = subAdmins.map(d => d.data().email).filter(Boolean);
+      });
+    }
+
+    window.addSubAdmin = async function() {
+      const email   = document.getElementById('newSubAdminEmail').value.trim();
+      const name    = document.getElementById('newSubAdminName').value.trim();
+      const country = document.getElementById('newSubAdminCountry').value.trim();
+      if (!email)             { showToast('⚠️ Email is required!'); return; }
+      if (!email.includes('@')){ showToast('⚠️ Enter a valid email!'); return; }
+      try {
+        const existing = await getDocs(collection(db, 'admins'));
+        if (existing.docs.find(d => d.data().email === email)) {
+          showToast('⚠️ Already a Sub Admin!'); return;
+        }
+        await addDoc(collection(db, 'admins'), {
+          email, name: name || email.split('@')[0],
+          country: country || 'Not set',
+          role: 'subadmin',
+          addedBy: currentUser.email,
+          createdAt: serverTimestamp()
+        });
+        showToast('✅ Sub Admin added — they can log in immediately!');
+        document.getElementById('newSubAdminEmail').value   = '';
+        document.getElementById('newSubAdminName').value    = '';
+        document.getElementById('newSubAdminCountry').value = '';
+      } catch(e) { showToast('❌ ' + e.message); }
+    };
+
+    window.removeSubAdmin = async function(docId, email) {
+      if (!confirm(`Remove ${email} as Sub Admin?\nThey will lose Sub Admin access immediately.`)) return;
+      try {
+        await deleteDoc(doc(db, 'admins', docId));
+        showToast('✅ Sub Admin removed!');
+      } catch(e) { showToast('❌ ' + e.message); }
+    };
 
     // ══════════════════════════════════════
     // CONTACT SETTINGS
