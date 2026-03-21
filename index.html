@@ -1059,28 +1059,25 @@
       <h2 data-lang="contactTitle">Get In Touch</h2>
       <p data-lang="contactDesc">Have questions or want to collaborate? Reach out to the community team through any of the channels below.</p>
 
-      <!-- MESSAGING APPS -->
+      <!-- MESSAGING APPS — loaded live from Firestore -->
       <div style="margin:24px 0 10px;font-family:'Bebas Neue',cursive;font-size:16px;letter-spacing:2px;color:rgba(255,255,255,0.55)">💬 DIRECT MESSAGING</div>
-      <div class="social-links" style="margin-bottom:20px">
-        <a class="social-btn whatsapp-btn" href="https://wa.me/message/XXXXXXXXXX" target="_blank" rel="noopener">
-          <span>📱</span> WhatsApp
-        </a>
-        <a class="social-btn telegram-btn" href="https://t.me/ConejoMaloGlobal" target="_blank" rel="noopener">
-          <span>✈️</span> Telegram
-        </a>
-        <a class="social-btn email-btn" href="mailto:official.deconejomalo@gmail.com">
-          <span>✉️</span> Email Us
-        </a>
+      <div id="waLinksContainer" class="social-links" style="margin-bottom:20px">
+        <!-- WhatsApp numbers loaded from Firestore -->
+        <a class="social-btn whatsapp-btn" href="https://wa.me/12792843475" target="_blank" rel="noopener">📱 General Enquiries</a>
+        <a class="social-btn whatsapp-btn" href="https://wa.me/12252800314" target="_blank" rel="noopener">📱 Membership Help</a>
+        <a class="social-btn telegram-btn" id="telegramLink" href="https://t.me/" target="_blank" rel="noopener" style="display:none">✈️ Telegram</a>
+        <a class="social-btn email-btn" href="mailto:official.deconejomalo@gmail.com">✉️ Email Us</a>
       </div>
 
-      <!-- SOCIAL MEDIA -->
+      <!-- SOCIAL MEDIA — loaded live from Firestore -->
       <div style="margin:0 0 10px;font-family:'Bebas Neue',cursive;font-size:16px;letter-spacing:2px;color:rgba(255,255,255,0.55)">🌍 SOCIAL MEDIA</div>
-      <div class="social-links">
-        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialIG">📸 Instagram</a>
-        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialTT">🎵 TikTok</a>
-        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialFB">👤 Facebook</a>
-        <a class="social-btn" href="#" target="_blank" rel="noopener" data-lang="socialX">✖ X (Twitter)</a>
-        <a class="social-btn youtube-btn" href="#" target="_blank" rel="noopener">▶️ YouTube</a>
+      <div id="socialLinksContainer" class="social-links">
+        <a class="social-btn" id="igLink"       href="#" target="_blank" rel="noopener" style="display:none">📸 Instagram</a>
+        <a class="social-btn" id="ttLink"       href="#" target="_blank" rel="noopener" style="display:none">🎵 TikTok</a>
+        <a class="social-btn" id="fbLink"       href="#" target="_blank" rel="noopener" style="display:none">👤 Facebook</a>
+        <a class="social-btn" id="xLink"        href="#" target="_blank" rel="noopener" style="display:none">✖ X (Twitter)</a>
+        <a class="social-btn youtube-btn" id="ytLink" href="#" target="_blank" rel="noopener" style="display:none">▶️ YouTube</a>
+        <span id="socialComingSoon" style="font-size:13px;color:rgba(255,255,255,0.30);padding:10px">Social links coming soon...</span>
       </div>
 
       <p style="font-size:12px;color:rgba(255,255,255,0.30);margin-top:20px;line-height:1.6">
@@ -1091,7 +1088,6 @@
   </section>
 
   <style>
-    /* Contact buttons */
     .whatsapp-btn { background: rgba(37,211,102,0.15) !important; border-color: rgba(37,211,102,0.45) !important; color: #25d366 !important; }
     .whatsapp-btn:hover { background: rgba(37,211,102,0.28) !important; }
     .telegram-btn { background: rgba(0,136,204,0.15) !important; border-color: rgba(0,136,204,0.45) !important; color: #29b6f6 !important; }
@@ -1101,11 +1097,69 @@
     .youtube-btn { background: rgba(255,0,0,0.12) !important; border-color: rgba(255,0,0,0.40) !important; color: #ff4444 !important; }
     .youtube-btn:hover { background: rgba(255,0,0,0.22) !important; }
     .social-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-    @media(max-width:480px) {
-      .social-links { gap: 8px; }
-      .social-btn { font-size: 12px !important; padding: 10px 14px !important; }
-    }
+    @media(max-width:480px) { .social-links { gap: 8px; } .social-btn { font-size: 12px !important; padding: 10px 14px !important; } }
   </style>
+
+  <!-- Load contact settings from Firestore live -->
+  <script type="module">
+    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+    const db = getFirestore(app);
+
+    onSnapshot(doc(db, 'siteConfig', 'contactSettings'), snap => {
+      if (!snap.exists()) return;
+      const data = snap.data();
+
+      // ── WhatsApp numbers ──
+      const waContainer = document.getElementById('waLinksContainer');
+      if (waContainer && data.whatsapp?.length) {
+        // Remove old WA links
+        waContainer.querySelectorAll('.whatsapp-btn').forEach(el => el.remove());
+        // Add fresh ones from Firestore
+        const emailBtn = waContainer.querySelector('.email-btn');
+        data.whatsapp.forEach(wa => {
+          if (!wa.number) return;
+          const a = document.createElement('a');
+          a.className = 'social-btn whatsapp-btn';
+          a.href = 'https://wa.me/' + wa.number;
+          a.target = '_blank'; a.rel = 'noopener';
+          a.textContent = '📱 ' + (wa.label || 'WhatsApp');
+          waContainer.insertBefore(a, emailBtn);
+        });
+      }
+
+      // ── Telegram ──
+      const tgEl = document.getElementById('telegramLink');
+      if (tgEl && data.socials?.telegram) {
+        const tg = data.socials.telegram;
+        tgEl.href = tg.startsWith('http') ? tg : 'https://t.me/' + tg;
+        tgEl.style.display = 'inline-flex';
+        // Remove from WA container and show properly
+      }
+
+      // ── Social links ──
+      const socials = data.socials || {};
+      const map = {
+        instagram: { id:'igLink',  label:'📸 Instagram' },
+        tiktok:    { id:'ttLink',  label:'🎵 TikTok' },
+        facebook:  { id:'fbLink',  label:'👤 Facebook' },
+        twitter:   { id:'xLink',   label:'✖ X (Twitter)' },
+        youtube:   { id:'ytLink',  label:'▶️ YouTube' },
+      };
+      let hasSocials = false;
+      Object.entries(map).forEach(([field, cfg]) => {
+        const el = document.getElementById(cfg.id);
+        if (el && socials[field]) {
+          el.href = socials[field];
+          el.textContent = cfg.label;
+          el.style.display = 'inline-flex';
+          hasSocials = true;
+        }
+      });
+      const coming = document.getElementById('socialComingSoon');
+      if (coming) coming.style.display = hasSocials ? 'none' : 'inline';
+    });
+  </script>
 
   <!-- FOOTER -->
   <footer>
