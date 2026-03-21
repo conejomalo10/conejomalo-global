@@ -246,7 +246,6 @@
         <div class="sidebar-link" onclick="showPanel('tickets', this)"><span class="icon">🎟️</span> Ticket Requests</div>
         <div class="sidebar-link" onclick="showPanel('donations', this)"><span class="icon">💛</span> Donations</div>
         <div class="sidebar-link" onclick="showPanel('connections', this)"><span class="icon">🚩</span> Connection Reports</div>
-        <div class="sidebar-link" onclick="showPanel('connections', this)"><span class="icon">🚩</span> Connection Reports</div>
         <div class="sidebar-link" onclick="showPanel('contacts', this)"><span class="icon">📞</span> Contact Settings</div>
       </div>
 
@@ -400,27 +399,27 @@
             <div style="display:flex;flex-direction:column;gap:12px;">
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
                 <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">📸 Instagram</span>
-                <input type="url" id="igInput" placeholder="https://instagram.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <input type="url" id="instagramInput" placeholder="https://instagram.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
                 <button onclick="saveSocialLink('instagram')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
               </div>
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
                 <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">🎵 TikTok</span>
-                <input type="url" id="ttInput" placeholder="https://tiktok.com/@..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <input type="url" id="tiktokInput" placeholder="https://tiktok.com/@..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
                 <button onclick="saveSocialLink('tiktok')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
               </div>
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
                 <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">👤 Facebook</span>
-                <input type="url" id="fbInput" placeholder="https://facebook.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <input type="url" id="facebookInput" placeholder="https://facebook.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
                 <button onclick="saveSocialLink('facebook')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
               </div>
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
                 <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">✖ X (Twitter)</span>
-                <input type="url" id="xInput" placeholder="https://x.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <input type="url" id="twitterInput" placeholder="https://x.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
                 <button onclick="saveSocialLink('twitter')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
               </div>
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
                 <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">▶️ YouTube</span>
-                <input type="url" id="ytInput" placeholder="https://youtube.com/@..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <input type="url" id="youtubeInput" placeholder="https://youtube.com/@..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
                 <button onclick="saveSocialLink('youtube')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
               </div>
             </div>
