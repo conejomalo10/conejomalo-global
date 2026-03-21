@@ -246,6 +246,8 @@
         <div class="sidebar-link" onclick="showPanel('tickets', this)"><span class="icon">🎟️</span> Ticket Requests</div>
         <div class="sidebar-link" onclick="showPanel('donations', this)"><span class="icon">💛</span> Donations</div>
         <div class="sidebar-link" onclick="showPanel('connections', this)"><span class="icon">🚩</span> Connection Reports</div>
+        <div class="sidebar-link" onclick="showPanel('connections', this)"><span class="icon">🚩</span> Connection Reports</div>
+        <div class="sidebar-link" onclick="showPanel('contacts', this)"><span class="icon">📞</span> Contact Settings</div>
       </div>
 
       <!-- CONTENT -->
@@ -351,6 +353,14 @@
           <div id="donationsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
           <div id="donationsList"></div>
           <div class="empty-state" id="donationsEmpty" style="display:none">No donation requests yet.</div>
+          <!-- SAVE ALL BUTTON -->
+          <div style="text-align:center;margin-top:8px">
+            <button onclick="saveAllContacts()" style="background:linear-gradient(135deg,#ff0066,#ff4bf1);border:none;border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;padding:14px 40px;cursor:pointer;width:100%;max-width:340px;letter-spacing:1px;transition:all 0.2s">
+              💾 Save All Contact Settings
+            </button>
+            <p style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:10px">Changes go live on the site instantly — no GitHub upload needed</p>
+          </div>
+
         </div>
 
         <!-- CONNECTION REPORTS -->
@@ -360,6 +370,66 @@
           <div id="connReportsLoading" class="spinner-wrap"><div class="spinner"></div><p>Loading...</p></div>
           <div id="connReportsList"></div>
           <div class="empty-state" id="connReportsEmpty" style="display:none">No connection reports.</div>
+        </div>
+
+        <!-- CONTACT SETTINGS -->
+        <div id="panel-contacts" class="admin-panel">
+          <div class="panel-title">📞 Contact Settings</div>
+          <p class="panel-sub">Manage all WhatsApp numbers, Telegram and social media links. Changes go live on the site instantly.</p>
+
+          <!-- WHATSAPP NUMBERS -->
+          <div style="background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.25);border-radius:20px;padding:22px;margin-bottom:20px;">
+            <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:#25d366;margin-bottom:6px;">📱 WhatsApp Numbers</div>
+            <p style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:18px;">Up to 5 numbers. Format: country code + number only. e.g. 12792843475 for +1 (279) 284-3475</p>
+            <div id="waNumbersList"></div>
+            <button onclick="addWaSlot()" id="addWaBtn" style="background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.40);border-radius:999px;color:#25d366;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;padding:9px 20px;cursor:pointer;margin-top:10px;transition:all 0.2s">+ Add WhatsApp Number</button>
+          </div>
+
+          <!-- TELEGRAM -->
+          <div style="background:rgba(0,136,204,0.06);border:1px solid rgba(0,136,204,0.25);border-radius:20px;padding:22px;margin-bottom:20px;">
+            <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:#29b6f6;margin-bottom:6px;">✈️ Telegram</div>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <input type="text" id="telegramInput" placeholder="e.g. ConejoMaloGlobal or full URL" style="flex:1;min-width:200px;background:rgba(255,255,255,0.07);border:1px solid rgba(0,136,204,0.30);border-radius:12px;padding:10px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+              <button onclick="saveSocialLink('telegram')" style="background:rgba(0,136,204,0.20);border:1px solid rgba(0,136,204,0.50);border-radius:999px;color:#29b6f6;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;padding:10px 18px;cursor:pointer">💾 Save</button>
+            </div>
+          </div>
+
+          <!-- SOCIAL MEDIA -->
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:22px;margin-bottom:20px;">
+            <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:#fff;margin-bottom:16px;">🌍 Social Media Links</div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">📸 Instagram</span>
+                <input type="url" id="igInput" placeholder="https://instagram.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <button onclick="saveSocialLink('instagram')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">🎵 TikTok</span>
+                <input type="url" id="ttInput" placeholder="https://tiktok.com/@..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <button onclick="saveSocialLink('tiktok')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">👤 Facebook</span>
+                <input type="url" id="fbInput" placeholder="https://facebook.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <button onclick="saveSocialLink('facebook')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">✖ X (Twitter)</span>
+                <input type="url" id="xInput" placeholder="https://x.com/..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <button onclick="saveSocialLink('twitter')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0">▶️ YouTube</span>
+                <input type="url" id="ytInput" placeholder="https://youtube.com/@..." style="flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+                <button onclick="saveSocialLink('youtube')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.20);border-radius:999px;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer">💾</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PREVIEW -->
+          <div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.20);border-radius:14px;padding:14px 18px;font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;">
+            💡 All changes save to Firestore instantly and appear live on the Contact section of the homepage — no GitHub upload needed.
+          </div>
         </div>
 
       </div>
@@ -754,10 +824,101 @@
       document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
       document.getElementById('panel-'+name).classList.add('active');
       if(el) el.classList.add('active');
+      if (name === 'contacts') loadContactSettings();
     };
     window.openModal  = id => document.getElementById(id).classList.add('open');
     window.closeModal = id => document.getElementById(id).classList.remove('open');
     document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+    // ══════════════════════════════════════
+    // CONTACT SETTINGS
+    // ══════════════════════════════════════
+    const CONTACT_DOC = 'siteConfig';
+    const CONTACT_ID  = 'contactSettings';
+
+    async function loadContactSettings() {
+      try {
+        const snap = await getDoc(doc(db, CONTACT_DOC, CONTACT_ID));
+        const data = snap.exists() ? snap.data() : {};
+
+        // WhatsApp — pre-fill with your 2 numbers + 3 empty slots
+        const waNumbers = data.whatsapp || [
+          { number: '12792843475', label: 'General Enquiries' },
+          { number: '12252800314', label: 'Membership Help' },
+          { number: '', label: '' },
+          { number: '', label: '' },
+          { number: '', label: '' },
+        ];
+        renderWaNumbers(waNumbers);
+
+        // Social links
+        const socials = data.socials || {};
+        ['telegram','instagram','tiktok','facebook','twitter','youtube'].forEach(field => {
+          const el = document.getElementById(field + 'Input');
+          if (el && socials[field]) el.value = socials[field];
+        });
+      } catch(e) { showToast('❌ ' + e.message); }
+    }
+
+    function renderWaNumbers(numbers) {
+      const list = document.getElementById('waNumbersList');
+      if (!list) return;
+      list.innerHTML = '';
+      const slots = [...numbers];
+      while (slots.length < 5) slots.push({ number:'', label:'' });
+      slots.slice(0,5).forEach((wa, i) => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap';
+        div.innerHTML = `
+          <span style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.35);width:18px;flex-shrink:0">${i+1}</span>
+          <input type="text" id="waNum${i}" placeholder="e.g. +1 279 284 3475"
+            value="${wa.number ? '+'+wa.number : ''}"
+            style="flex:1;min-width:140px;background:rgba(255,255,255,0.07);border:1px solid rgba(37,211,102,0.25);border-radius:12px;padding:9px 12px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+          <input type="text" id="waLabel${i}" placeholder="e.g. General Enquiries"
+            value="${esc(wa.label||'')}"
+            style="flex:1;min-width:120px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:9px 12px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;" />
+          <button onclick="clearWaSlot(${i})" style="background:rgba(255,80,80,0.12);border:1px solid rgba(255,80,80,0.30);border-radius:999px;color:#ff5050;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;padding:8px 12px;cursor:pointer;flex-shrink:0">✕</button>`;
+        list.appendChild(div);
+      });
+    }
+
+    window.clearWaSlot = function(i) {
+      const n = document.getElementById('waNum'+i);
+      const l = document.getElementById('waLabel'+i);
+      if(n) n.value=''; if(l) l.value='';
+      showToast('Slot '+(i+1)+' cleared — click Save All to confirm');
+    };
+
+    window.saveAllContacts = async function() {
+      const whatsapp = [];
+      for (let i=0; i<5; i++) {
+        const raw   = (document.getElementById('waNum'+i)?.value||'').replace(/[\s\+\-\(\)]/g,'');
+        const label = document.getElementById('waLabel'+i)?.value?.trim()||'';
+        if (raw) whatsapp.push({ number:raw, label });
+      }
+      const socials = {};
+      ['telegram','instagram','tiktok','facebook','twitter','youtube'].forEach(f => {
+        const v = document.getElementById(f+'Input')?.value?.trim();
+        if(v) socials[f]=v;
+      });
+      try {
+        await setDoc(doc(db, CONTACT_DOC, CONTACT_ID),
+          { whatsapp, socials, updatedAt: serverTimestamp(), updatedBy: currentUser.email },
+          { merge: true });
+        showToast('✅ Contact settings saved — site updated live!');
+      } catch(e) { showToast('❌ '+e.message); }
+    };
+
+    window.saveSocialLink = async function(field) {
+      const val = document.getElementById(field+'Input')?.value?.trim();
+      if (!val) { showToast('⚠️ Enter a link first!'); return; }
+      try {
+        await setDoc(doc(db, CONTACT_DOC, CONTACT_ID),
+          { socials: { [field]: val }, updatedAt: serverTimestamp() },
+          { merge: true });
+        showToast('✅ '+field+' saved!');
+      } catch(e) { showToast('❌ '+e.message); }
+    };
 
     // ── HELPERS ──
     window.showToast = msg => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); };
