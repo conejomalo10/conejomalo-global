@@ -2,7 +2,7 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   getFirestore, collection, addDoc, updateDoc,
-  doc, query, where, orderBy, onSnapshot, serverTimestamp, setDoc
+  doc, query, where, orderBy, onSnapshot, serverTimestamp, setDoc, getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { app } from "./firebase.js";
 
@@ -10,7 +10,7 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 
 const ADMIN_EMAILS    = ["official.deconejomalo@gmail.com"];
-const SUB_ADMIN_EMAILS = []; // Add sub-admin emails here
+let SUB_ADMIN_EMAILS = []; // Loaded from Firestore
 
 let currentUser  = null;
 let isAdmin      = false;
@@ -67,7 +67,7 @@ window.selectTier = function(tier) {
   if (label1) label1.textContent = icons[tier] || tier;
   if (label2) label2.textContent = icons[tier] || tier;
 
-  goToStep(2);
+  goToStep(2); // → Registration form
 };
 
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
@@ -83,9 +83,12 @@ window.goToStep = function(step) {
 
     if (!firstName) { showToast('⚠️ Please enter your first name'); return; }
     if (!lastName)  { showToast('⚠️ Please enter your last name'); return; }
-    if (!country)   { showToast('⚠️ Please select your country'); return; }
     if (!email)     { showToast('⚠️ Please enter your email'); return; }
     if (!email.includes('@')) { showToast('⚠️ Please enter a valid email'); return; }
+    if (!country)   { showToast('⚠️ Please select your country'); return; }
+    // Update selectedTierLabel2 in payment step
+    const label2 = document.getElementById('selectedTierLabel2');
+    if (label2) { const icons = { VIP:'⭐ VIP', VVIP:'💎 VVIP', VVVIP:'👑 VVVIP' }; label2.textContent = icons[selectedTier]||selectedTier; }
   }
 
   [1,2,3,4].forEach(n => {
@@ -122,11 +125,14 @@ window.submitMembershipRequest = async function(paymentMethod) {
   const lastName   = document.getElementById('regLastName')?.value?.trim()   || '';
   const country    = document.getElementById('regCountry')?.value            || '';
   const email      = document.getElementById('regEmail')?.value?.trim()      || (currentUser?.email || '');
+  const phone      = document.getElementById('regPhone')?.value?.trim()      || '';
 
   try {
     await addDoc(collection(db, 'membershipRequests'), {
       userId:        currentUser?.uid || 'visitor',
       userEmail:     email,
+      email:         email,
+      phone:         phone,
       userName:      [firstName, middleName, lastName].filter(Boolean).join(' '),
       firstName,
       middleName,
@@ -144,7 +150,7 @@ window.submitMembershipRequest = async function(paymentMethod) {
     if (confirmedTier)    confirmedTier.textContent    = selectedTier;
     if (confirmedPayment) confirmedPayment.textContent = paymentMethod;
 
-    goToStep(4);
+    goToStep(4); // Success step
     showToast('✅ Request submitted successfully!');
   } catch (err) {
     console.error(err);
@@ -194,7 +200,7 @@ function loadAdminRequests() {
           </span>
         </div>
         <div class="request-item-meta">
-          📧 ${esc(r.userEmail)} · 🌍 ${esc(r.country || '—')} · 💳 ${esc(r.paymentMethod)} · 🕐 ${timeAgo(r.createdAt)}
+          📧 ${esc(r.userEmail||r.email||'—')} · 📱 ${esc(r.phone||'—')} · 🌍 ${esc(r.country||'—')} · 💳 ${esc(r.paymentMethod||'—')} · 🕐 ${timeAgo(r.createdAt)}
         </div>
         <div class="request-item-actions">
           <button class="approve-btn" onclick="approveRequest('${docSnap.id}','${r.userId}','${r.tier}','${esc(r.userEmail)}')">
@@ -272,10 +278,14 @@ function timeAgo(timestamp) {
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 //  AUTH
 // ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async user => {
   if (user) {
     currentUser = user;
     isAdmin     = ADMIN_EMAILS.includes(user.email);
+    try {
+      const snap = await getDocs(collection(db, 'admins'));
+      SUB_ADMIN_EMAILS = snap.docs.filter(d=>d.data().role==='subadmin').map(d=>d.data().email).filter(Boolean);
+    } catch(e) { console.warn('Sub admins:', e); }
     isSubAdmin  = SUB_ADMIN_EMAILS.includes(user.email);
     if (isAdmin || isSubAdmin) loadAdminRequests();
   } else {
