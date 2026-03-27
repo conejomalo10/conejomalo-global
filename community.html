@@ -447,11 +447,92 @@
         </div>
       </div>
 
-      <!-- STEP 2: Pick Payment -->
+      <!-- STEP 2: Registration Details -->
       <div id="modalStep2" style="display:none">
-        <button class="modal-back-btn" onclick="goBackToStep1()">← Back</button>
+        <button class="modal-back-btn" onclick="goToStep(1)">← Back</button>
+        <h3 class="modal-title">👤 Your Details</h3>
+        <p class="modal-subtitle">Selected: <strong id="selectedTierLabel"></strong> — fill in your info so we can contact you with payment details.</p>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin:16px 0;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.50);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">First Name *</label>
+              <input type="text" id="regFirstName" placeholder="First name"
+                style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;" />
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.50);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">Last Name *</label>
+              <input type="text" id="regLastName" placeholder="Last name"
+                style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;" />
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.50);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">Email Address *</label>
+            <input type="email" id="regEmail" placeholder="your@email.com"
+              style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;" />
+          </div>
+
+          <div>
+            <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.50);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">📱 WhatsApp / Phone Number</label>
+            <input type="tel" id="regPhone" placeholder="e.g. +1 279 284 3475 (include country code)"
+              style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;" />
+          </div>
+
+          <div>
+            <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.50);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">Country *</label>
+            <select id="regCountry"
+              style="width:100%;background:rgba(20,8,40,0.95);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;">
+              <option value="">— Select your country —</option>
+              <optgroup label="🌎 Americas">
+                <option value="US">🇺🇸 United States</option>
+                <option value="PR">🇵🇷 Puerto Rico</option>
+                <option value="MX">🇲🇽 Mexico</option>
+                <option value="BR">🇧🇷 Brazil</option>
+                <option value="CO">🇨🇴 Colombia</option>
+                <option value="AR">🇦🇷 Argentina</option>
+                <option value="CL">🇨🇱 Chile</option>
+                <option value="CA">🇨🇦 Canada</option>
+                <option value="AM_OTHER">🌎 Other Americas</option>
+              </optgroup>
+              <optgroup label="🌍 Europe">
+                <option value="ES">🇪🇸 Spain</option>
+                <option value="DE">🇩🇪 Germany</option>
+                <option value="BE">🇧🇪 Belgium</option>
+                <option value="NL">🇳🇱 Netherlands</option>
+                <option value="FR">🇫🇷 France</option>
+                <option value="GB">🇬🇧 United Kingdom</option>
+                <option value="IT">🇮🇹 Italy</option>
+                <option value="PT">🇵🇹 Portugal</option>
+                <option value="EU_OTHER">🌍 Other Europe</option>
+              </optgroup>
+              <optgroup label="🌏 Asia &amp; Oceania">
+                <option value="JP">🇯🇵 Japan</option>
+                <option value="AU">🇦🇺 Australia</option>
+                <option value="AS_OTHER">🌏 Other Asia/Oceania</option>
+              </optgroup>
+              <optgroup label="🌍 Africa &amp; Middle East">
+                <option value="AF">🌍 Africa</option>
+                <option value="ME">🌙 Middle East</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.20);border-radius:10px;padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:14px;line-height:1.6;">
+          🔒 Your details are only visible to the admin team and are never shared publicly.
+        </div>
+
+        <button onclick="goToStep(3)" class="button button-primary" style="width:100%;padding:13px;font-size:14px;font-weight:800;">
+          Continue to Payment →
+        </button>
+      </div>
+
+      <!-- STEP 3: Pick Payment -->
+      <div id="modalStep3" style="display:none">
+        <button class="modal-back-btn" onclick="goToStep(2)">← Back</button>
         <h3 class="modal-title">💳 Choose Payment Method</h3>
-        <p class="modal-subtitle">Selected: <strong id="selectedTierLabel"></strong></p>
+        <p class="modal-subtitle">Selected: <strong id="selectedTierLabel2"></strong></p>
         <div class="payment-methods">
 
           <button class="payment-btn paypal-btn" onclick="submitMembershipRequest('PayPal')">
@@ -472,17 +553,24 @@
           </div>
 
         </div>
-        <p class="payment-note">🔒 Your request goes directly to our admin team. Payment address will be sent upon approval.</p>
+        <p class="payment-note">🔒 Your request goes directly to our admin team. Payment details will be sent after review.</p>
       </div>
 
-      <!-- STEP 3: Success -->
-      <div id="modalStep3" style="display:none">
+      <!-- STEP 4: Success -->
+      <div id="modalStep4" style="display:none">
         <div class="modal-success">
           <div class="success-icon">🎉</div>
-          <h3 class="modal-title">Request Submitted!</h3>
+          <h3 class="modal-title">Request Successful!</h3>
           <p class="modal-subtitle">Your <strong id="confirmedTier"></strong> request via <strong id="confirmedPayment"></strong> is <span style="color:#ffd700">under review</span>.</p>
-          <div class="success-message">📬 Our admin team will review your request and send you the payment address shortly. Keep an eye on your email!</div>
-          <button class="button button-primary" style="margin-top:20px" onclick="hideMembershipModal()">Got it! 🐰</button>
+          <div class="success-message" style="text-align:left;line-height:1.9;font-size:13px;padding:16px 18px;">
+            📬 <strong>What happens next?</strong><br><br>
+            The Admin will review your information and get back to you with the corresponding payment details via:<br><br>
+            ✉️ <strong>Email</strong> — check your registered email inbox<br>
+            📱 <strong>WhatsApp</strong> — via our official community numbers<br>
+            🌐 <strong>Members Page</strong> — via your profile on the website<br><br>
+            <span style="color:rgba(255,255,255,0.55);font-size:12px;">⚠️ Do NOT send any payment until you receive official payment details from our admin team. We will never ask for payment upfront.</span>
+          </div>
+          <button class="button button-primary" style="margin-top:20px;width:100%" onclick="hideMembershipModal()">Got it! 🐰</button>
         </div>
       </div>
 
